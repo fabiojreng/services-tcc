@@ -62,7 +62,8 @@ coverage/
 *.trace.db
 
 # Resultados experimentais gerados localmente (versionar só o consolidado)
-experiments/**/raw/
+experiments/**/raw/**
+!experiments/**/raw/
 !experiments/**/raw/.gitkeep
 
 # Ambientes
