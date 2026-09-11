@@ -1,0 +1,10 @@
+timestamp,component,Ca,Ce,I,A,D,CCD,ACD,RACD,NCCD
+2026-09-11T01:33:13.019911100Z,br.edu.ifma.labmanager.scheduling.domain.exception,2,0,0.0000,0.0000,1.0000,37,4.1111,0.4568,1.4800
+2026-09-11T01:33:13.019911100Z,br.edu.ifma.labmanager.scheduling.domain.model,4,1,0.2000,0.1111,0.6889,37,4.1111,0.4568,1.4800
+2026-09-11T01:33:13.019911100Z,br.edu.ifma.labmanager.scheduling.adapter.web,0,3,1.0000,0.0000,0.0000,37,4.1111,0.4568,1.4800
+2026-09-11T01:33:13.019911100Z,br.edu.ifma.labmanager.scheduling.infrastructure,0,4,1.0000,0.0000,0.0000,37,4.1111,0.4568,1.4800
+2026-09-11T01:33:13.019911100Z,br.edu.ifma.labmanager.scheduling.adapter.persistence,2,2,0.5000,0.3333,0.1667,37,4.1111,0.4568,1.4800
+2026-09-11T01:33:13.019911100Z,br.edu.ifma.labmanager.scheduling.application.usecase,3,2,0.4000,0.0000,0.6000,37,4.1111,0.4568,1.4800
+2026-09-11T01:33:13.019911100Z,br.edu.ifma.labmanager.scheduling.adapter.time,2,1,0.3333,0.0000,0.6667,37,4.1111,0.4568,1.4800
+2026-09-11T01:33:13.019911100Z,br.edu.ifma.labmanager.scheduling.application.port.out,5,1,0.1667,1.0000,0.1667,37,4.1111,0.4568,1.4800
+2026-09-11T01:33:13.019911100Z,br.edu.ifma.labmanager.scheduling.infrastructure.config,0,4,1.0000,0.0000,0.0000,37,4.1111,0.4568,1.4800

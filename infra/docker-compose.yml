@@ -1,0 +1,13 @@
+# Docker Compose — ativado a partir da Fase 3
+# Fase 0 usa H2 embutido (ADR-005).
+#
+# Serviços previstos:
+# - postgres-scheduling
+# - postgres-catalog
+# - postgres-identity
+# - postgres-inventory
+# - toxiproxy (E2)
+#
+# Descomente e complete quando WSL2 + Docker Desktop estiverem instalados.
+
+services: {}

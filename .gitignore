@@ -1,0 +1,72 @@
+# Documento monográfico (mantido fora do versionamento do código)
+*.pdf
+TCC*.docx
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Compiled
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+hs_err_pid*
+replay_pid*
+
+# IDE
+.idea/
+*.iml
+*.iws
+*.ipr
+.project
+.classpath
+.settings/
+.vscode/
+*.swp
+*~
+.DS_Store
+Thumbs.db
+
+# OS
+Desktop.ini
+
+# Logs e temporários
+*.log
+logs/
+tmp/
+temp/
+*.tmp
+
+# Spring Boot
+spring-boot-devtools.properties
+
+# Testes / cobertura
+.jacoco/
+jacoco.exec
+coverage/
+*.lcov
+
+# Dados locais H2 / embutidos
+*.db
+*.mv.db
+*.trace.db
+
+# Resultados experimentais gerados localmente (versionar só o consolidado)
+experiments/**/raw/
+!experiments/**/raw/.gitkeep
+
+# Ambientes
+.env
+.env.local
+*.pem
+*.key
