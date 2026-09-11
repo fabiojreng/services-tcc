@@ -48,7 +48,7 @@ Métrica central da comparação experimental (Martin: o custo da mudança).
 |---------|-----------|-------------|
 | Arquivos alterados | Quantidade de arquivos no diff | `git diff --numstat` |
 | Linhas +/- | Inserções e remoções | `git diff --numstat` |
-| Camadas atingidas | Pacotes/módulos tocados (domain, application, adapter, …) | Classificação manual do diff |
+| Camadas atingidas | Pacotes/módulos tocados (domain, application, presentation, infra, …) | Classificação manual do diff |
 | Serviços atingidos | Quantos microsserviços precisaram de alteração | Diff por diretório `services/` |
 | Testes quebrados | Testes que falharam após a intervenção, antes do ajuste | Execução `mvnw test` |
 

@@ -22,7 +22,7 @@ Na Fase 0 apenas se estabelece o instrumento e a linha de base preliminar (`fase
 
 ## E1 — Substituição de tecnologia de infraestrutura
 
-**Hipótese:** na variante Clean, trocar o mecanismo de persistência altera principalmente adaptadores/infraestrutura; na variante Layered, a mudança propaga para camadas de negócio/API com maior frequência.
+**Hipótese:** na variante Clean, trocar o mecanismo de persistência altera principalmente `infra` (e eventualmente `presentation`); na variante Layered, a mudança propaga para camadas de negócio/API com maior frequência.
 
 | Item | Detalhe |
 |------|---------|

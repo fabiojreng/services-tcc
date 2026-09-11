@@ -37,26 +37,26 @@ class SchedulingCleanArchitectureRulesTest {
     }
 
     @Test
-    void aplicacaoNaoDependeDeAdaptadoresNemInfra() {
+    void aplicacaoNaoDependeDePresentationNemInfra() {
         ArchRule rule = noClasses()
                 .that().resideInAPackage("..scheduling.application..")
                 .should().dependOnClassesThat().resideInAnyPackage(
-                        "..scheduling.adapter..",
-                        "..scheduling.infrastructure.."
+                        "..scheduling.presentation..",
+                        "..scheduling.infra.."
                 )
-                .because("casos de uso dependem de portas, não de adaptadores concretos");
+                .because("casos de uso dependem de portas, não de detalhes concretos");
 
         rule.check(classes);
     }
 
     @Test
-    void dominioNaoDependeDeAplicacaoNemAdaptadores() {
+    void dominioNaoDependeDeAplicacaoNemCamadasExternas() {
         ArchRule rule = noClasses()
                 .that().resideInAPackage("..scheduling.domain..")
                 .should().dependOnClassesThat().resideInAnyPackage(
                         "..scheduling.application..",
-                        "..scheduling.adapter..",
-                        "..scheduling.infrastructure.."
+                        "..scheduling.presentation..",
+                        "..scheduling.infra.."
                 );
 
         rule.check(classes);
@@ -68,12 +68,12 @@ class SchedulingCleanArchitectureRulesTest {
                 .consideringOnlyDependenciesInAnyPackage("br.edu.ifma.labmanager.scheduling..")
                 .layer("Domain").definedBy("..scheduling.domain..")
                 .layer("Application").definedBy("..scheduling.application..")
-                .layer("Adapter").definedBy("..scheduling.adapter..")
-                .layer("Infrastructure").definedBy("..scheduling.infrastructure..")
-                .whereLayer("Domain").mayOnlyBeAccessedByLayers("Application", "Adapter", "Infrastructure")
-                .whereLayer("Application").mayOnlyBeAccessedByLayers("Adapter", "Infrastructure")
-                .whereLayer("Adapter").mayOnlyBeAccessedByLayers("Infrastructure")
-                .whereLayer("Infrastructure").mayNotBeAccessedByAnyLayer();
+                .layer("Presentation").definedBy("..scheduling.presentation..")
+                .layer("Infra").definedBy("..scheduling.infra..")
+                .whereLayer("Domain").mayOnlyBeAccessedByLayers("Application", "Presentation", "Infra")
+                .whereLayer("Application").mayOnlyBeAccessedByLayers("Presentation", "Infra")
+                .whereLayer("Presentation").mayOnlyBeAccessedByLayers("Infra")
+                .whereLayer("Infra").mayNotBeAccessedByAnyLayer();
 
         rule.check(classes);
     }

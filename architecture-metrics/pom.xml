@@ -28,12 +28,12 @@
         </dependency>
         <dependency>
             <groupId>br.edu.ifma.labmanager</groupId>
-            <artifactId>scheduling-clean-adapter</artifactId>
+            <artifactId>scheduling-clean-presentation</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>br.edu.ifma.labmanager</groupId>
-            <artifactId>scheduling-clean-infrastructure</artifactId>
+            <artifactId>scheduling-clean-infra</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

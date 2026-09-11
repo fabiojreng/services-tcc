@@ -19,7 +19,7 @@
     <modules>
         <module>domain</module>
         <module>application</module>
-        <module>adapter</module>
-        <module>infrastructure</module>
+        <module>presentation</module>
+        <module>infra</module>
     </modules>
 </project>

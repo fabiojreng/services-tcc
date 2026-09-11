@@ -18,8 +18,8 @@ final class SchedulingClasspath {
     private static final String[] MODULE_RELATIVE_CLASSES = {
             "services/scheduling-service-clean/domain/target/classes",
             "services/scheduling-service-clean/application/target/classes",
-            "services/scheduling-service-clean/adapter/target/classes",
-            "services/scheduling-service-clean/infrastructure/target/classes"
+            "services/scheduling-service-clean/presentation/target/classes",
+            "services/scheduling-service-clean/infra/target/classes"
     };
 
     private SchedulingClasspath() {
