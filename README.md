@@ -76,6 +76,30 @@ No Windows (PowerShell):
 .\mvnw.cmd clean verify
 ```
 
+## Como subir os serviços (Fase 1)
+
+Use **três terminais** (um por serviço). No PowerShell:
+
+1. **Não** use `-D...` solto (o PowerShell corta e o Maven falha).
+2. O comando abaixo já está preparado para o monorepo (`spring-boot:run` só nos módulos `infra`).
+
+```powershell
+# Terminal 1 — Identity (porta 8080)
+.\mvnw.cmd -pl services/identity-service/infra -am spring-boot:run
+
+# Terminal 2 — Scheduling Clean (porta 8081)
+.\mvnw.cmd -pl services/scheduling-service-clean/infra -am spring-boot:run
+
+# Terminal 3 — Catalog (porta 8082)
+.\mvnw.cmd -pl services/catalog-service/infra -am spring-boot:run
+```
+
+Se precisar passar `-D` no PowerShell, cite o argumento inteiro entre aspas:
+
+```powershell
+.\mvnw.cmd -pl services/identity-service/infra -am spring-boot:run "-DskipTests"
+```
+
 ## Documentação da pesquisa
 
 - [`docs/00-escopo.md`](docs/00-escopo.md)

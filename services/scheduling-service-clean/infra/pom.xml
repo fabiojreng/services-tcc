@@ -49,6 +49,7 @@
                     <!-- Artefato principal permanece thin (para ArchUnit/dependências);
                          o executável fica com classifier boot -->
                     <classifier>boot</classifier>
+                    <skip>false</skip>
                 </configuration>
             </plugin>
         </plugins>

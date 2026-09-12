@@ -115,5 +115,15 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <!-- Evita spring-boot:run no POM agregador / módulos sem main -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 </project>
