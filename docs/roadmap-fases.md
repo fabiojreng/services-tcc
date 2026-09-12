@@ -1,6 +1,6 @@
 # Roadmap das fases
 
-## Fase 0 — Fundação (atual)
+## Fase 0 — Fundação
 
 - [x] Repositório Git + README + `.gitignore`
 - [x] Documentação de escopo, contextos, critérios, protocolo, ameaças
@@ -10,11 +10,14 @@
 - [x] Módulo `architecture-metrics`
 - [x] Tag `fase-0`
 
-## Fase 1 — Catálogo, identidade e rede
+## Fase 1 — Catálogo, identidade e rede (atual)
 
-- `catalog-service` e `identity-service` (Clean Architecture)
-- Clientes HTTP no Agendamento para Catalog e Identity
-- Testes de integração (ainda com H2 / processos locais ou Testcontainers se Docker já estiver disponível)
+- [x] `identity-service` (Clean Architecture) — usuários, papéis, `POST /api/permissions/check`
+- [x] `catalog-service` (Clean Architecture) — laboratórios + horário; consome Identity em cadastro
+- [x] Clientes HTTP no Agendamento (`CatalogGateway`, `IdentityGateway`)
+- [x] Request de reserva sem OperatingHours no body (obtido do Catalog)
+- [x] Regras ArchUnit para os três serviços + métricas Fase 1
+- [x] Tag `fase-1`
 
 ## Fase 2 — Controle e inventário
 
@@ -42,10 +45,18 @@
 - Discutir benefícios e limitações (incluindo resultado esperado de E2)
 - Alimentar seções de metodologia/resultados do monográfico
 
+## Portas locais (Fase 1)
+
+| Serviço | Porta |
+|---------|-------|
+| identity-service | 8080 |
+| scheduling-service-clean | 8081 |
+| catalog-service | 8082 |
+
 ## Dependências externas de ambiente
 
-| Ferramenta | Fase 0 | Fase 3+ |
-|------------|--------|---------|
+| Ferramenta | Fase 0–1 | Fase 3+ |
+|------------|----------|---------|
 | JDK 25 | Obrigatório | Obrigatório |
 | Maven wrapper | Incluso | Incluso |
 | Docker / WSL2 | Não | Obrigatório para E1/E2 reprodutíveis |

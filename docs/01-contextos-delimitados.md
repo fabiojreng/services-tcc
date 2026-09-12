@@ -58,12 +58,23 @@ A decomposição segue capacidades de negócio (Newman, Richardson) alinhadas ao
 | Consome | Catalog (disponibilidade/horário); Identity (permissão) — a partir da Fase 1 |
 | Variantes | `scheduling-service-clean` e `scheduling-service-layered` |
 
-### Regras de domínio (Fase 0 — walking skeleton)
+### Regras de domínio
 
 1. Não pode haver sobreposição com reservas **confirmadas** no mesmo laboratório
-2. A reserva deve estar dentro do horário de funcionamento do laboratório
+2. A reserva deve estar dentro do horário de funcionamento do laboratório (obtido do Catalog)
 3. Antecedência mínima de **24 horas** em relação ao início
 4. Duração máxima de **4 horas**
+5. Solicitante deve ter permissão `RESERVATION_REQUEST` (validada no Identity)
+
+### APIs relevantes (Fase 1)
+
+| Serviço | Endpoint | Uso |
+|---------|----------|-----|
+| Identity | `POST /api/users` | Cadastro de usuário |
+| Identity | `POST /api/permissions/check` | Verificação de permissão |
+| Catalog | `POST /api/laboratories` | Cadastro (exige `LABORATORY_MANAGE`) |
+| Catalog | `GET /api/laboratories/{id}` | Consulta + horário de funcionamento |
+| Scheduling | `POST /api/reservations` | Solicitar reserva (`laboratoryId`, `requesterId`, `start`, `end`) |
 
 ## 4. Inventário (`inventory-service`)
 

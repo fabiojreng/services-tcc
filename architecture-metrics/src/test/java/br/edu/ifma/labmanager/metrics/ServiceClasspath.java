@@ -9,34 +9,24 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Resolve os {@code target/classes} dos módulos do Agendamento (Clean),
- * evitando depender do JAR executável do Spring Boot (BOOT-INF).
- */
-final class SchedulingClasspath {
+final class ServiceClasspath {
 
-    private static final String[] MODULE_RELATIVE_CLASSES = {
-            "services/scheduling-service-clean/domain/target/classes",
-            "services/scheduling-service-clean/application/target/classes",
-            "services/scheduling-service-clean/presentation/target/classes",
-            "services/scheduling-service-clean/infra/target/classes"
-    };
-
-    private SchedulingClasspath() {
+    private ServiceClasspath() {
     }
 
-    static JavaClasses importSchedulingClasses() {
+    static JavaClasses importService(String serviceDir) {
         Path root = locateRepoRoot();
+        String[] modules = {"domain", "application", "presentation", "infra"};
         List<Path> paths = new ArrayList<>();
-        for (String relative : MODULE_RELATIVE_CLASSES) {
-            Path classes = root.resolve(relative).normalize();
+        for (String module : modules) {
+            Path classes = root.resolve("services").resolve(serviceDir).resolve(module).resolve("target/classes");
             if (Files.isDirectory(classes)) {
                 paths.add(classes);
             }
         }
         if (paths.isEmpty()) {
             throw new IllegalStateException(
-                    "Nenhum target/classes encontrado. Execute 'mvnw install' ou 'mvnw verify' a partir da raiz do repositório. root=" + root
+                    "Nenhum target/classes para " + serviceDir + ". Execute mvnw verify na raiz. root=" + root
             );
         }
         return new ClassFileImporter()
@@ -46,11 +36,7 @@ final class SchedulingClasspath {
 
     static Path locateRepoRoot() {
         Path current = Path.of("").toAbsolutePath().normalize();
-        Path[] candidates = {
-                current,
-                current.getParent(),
-                current.resolve("..").normalize()
-        };
+        Path[] candidates = {current, current.getParent(), current.resolve("..").normalize()};
         for (Path candidate : candidates) {
             if (candidate != null && Files.isRegularFile(candidate.resolve("pom.xml"))
                     && Files.isDirectory(candidate.resolve("services"))) {

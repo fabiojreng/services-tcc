@@ -9,9 +9,8 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * Horário de funcionamento do laboratório.
- * Na Fase 0 é informado no comando; na Fase 1 virá do catalog-service.
- * Fase 0: reservas devem caber em um único dia civil.
+ * Horário de funcionamento do laboratório (obtido do catalog-service).
+ * Reservas devem caber em um único dia civil.
  */
 public final class OperatingHours {
 

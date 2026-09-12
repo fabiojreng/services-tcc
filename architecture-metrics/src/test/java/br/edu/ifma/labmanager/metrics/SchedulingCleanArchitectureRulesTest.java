@@ -8,17 +8,13 @@ import org.junit.jupiter.api.Test;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 import static com.tngtech.archunit.library.Architectures.layeredArchitecture;
 
-/**
- * Regras de fronteira da variante Clean do Agendamento.
- * Violação = falha de teste = evidência de quebra da Regra da Dependência.
- */
 class SchedulingCleanArchitectureRulesTest {
 
     private static JavaClasses classes;
 
     @BeforeAll
     static void importClasses() {
-        classes = SchedulingClasspath.importSchedulingClasses();
+        classes = ServiceClasspath.importService("scheduling-service-clean");
     }
 
     @Test
@@ -30,9 +26,7 @@ class SchedulingCleanArchitectureRulesTest {
                         "jakarta.persistence..",
                         "jakarta.servlet..",
                         "org.hibernate.."
-                )
-                .because("o domínio deve permanecer livre de frameworks (Clean Architecture)");
-
+                );
         rule.check(classes);
     }
 
@@ -43,14 +37,12 @@ class SchedulingCleanArchitectureRulesTest {
                 .should().dependOnClassesThat().resideInAnyPackage(
                         "..scheduling.presentation..",
                         "..scheduling.infra.."
-                )
-                .because("casos de uso dependem de portas, não de detalhes concretos");
-
+                );
         rule.check(classes);
     }
 
     @Test
-    void dominioNaoDependeDeAplicacaoNemCamadasExternas() {
+    void dominioNaoDependeDeCamadasExternas() {
         ArchRule rule = noClasses()
                 .that().resideInAPackage("..scheduling.domain..")
                 .should().dependOnClassesThat().resideInAnyPackage(
@@ -58,7 +50,6 @@ class SchedulingCleanArchitectureRulesTest {
                         "..scheduling.presentation..",
                         "..scheduling.infra.."
                 );
-
         rule.check(classes);
     }
 
@@ -74,7 +65,6 @@ class SchedulingCleanArchitectureRulesTest {
                 .whereLayer("Application").mayOnlyBeAccessedByLayers("Presentation", "Infra")
                 .whereLayer("Presentation").mayOnlyBeAccessedByLayers("Infra")
                 .whereLayer("Infra").mayNotBeAccessedByAnyLayer();
-
         rule.check(classes);
     }
 }

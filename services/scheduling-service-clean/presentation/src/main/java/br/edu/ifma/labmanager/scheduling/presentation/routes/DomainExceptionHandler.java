@@ -1,5 +1,6 @@
 package br.edu.ifma.labmanager.scheduling.presentation.routes;
 
+import br.edu.ifma.labmanager.scheduling.application.RemoteDependencyException;
 import br.edu.ifma.labmanager.scheduling.domain.exceptions.DomainException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,13 @@ public class DomainExceptionHandler {
     public ResponseEntity<Map<String, String>> handleDomain(DomainException ex) {
         return ResponseEntity
                 .status(HttpStatus.UNPROCESSABLE_ENTITY)
+                .body(Map.of("error", ex.getMessage()));
+    }
+
+    @ExceptionHandler(RemoteDependencyException.class)
+    public ResponseEntity<Map<String, String>> handleRemote(RemoteDependencyException ex) {
+        return ResponseEntity
+                .status(HttpStatus.SERVICE_UNAVAILABLE)
                 .body(Map.of("error", ex.getMessage()));
     }
 

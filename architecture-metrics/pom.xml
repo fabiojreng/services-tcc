@@ -14,21 +14,15 @@
     <name>architecture-metrics</name>
     <description>Instrumento de medição de acoplamento (ArchUnit) — Dimensão 1</description>
 
-    <!-- Dependências para ordenar o reactor Maven (classes lidas de target/classes). -->
     <dependencies>
         <dependency>
             <groupId>br.edu.ifma.labmanager</groupId>
-            <artifactId>scheduling-clean-domain</artifactId>
+            <artifactId>identity-infra</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>br.edu.ifma.labmanager</groupId>
-            <artifactId>scheduling-clean-application</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>br.edu.ifma.labmanager</groupId>
-            <artifactId>scheduling-clean-presentation</artifactId>
+            <artifactId>catalog-infra</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

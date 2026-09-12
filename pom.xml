@@ -19,6 +19,8 @@
     <description>Sistema de pesquisa — Clean Architecture e desacoplamento em microsserviços</description>
 
     <modules>
+        <module>services/identity-service</module>
+        <module>services/catalog-service</module>
         <module>services/scheduling-service-clean</module>
         <module>architecture-metrics</module>
     </modules>
@@ -31,6 +33,48 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>br.edu.ifma.labmanager</groupId>
+                <artifactId>identity-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>br.edu.ifma.labmanager</groupId>
+                <artifactId>identity-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>br.edu.ifma.labmanager</groupId>
+                <artifactId>identity-presentation</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>br.edu.ifma.labmanager</groupId>
+                <artifactId>identity-infra</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>br.edu.ifma.labmanager</groupId>
+                <artifactId>catalog-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>br.edu.ifma.labmanager</groupId>
+                <artifactId>catalog-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>br.edu.ifma.labmanager</groupId>
+                <artifactId>catalog-presentation</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>br.edu.ifma.labmanager</groupId>
+                <artifactId>catalog-infra</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>br.edu.ifma.labmanager</groupId>
                 <artifactId>scheduling-clean-domain</artifactId>

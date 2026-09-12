@@ -19,74 +19,62 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/**
- * Exporta métricas de Martin e Lakos para CSV (linha de base / experimentos).
- */
 class MetricsExportTest {
 
-    private static final String BASE_PACKAGE = "br.edu.ifma.labmanager.scheduling";
-
     @Test
-    void exportMartinAndLakosMetrics() throws IOException {
-        var classes = SchedulingClasspath.importSchedulingClasses();
+    void exportMartinAndLakosMetricsForAllServices() throws IOException {
+        Path repoRoot = ServiceClasspath.locateRepoRoot();
+        Path outDir = repoRoot.resolve("architecture-metrics").resolve("target").resolve("metrics");
+        Files.createDirectories(outDir);
+        Path csv = outDir.resolve("baseline-fase-1.csv");
 
+        try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(csv, StandardCharsets.UTF_8))) {
+            writer.println("timestamp,service,component,Ca,Ce,I,A,D,CCD,ACD,RACD,NCCD");
+            String ts = Instant.now().toString();
+
+            exportService(writer, ts, "scheduling-service-clean", "br.edu.ifma.labmanager.scheduling");
+            exportService(writer, ts, "identity-service", "br.edu.ifma.labmanager.identity");
+            exportService(writer, ts, "catalog-service", "br.edu.ifma.labmanager.catalog");
+        }
+
+        Path published = repoRoot.resolve("experiments").resolve("baseline-fase-1-metrics.csv");
+        Files.copy(csv, published, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+        System.out.println("Métricas Fase 1 publicadas em: " + published.toAbsolutePath());
+    }
+
+    private void exportService(PrintWriter writer, String ts, String serviceDir, String basePackage) {
+        var classes = ServiceClasspath.importService(serviceDir);
         Set<JavaPackage> packages = classes.stream()
                 .map(JavaClass::getPackage)
-                .filter(p -> p.getName().startsWith(BASE_PACKAGE))
+                .filter(p -> p.getName().startsWith(basePackage))
                 .collect(Collectors.toCollection(LinkedHashSet::new));
 
         MetricsComponents<JavaClass> components = MetricsComponents.fromPackages(packages);
-
         ComponentDependencyMetrics martin = ArchitectureMetrics.componentDependencyMetrics(components);
         LakosMetrics lakos = ArchitectureMetrics.lakosMetrics(components);
 
-        Path repoRoot = SchedulingClasspath.locateRepoRoot();
-        Path outDir = repoRoot.resolve("architecture-metrics").resolve("target").resolve("metrics");
-        Files.createDirectories(outDir);
-        Path csv = outDir.resolve("baseline-fase-0.csv");
-
-        try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(csv, StandardCharsets.UTF_8))) {
-            writer.println("timestamp,component,Ca,Ce,I,A,D,CCD,ACD,RACD,NCCD");
-            String ts = Instant.now().toString();
-
-            for (JavaPackage pkg : packages) {
-                String id = pkg.getName();
-                try {
-                    int ca = martin.getAfferentCoupling(id);
-                    int ce = martin.getEfferentCoupling(id);
-                    double instability = martin.getInstability(id);
-                    double abstractness = martin.getAbstractness(id);
-                    double distance = martin.getNormalizedDistanceFromMainSequence(id);
-
-                    writer.printf(
-                            Locale.US,
-                            "%s,%s,%d,%d,%.4f,%.4f,%.4f,%d,%.4f,%.4f,%.4f%n",
-                            ts,
-                            id,
-                            ca,
-                            ce,
-                            instability,
-                            abstractness,
-                            distance,
-                            lakos.getCumulativeComponentDependency(),
-                            lakos.getAverageComponentDependency(),
-                            lakos.getRelativeAverageComponentDependency(),
-                            lakos.getNormalizedCumulativeComponentDependency()
-                    );
-                } catch (IllegalArgumentException ignored) {
-                    // pacote sem classes próprias como componente — ignora
-                }
+        for (JavaPackage pkg : packages) {
+            String id = pkg.getName();
+            try {
+                writer.printf(
+                        Locale.US,
+                        "%s,%s,%s,%d,%d,%.4f,%.4f,%.4f,%d,%.4f,%.4f,%.4f%n",
+                        ts,
+                        serviceDir,
+                        id,
+                        martin.getAfferentCoupling(id),
+                        martin.getEfferentCoupling(id),
+                        martin.getInstability(id),
+                        martin.getAbstractness(id),
+                        martin.getNormalizedDistanceFromMainSequence(id),
+                        lakos.getCumulativeComponentDependency(),
+                        lakos.getAverageComponentDependency(),
+                        lakos.getRelativeAverageComponentDependency(),
+                        lakos.getNormalizedCumulativeComponentDependency()
+                );
+            } catch (IllegalArgumentException ignored) {
+                // pacote sem classes próprias
             }
         }
-
-        Path published = repoRoot.resolve("experiments").resolve("baseline-fase-0-metrics.csv");
-        Files.createDirectories(published.getParent());
-        Files.copy(csv, published, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-
-        System.out.println("Métricas exportadas para: " + csv.toAbsolutePath());
-        System.out.println("Cópia publicada em: " + published.toAbsolutePath());
-        System.out.println("Lakos CCD=" + lakos.getCumulativeComponentDependency()
-                + " ACD=" + lakos.getAverageComponentDependency()
-                + " NCCD=" + lakos.getNormalizedCumulativeComponentDependency());
     }
 }

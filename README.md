@@ -23,8 +23,8 @@ A questão de pesquisa:
 | Linguagem | Java 25 LTS |
 | Framework | Spring Boot 4.1.x |
 | Build | Maven (wrapper incluso) |
-| Persistência (Fase 0) | H2 embutido |
-| Métricas arquiteturais | ArchUnit 1.5.x |
+| Persistência (Fase 0–1) | H2 embutido |
+| Métricas arquiteturais | ArchUnit 1.4.x |
 
 ## Serviços
 
@@ -51,16 +51,18 @@ infra/                    Docker Compose (ativado a partir da Fase 3)
 
 | Fase | Conteúdo |
 |------|----------|
-| **0** (atual) | Fundação: docs, esqueleto Maven, walking skeleton do Agendamento (Clean), métricas |
-| 1 | Catalog + Identity + comunicação REST |
+| 0 | Fundação: docs, esqueleto Maven, walking skeleton do Agendamento (Clean), métricas |
+| **1** (atual) | Catalog + Identity + comunicação REST |
 | 2 | Variante layered do Agendamento + Inventory |
 | 3 | Docker, PostgreSQL, tag `baseline` |
 | 4 | Experimentos E1, E2, E3 |
 | 5 | Análise e redação |
 
+Portas locais: identity `8080`, scheduling `8081`, catalog `8082`.
+
 Detalhes em [`docs/roadmap-fases.md`](docs/roadmap-fases.md).
 
-## Como construir (Fase 0)
+## Como construir
 
 Pré-requisitos: **JDK 25**. Maven não precisa estar instalado (use o wrapper).
 
