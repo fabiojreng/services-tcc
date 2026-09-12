@@ -25,6 +25,12 @@ final class ServiceClasspath {
             }
         }
         if (paths.isEmpty()) {
+            Path singleModule = root.resolve("services").resolve(serviceDir).resolve("target/classes");
+            if (Files.isDirectory(singleModule)) {
+                paths.add(singleModule);
+            }
+        }
+        if (paths.isEmpty()) {
             throw new IllegalStateException(
                     "Nenhum target/classes para " + serviceDir + ". Execute mvnw verify na raiz. root=" + root
             );

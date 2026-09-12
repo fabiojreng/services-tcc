@@ -19,9 +19,12 @@
     <description>Sistema de pesquisa — Clean Architecture e desacoplamento em microsserviços</description>
 
     <modules>
+        <module>acceptance/scheduling-acceptance</module>
         <module>services/identity-service</module>
         <module>services/catalog-service</module>
         <module>services/scheduling-service-clean</module>
+        <module>services/scheduling-service-layered</module>
+        <module>services/inventory-service</module>
         <module>architecture-metrics</module>
     </modules>
 
@@ -93,6 +96,36 @@
             <dependency>
                 <groupId>br.edu.ifma.labmanager</groupId>
                 <artifactId>scheduling-clean-infra</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>br.edu.ifma.labmanager</groupId>
+                <artifactId>scheduling-acceptance</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>br.edu.ifma.labmanager</groupId>
+                <artifactId>scheduling-service-layered</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>br.edu.ifma.labmanager</groupId>
+                <artifactId>inventory-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>br.edu.ifma.labmanager</groupId>
+                <artifactId>inventory-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>br.edu.ifma.labmanager</groupId>
+                <artifactId>inventory-presentation</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>br.edu.ifma.labmanager</groupId>
+                <artifactId>inventory-infra</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

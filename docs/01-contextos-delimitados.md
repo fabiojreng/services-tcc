@@ -86,7 +86,7 @@ A decomposição segue capacidades de negócio (Newman, Richardson) alinhadas ao
 | Expõe | Consulta de saldo, registro de movimentação |
 | Consome | Identity (permissão) |
 | Variante | Clean Architecture |
-| Fase | Implementação na Fase 2 |
+| Fase | Implementado na Fase 2 |
 
 ## Princípios de fronteira
 

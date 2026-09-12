@@ -10,7 +10,7 @@
 - [x] Módulo `architecture-metrics`
 - [x] Tag `fase-0`
 
-## Fase 1 — Catálogo, identidade e rede (atual)
+## Fase 1 — Catálogo, identidade e rede
 
 - [x] `identity-service` (Clean Architecture) — usuários, papéis, `POST /api/permissions/check`
 - [x] `catalog-service` (Clean Architecture) — laboratórios + horário; consome Identity em cadastro
@@ -19,11 +19,13 @@
 - [x] Regras ArchUnit para os três serviços + métricas Fase 1
 - [x] Tag `fase-1`
 
-## Fase 2 — Controle e inventário
+## Fase 2 — Controle e inventário (atual)
 
-- `scheduling-service-layered` com **paridade funcional** (mesma suíte de aceitação)
-- `inventory-service`
-- Revisão das métricas internas nas duas variantes do Agendamento
+- [x] `scheduling-service-layered` com **paridade funcional** (suíte `scheduling-acceptance`)
+- [x] `inventory-service` (Clean Architecture) — itens, movimentações IN/OUT, saldo
+- [x] Permissão `INVENTORY_MANAGE` no Identity
+- [x] Regras ArchUnit + métricas Fase 2 (Clean × Layered do Agendamento)
+- [x] Tag `fase-2`
 
 ## Fase 3 — Ambiente experimental
 
@@ -45,13 +47,15 @@
 - Discutir benefícios e limitações (incluindo resultado esperado de E2)
 - Alimentar seções de metodologia/resultados do monográfico
 
-## Portas locais (Fase 1)
+## Portas locais (Fase 2)
 
 | Serviço | Porta |
 |---------|-------|
 | identity-service | 8080 |
 | scheduling-service-clean | 8081 |
 | catalog-service | 8082 |
+| scheduling-service-layered | 8083 |
+| inventory-service | 8084 |
 
 ## Dependências externas de ambiente
 

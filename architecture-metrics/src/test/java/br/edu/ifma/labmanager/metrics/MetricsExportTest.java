@@ -26,20 +26,22 @@ class MetricsExportTest {
         Path repoRoot = ServiceClasspath.locateRepoRoot();
         Path outDir = repoRoot.resolve("architecture-metrics").resolve("target").resolve("metrics");
         Files.createDirectories(outDir);
-        Path csv = outDir.resolve("baseline-fase-1.csv");
+        Path csv = outDir.resolve("baseline-fase-2.csv");
 
         try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(csv, StandardCharsets.UTF_8))) {
             writer.println("timestamp,service,component,Ca,Ce,I,A,D,CCD,ACD,RACD,NCCD");
             String ts = Instant.now().toString();
 
             exportService(writer, ts, "scheduling-service-clean", "br.edu.ifma.labmanager.scheduling");
+            exportService(writer, ts, "scheduling-service-layered", "br.edu.ifma.labmanager.scheduling.layered");
             exportService(writer, ts, "identity-service", "br.edu.ifma.labmanager.identity");
             exportService(writer, ts, "catalog-service", "br.edu.ifma.labmanager.catalog");
+            exportService(writer, ts, "inventory-service", "br.edu.ifma.labmanager.inventory");
         }
 
-        Path published = repoRoot.resolve("experiments").resolve("baseline-fase-1-metrics.csv");
+        Path published = repoRoot.resolve("experiments").resolve("baseline-fase-2-metrics.csv");
         Files.copy(csv, published, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-        System.out.println("Métricas Fase 1 publicadas em: " + published.toAbsolutePath());
+        System.out.println("Métricas Fase 2 publicadas em: " + published.toAbsolutePath());
     }
 
     private void exportService(PrintWriter writer, String ts, String serviceDir, String basePackage) {

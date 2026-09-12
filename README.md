@@ -52,13 +52,13 @@ infra/                    Docker Compose (ativado a partir da Fase 3)
 | Fase | Conteúdo |
 |------|----------|
 | 0 | Fundação: docs, esqueleto Maven, walking skeleton do Agendamento (Clean), métricas |
-| **1** (atual) | Catalog + Identity + comunicação REST |
-| 2 | Variante layered do Agendamento + Inventory |
+| 1 | Catalog + Identity + comunicação REST |
+| **2** (atual) | Variante layered do Agendamento + Inventory |
 | 3 | Docker, PostgreSQL, tag `baseline` |
 | 4 | Experimentos E1, E2, E3 |
 | 5 | Análise e redação |
 
-Portas locais: identity `8080`, scheduling `8081`, catalog `8082`.
+Portas locais: identity `8080`, scheduling-clean `8081`, catalog `8082`, scheduling-layered `8083`, inventory `8084`.
 
 Detalhes em [`docs/roadmap-fases.md`](docs/roadmap-fases.md).
 
@@ -76,9 +76,9 @@ No Windows (PowerShell):
 .\mvnw.cmd clean verify
 ```
 
-## Como subir os serviços (Fase 1)
+## Como subir os serviços (Fase 2)
 
-Use **três terminais** (um por serviço). No PowerShell:
+Use **um terminal por serviço**. No PowerShell:
 
 1. **Não** use `-D...` solto (o PowerShell corta e o Maven falha).
 2. O comando abaixo já está preparado para o monorepo (`spring-boot:run` só nos módulos `infra`).
@@ -92,6 +92,12 @@ Use **três terminais** (um por serviço). No PowerShell:
 
 # Terminal 3 — Catalog (porta 8082)
 .\mvnw.cmd -pl services/catalog-service/infra -am spring-boot:run
+
+# Terminal 4 — Scheduling Layered (porta 8083) — variante controle
+.\mvnw.cmd -pl services/scheduling-service-layered -am spring-boot:run
+
+# Terminal 5 — Inventory (porta 8084)
+.\mvnw.cmd -pl services/inventory-service/infra -am spring-boot:run
 ```
 
 Se precisar passar `-D` no PowerShell, cite o argumento inteiro entre aspas:
