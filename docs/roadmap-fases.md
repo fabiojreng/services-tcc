@@ -35,11 +35,11 @@
 - [x] Observabilidade mínima — logs estruturados ECS no profile `postgres`
 - [x] Tag **`baseline`** — congelamento para E1–E3
 
-## Fase 4 — Experimentos
+## Fase 4 — Experimentos (atual)
 
-- E3 — alteração de regra de negócio
-- E1 — troca de infraestrutura de persistência
-- E2 — falhas entre serviços
+- [x] E3 — alteração de regra de negócio (branch `exp/e3-regra`; artefatos em `experiments/e3-regra/`)
+- [ ] E1 — troca de infraestrutura de persistência
+- [ ] E2 — falhas entre serviços
 - Artefatos em `experiments/`
 
 ## Fase 5 — Análise e redação
