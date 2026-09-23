@@ -1,0 +1,9 @@
+﻿2	14	services/scheduling-service-clean/infra/pom.xml
+0	4	services/scheduling-service-clean/infra/src/main/java/br/edu/ifma/labmanager/scheduling/infra/SchedulingCleanApplication.java
+4	2	services/scheduling-service-clean/infra/src/main/java/br/edu/ifma/labmanager/scheduling/infra/config/SchedulingConfig.java
+6	22	services/scheduling-service-clean/infra/src/main/java/br/edu/ifma/labmanager/scheduling/infra/models/{ReservationJpaEntity.java => ReservationDocument.java}
+12	13	services/scheduling-service-clean/infra/src/main/java/br/edu/ifma/labmanager/scheduling/infra/repositories/{JpaReservationRepository.java => MongoReservationRepository.java}
+4	4	services/scheduling-service-clean/infra/src/main/java/br/edu/ifma/labmanager/scheduling/infra/repositories/SpringDataReservationRepository.java
+0	10	services/scheduling-service-clean/infra/src/main/resources/application-postgres.properties
+3	10	services/scheduling-service-clean/infra/src/main/resources/application.properties
+39	1	services/scheduling-service-clean/infra/src/test/java/br/edu/ifma/labmanager/scheduling/infra/SchedulingCleanApplicationTests.java
