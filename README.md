@@ -23,7 +23,9 @@ A questão de pesquisa:
 | Linguagem | Java 25 LTS |
 | Framework | Spring Boot 4.1.x |
 | Build | Maven (wrapper incluso) |
-| Persistência (Fase 0–1) | H2 embutido |
+| Persistência (default) | H2 embutido |
+| Persistência (experimental) | PostgreSQL 16 via Docker (profile `postgres`) |
+| Falhas (E2) | Toxiproxy |
 | Métricas arquiteturais | ArchUnit 1.4.x |
 
 ## Serviços
@@ -44,7 +46,7 @@ docs/                     Escopo, critérios, protocolo, ADRs
 services/                 Microsserviços
 architecture-metrics/     Instrumento de medição (ArchUnit)
 experiments/              Protocolos e resultados de E1, E2, E3
-infra/                    Docker Compose (ativado a partir da Fase 3)
+infra/                    Docker Compose (PostgreSQL + Toxiproxy)
 ```
 
 ## Fases
@@ -53,14 +55,14 @@ infra/                    Docker Compose (ativado a partir da Fase 3)
 |------|----------|
 | 0 | Fundação: docs, esqueleto Maven, walking skeleton do Agendamento (Clean), métricas |
 | 1 | Catalog + Identity + comunicação REST |
-| **2** (atual) | Variante layered do Agendamento + Inventory |
-| 3 | Docker, PostgreSQL, tag `baseline` |
+| 2 | Variante layered do Agendamento + Inventory |
+| **3** (atual) | Docker, PostgreSQL, Toxiproxy, tag `baseline` |
 | 4 | Experimentos E1, E2, E3 |
 | 5 | Análise e redação |
 
-Portas locais: identity `8080`, scheduling-clean `8081`, catalog `8082`, scheduling-layered `8083`, inventory `8084`.
+Portas da aplicação: identity `8080`, scheduling-clean `8081`, catalog `8082`, scheduling-layered `8083`, inventory `8084`.
 
-Detalhes em [`docs/roadmap-fases.md`](docs/roadmap-fases.md).
+Detalhes em [`docs/roadmap-fases.md`](docs/roadmap-fases.md) e [`infra/README.md`](infra/README.md).
 
 ## Como construir
 
@@ -76,35 +78,43 @@ No Windows (PowerShell):
 .\mvnw.cmd clean verify
 ```
 
-## Como subir os serviços (Fase 2)
-
-Use **um terminal por serviço**. No PowerShell:
-
-1. **Não** use `-D...` solto (o PowerShell corta e o Maven falha).
-2. O comando abaixo já está preparado para o monorepo (`spring-boot:run` só nos módulos `infra`).
+## Infraestrutura Docker (Fase 3)
 
 ```powershell
-# Terminal 1 — Identity (porta 8080)
+docker compose -f infra/docker-compose.yml up -d
+```
+
+## Como subir os serviços
+
+### Modo rápido (H2, sem Docker)
+
+```powershell
 .\mvnw.cmd -pl services/identity-service/infra -am spring-boot:run
-
-# Terminal 2 — Scheduling Clean (porta 8081)
 .\mvnw.cmd -pl services/scheduling-service-clean/infra -am spring-boot:run
-
-# Terminal 3 — Catalog (porta 8082)
 .\mvnw.cmd -pl services/catalog-service/infra -am spring-boot:run
-
-# Terminal 4 — Scheduling Layered (porta 8083) — variante controle
 .\mvnw.cmd -pl services/scheduling-service-layered -am spring-boot:run
-
-# Terminal 5 — Inventory (porta 8084)
 .\mvnw.cmd -pl services/inventory-service/infra -am spring-boot:run
 ```
 
-Se precisar passar `-D` no PowerShell, cite o argumento inteiro entre aspas:
+### Modo experimental (PostgreSQL)
+
+Com a infra Docker no ar, acrescente o profile `postgres`:
 
 ```powershell
-.\mvnw.cmd -pl services/identity-service/infra -am spring-boot:run "-DskipTests"
+.\mvnw.cmd -pl services/identity-service/infra -am spring-boot:run "-Dspring-boot.run.profiles=postgres"
+.\mvnw.cmd -pl services/catalog-service/infra -am spring-boot:run "-Dspring-boot.run.profiles=postgres"
+.\mvnw.cmd -pl services/scheduling-service-clean/infra -am spring-boot:run "-Dspring-boot.run.profiles=postgres"
+.\mvnw.cmd -pl services/scheduling-service-layered -am spring-boot:run "-Dspring-boot.run.profiles=postgres"
+.\mvnw.cmd -pl services/inventory-service/infra -am spring-boot:run "-Dspring-boot.run.profiles=postgres"
 ```
+
+Para o experimento E2 (Agendamento via Toxiproxy):
+
+```powershell
+.\mvnw.cmd -pl services/scheduling-service-clean/infra -am spring-boot:run "-Dspring-boot.run.profiles=postgres,e2"
+```
+
+No PowerShell, sempre cite `-D...` entre aspas.
 
 ## Documentação da pesquisa
 

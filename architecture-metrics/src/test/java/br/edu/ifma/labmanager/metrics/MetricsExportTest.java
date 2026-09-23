@@ -26,7 +26,7 @@ class MetricsExportTest {
         Path repoRoot = ServiceClasspath.locateRepoRoot();
         Path outDir = repoRoot.resolve("architecture-metrics").resolve("target").resolve("metrics");
         Files.createDirectories(outDir);
-        Path csv = outDir.resolve("baseline-fase-2.csv");
+        Path csv = outDir.resolve("baseline-fase-3.csv");
 
         try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(csv, StandardCharsets.UTF_8))) {
             writer.println("timestamp,service,component,Ca,Ce,I,A,D,CCD,ACD,RACD,NCCD");
@@ -39,9 +39,11 @@ class MetricsExportTest {
             exportService(writer, ts, "inventory-service", "br.edu.ifma.labmanager.inventory");
         }
 
-        Path published = repoRoot.resolve("experiments").resolve("baseline-fase-2-metrics.csv");
+        Path published = repoRoot.resolve("experiments").resolve("baseline-fase-3-metrics.csv");
         Files.copy(csv, published, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-        System.out.println("Métricas Fase 2 publicadas em: " + published.toAbsolutePath());
+        Path baseline = repoRoot.resolve("experiments").resolve("baseline-metrics.csv");
+        Files.copy(csv, baseline, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+        System.out.println("Métricas Fase 3 / baseline publicadas em: " + published.toAbsolutePath());
     }
 
     private void exportService(PrintWriter writer, String ts, String serviceDir, String basePackage) {

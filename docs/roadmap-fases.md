@@ -19,7 +19,7 @@
 - [x] Regras ArchUnit para os três serviços + métricas Fase 1
 - [x] Tag `fase-1`
 
-## Fase 2 — Controle e inventário (atual)
+## Fase 2 — Controle e inventário
 
 - [x] `scheduling-service-layered` com **paridade funcional** (suíte `scheduling-acceptance`)
 - [x] `inventory-service` (Clean Architecture) — itens, movimentações IN/OUT, saldo
@@ -27,12 +27,13 @@
 - [x] Regras ArchUnit + métricas Fase 2 (Clean × Layered do Agendamento)
 - [x] Tag `fase-2`
 
-## Fase 3 — Ambiente experimental
+## Fase 3 — Ambiente experimental (atual)
 
-- Instalar WSL2 + Docker Desktop
-- `infra/docker-compose.yml` (PostgreSQL por serviço, opcional broker, Toxiproxy)
-- Observabilidade mínima (logs estruturados; tracing opcional)
-- Tag **`baseline`** — congelamento para E1–E3
+- [x] WSL2 + Docker Desktop disponíveis
+- [x] `infra/docker-compose.yml` — PostgreSQL por serviço + Toxiproxy
+- [x] Profiles Spring `postgres` e `e2`; driver PostgreSQL; H2 permanece no default
+- [x] Observabilidade mínima — logs estruturados ECS no profile `postgres`
+- [x] Tag **`baseline`** — congelamento para E1–E3
 
 ## Fase 4 — Experimentos
 
@@ -47,7 +48,7 @@
 - Discutir benefícios e limitações (incluindo resultado esperado de E2)
 - Alimentar seções de metodologia/resultados do monográfico
 
-## Portas locais (Fase 2)
+## Portas locais (aplicação)
 
 | Serviço | Porta |
 |---------|-------|
@@ -57,10 +58,25 @@
 | scheduling-service-layered | 8083 |
 | inventory-service | 8084 |
 
+## Portas Docker (Fase 3+)
+
+| Recurso | Porta host |
+|---------|------------|
+| Postgres Identity | 5432 |
+| Postgres Catalog | 5433 |
+| Postgres Scheduling Clean | 5434 |
+| Postgres Scheduling Layered | 5435 |
+| Postgres Inventory | 5436 |
+| Toxiproxy API | 8474 |
+| Toxiproxy → Identity | 18080 |
+| Toxiproxy → Catalog | 18082 |
+
+Detalhes operacionais: [`infra/README.md`](../infra/README.md).
+
 ## Dependências externas de ambiente
 
-| Ferramenta | Fase 0–1 | Fase 3+ |
+| Ferramenta | Fase 0–2 | Fase 3+ |
 |------------|----------|---------|
 | JDK 25 | Obrigatório | Obrigatório |
 | Maven wrapper | Incluso | Incluso |
-| Docker / WSL2 | Não | Obrigatório para E1/E2 reprodutíveis |
+| Docker / WSL2 | Não | Obrigatório para modo `postgres` e E1/E2 |

@@ -1,13 +1,118 @@
-# Docker Compose — ativado a partir da Fase 3
-# Fase 0 usa H2 embutido (ADR-005).
+# LabManager — ambiente experimental (Fase 3+)
 #
-# Serviços previstos:
-# - postgres-scheduling
-# - postgres-catalog
-# - postgres-identity
-# - postgres-inventory
-# - toxiproxy (E2)
+# Sobe apenas infraestrutura: PostgreSQL por serviço + Toxiproxy (E2).
+# Os microsserviços continuam rodando via spring-boot:run no host.
 #
-# Descomente e complete quando WSL2 + Docker Desktop estiverem instalados.
+# Uso:
+#   docker compose -f infra/docker-compose.yml up -d
+#   docker compose -f infra/docker-compose.yml down -v
 
-services: {}
+name: labmanager
+
+services:
+  postgres-identity:
+    image: postgres:16-alpine
+    container_name: labmanager-postgres-identity
+    environment:
+      POSTGRES_DB: identity
+      POSTGRES_USER: labmanager
+      POSTGRES_PASSWORD: labmanager
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U labmanager -d identity"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - pg-identity:/var/lib/postgresql/data
+
+  postgres-catalog:
+    image: postgres:16-alpine
+    container_name: labmanager-postgres-catalog
+    environment:
+      POSTGRES_DB: catalog
+      POSTGRES_USER: labmanager
+      POSTGRES_PASSWORD: labmanager
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U labmanager -d catalog"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - pg-catalog:/var/lib/postgresql/data
+
+  postgres-scheduling-clean:
+    image: postgres:16-alpine
+    container_name: labmanager-postgres-scheduling-clean
+    environment:
+      POSTGRES_DB: scheduling
+      POSTGRES_USER: labmanager
+      POSTGRES_PASSWORD: labmanager
+    ports:
+      - "5434:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U labmanager -d scheduling"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - pg-scheduling-clean:/var/lib/postgresql/data
+
+  postgres-scheduling-layered:
+    image: postgres:16-alpine
+    container_name: labmanager-postgres-scheduling-layered
+    environment:
+      POSTGRES_DB: scheduling_layered
+      POSTGRES_USER: labmanager
+      POSTGRES_PASSWORD: labmanager
+    ports:
+      - "5435:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U labmanager -d scheduling_layered"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - pg-scheduling-layered:/var/lib/postgresql/data
+
+  postgres-inventory:
+    image: postgres:16-alpine
+    container_name: labmanager-postgres-inventory
+    environment:
+      POSTGRES_DB: inventory
+      POSTGRES_USER: labmanager
+      POSTGRES_PASSWORD: labmanager
+    ports:
+      - "5436:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U labmanager -d inventory"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - pg-inventory:/var/lib/postgresql/data
+
+  # Toxiproxy — proxies Identity (18080) e Catalog (18082) para o experimento E2.
+  # Upstream aponta para os serviços no host (WSL2/Docker Desktop: host.docker.internal).
+  toxiproxy:
+    image: ghcr.io/shopify/toxiproxy:2.12.0
+    container_name: labmanager-toxiproxy
+    command: ["-host", "0.0.0.0", "-config", "/config/toxiproxy.json"]
+    ports:
+      - "8474:8474"
+      - "18080:18080"
+      - "18082:18082"
+    volumes:
+      - ./toxiproxy/toxiproxy.json:/config/toxiproxy.json:ro
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  pg-identity:
+  pg-catalog:
+  pg-scheduling-clean:
+  pg-scheduling-layered:
+  pg-inventory:

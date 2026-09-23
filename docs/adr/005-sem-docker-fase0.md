@@ -11,7 +11,7 @@ A máquina de desenvolvimento não possui Docker Desktop nem WSL2. Docker é des
 ## Decisão
 
 - **Fase 0:** persistência H2 embutida; serviços como JARs Spring Boot; profiles Spring (`h2`, futuro `postgres`)
-- **Fase 3:** instalar WSL2 + Docker Desktop; ativar `infra/docker-compose.yml`
+- **Fase 3:** instalar WSL2 + Docker Desktop; ativar `infra/docker-compose.yml` — ver [ADR-006](006-docker-postgres-fase3.md)
 - Manter o repositório **já estruturado** para os dois modos (sem reescrever o domínio)
 
 ## Consequências
