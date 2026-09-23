@@ -15,7 +15,7 @@ public class DomainExceptionHandler {
     @ExceptionHandler(DomainException.class)
     public ResponseEntity<Map<String, String>> handleDomain(DomainException ex) {
         return ResponseEntity
-                .status(HttpStatus.UNPROCESSABLE_ENTITY)
+                .status(HttpStatus.UNPROCESSABLE_CONTENT)
                 .body(Map.of("error", ex.getMessage()));
     }
 
