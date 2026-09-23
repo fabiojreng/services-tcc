@@ -56,8 +56,9 @@ infra/                    Docker Compose (PostgreSQL + Toxiproxy)
 | 0 | Fundação: docs, esqueleto Maven, walking skeleton do Agendamento (Clean), métricas |
 | 1 | Catalog + Identity + comunicação REST |
 | 2 | Variante layered do Agendamento + Inventory |
-| **4** (atual) | Experimentos E1, E2, E3 |
-| 5 | Análise e redação |
+| 3 | Docker, PostgreSQL, Toxiproxy, tag `baseline` |
+| 4 | Experimentos E1, E2, E3 |
+| **5** (atual) | Análise e redação (síntese em `experiments/fase-5-sintese.md`) |
 
 Portas da aplicação: identity `8080`, scheduling-clean `8081`, catalog `8082`, scheduling-layered `8083`, inventory `8084`.
 
@@ -123,6 +124,7 @@ No PowerShell, sempre cite `-D...` entre aspas.
 - [`docs/03-protocolo-experimental.md`](docs/03-protocolo-experimental.md)
 - [`docs/04-ameacas-validade.md`](docs/04-ameacas-validade.md)
 - [`docs/adr/`](docs/adr/)
+- [`experiments/fase-5-sintese.md`](experiments/fase-5-sintese.md) — consolidação dos experimentos e discussão
 
 ## Licença
 

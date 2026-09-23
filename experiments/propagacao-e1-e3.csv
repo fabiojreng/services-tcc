@@ -1,0 +1,7 @@
+experimento,variante,intervencaao,arquivos_producao,camadas_atingidas,linhas_inseridas_aprox,linhas_removidas_aprox,hipotese,resultado
+E3,clean,antecedencia_24h_para_48h,1,domain,3,3,mudanca_no_nucleo,confirmada_qualitativamente
+E3,layered,antecedencia_24h_para_48h,1,service,2,2,possivel_espalhamento,nao_espalhou_em_arquivos_locus_no_service
+E1,clean,jpa_para_mongodb,somente_infra,infra,70,80,mudanca_no_adaptador,confirmada
+E1,layered,jpa_para_mongodb,entity_repository_service,"entity,repository,service",50,60,propagacao_para_negocio,confirmada
+E2,clean,identity_catalog_down,0_producao,adapters_presentation_503,n/a,n/a,degradacao_semelhante,confirmada_sucesso_0pct
+E2,layered,identity_catalog_down,0_producao,client_service_handler_503,n/a,n/a,degradacao_semelhante,confirmada_sucesso_0pct

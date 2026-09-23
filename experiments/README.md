@@ -22,3 +22,9 @@ Artefatos das linhas de base por fase e dos experimentos E1–E3 (a partir da ta
 Cada pasta contém `protocolo.md` e subpastas `clean/` / `layered/` com `diff-numstat.txt`, `notas.md` e `metricas.csv`.
 
 O código alterado vive nas branches `exp/*`; em `main` ficam a tag `baseline` e os artefatos documentais.
+
+## Fase 5 — Síntese
+
+- [`fase-5-resumo.md`](fase-5-resumo.md) — resposta curta
+- [`fase-5-sintese.md`](fase-5-sintese.md) — discussão completa para o monográfico
+- [`propagacao-e1-e3.csv`](propagacao-e1-e3.csv) — tabela consolidada de propagação

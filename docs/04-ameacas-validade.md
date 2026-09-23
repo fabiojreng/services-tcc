@@ -36,7 +36,7 @@ Registro explícito das ameaças (Wohlin et al.; Runeson e Höst) e mitigações
 ## Ameaças específicas deste desenho
 
 1. **Comparar um serviço, não o sistema inteiro** — deliberado para reduzir escopo; conclusões sobre Clean × Layered referem-se ao Agendamento, com extrapolação cuidadosa.
-2. **Ausência de Docker na Fase 0** — não afeta a linha de base de métricas internas; E1/E2 reais ficam para Fase 3+.
+2. **Ausência de Docker na Fase 0** — não afetou a linha de base de métricas internas; E1/E2 foram executados a partir da Fase 3 (`baseline`). A execução principal do E2 usou stubs equivalentes; Toxiproxy permanece opcional para reforço.
 3. **Comunicação só síncrona no início** — acoplamento temporal fica visível; eventos assíncronos podem ser discutidos como trabalho futuro, não como variável oculta.
 
 ## Registro de decisões relacionadas

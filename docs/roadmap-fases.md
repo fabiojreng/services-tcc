@@ -35,7 +35,7 @@
 - [x] Observabilidade mínima — logs estruturados ECS no profile `postgres`
 - [x] Tag **`baseline`** — congelamento para E1–E3
 
-## Fase 4 — Experimentos (atual)
+## Fase 4 — Experimentos
 
 - [x] E3 — alteração de regra de negócio (branch `exp/e3-regra`)
 - [x] E1 — troca de infraestrutura de persistência (branch `exp/e1-infra`)
@@ -44,11 +44,12 @@
 
 Código experimental permanece nas branches `exp/*` (main fica em `baseline` + docs/artefatos).
 
-## Fase 5 — Análise e redação
+## Fase 5 — Análise e redação (atual)
 
-- Consolidar CSVs e diffs
-- Discutir benefícios e limitações (incluindo resultado esperado de E2)
-- Alimentar seções de metodologia/resultados do monográfico
+- [x] Consolidar CSVs e diffs (`experiments/propagacao-e1-e3.csv`, `fase-5-sintese.md`)
+- [x] Discutir benefícios e limitações (incluindo E2 como limitação)
+- [x] Texto-base para metodologia/resultados/discussão do monográfico
+- [ ] Incorporar trechos ao documento final do TCC (fora do repositório de código, se aplicável)
 
 ## Portas locais (aplicação)
 
