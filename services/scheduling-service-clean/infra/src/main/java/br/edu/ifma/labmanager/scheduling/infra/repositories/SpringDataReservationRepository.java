@@ -1,12 +1,12 @@
 package br.edu.ifma.labmanager.scheduling.infra.repositories;
 
-import br.edu.ifma.labmanager.scheduling.infra.models.ReservationJpaEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import br.edu.ifma.labmanager.scheduling.infra.models.ReservationDocument;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
 import java.util.UUID;
 
-public interface SpringDataReservationRepository extends JpaRepository<ReservationJpaEntity, UUID> {
+public interface SpringDataReservationRepository extends MongoRepository<ReservationDocument, UUID> {
 
-    List<ReservationJpaEntity> findByLaboratoryId(UUID laboratoryId);
+    List<ReservationDocument> findByLaboratoryId(UUID laboratoryId);
 }

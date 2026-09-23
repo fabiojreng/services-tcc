@@ -1,0 +1,7 @@
+﻿2	12	services/scheduling-service-layered/pom.xml
+3	19	services/scheduling-service-layered/src/main/java/br/edu/ifma/labmanager/scheduling/layered/entity/ReservationEntity.java
+2	2	services/scheduling-service-layered/src/main/java/br/edu/ifma/labmanager/scheduling/layered/repository/{ReservationJpaRepository.java => ReservationMongoRepository.java}
+4	6	services/scheduling-service-layered/src/main/java/br/edu/ifma/labmanager/scheduling/layered/service/ReservationService.java
+0	10	services/scheduling-service-layered/src/main/resources/application-postgres.properties
+3	10	services/scheduling-service-layered/src/main/resources/application.properties
+36	1	services/scheduling-service-layered/src/test/java/br/edu/ifma/labmanager/scheduling/layered/SchedulingLayeredApplicationTests.java

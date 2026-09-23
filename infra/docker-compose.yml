@@ -95,6 +95,15 @@ services:
     volumes:
       - pg-inventory:/var/lib/postgresql/data
 
+  # MongoDB — usado pelo Agendamento no experimento E1 (substituição de store)
+  mongo-scheduling:
+    image: mongo:7
+    container_name: labmanager-mongo-scheduling
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-scheduling:/data/db
+
   # Toxiproxy — proxies Identity (18080) e Catalog (18082) para o experimento E2.
   # Upstream aponta para os serviços no host (WSL2/Docker Desktop: host.docker.internal).
   toxiproxy:
@@ -116,3 +125,4 @@ volumes:
   pg-scheduling-clean:
   pg-scheduling-layered:
   pg-inventory:
+  mongo-scheduling:
