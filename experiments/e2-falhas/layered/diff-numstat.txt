@@ -1,0 +1,2 @@
+﻿59	0	services/scheduling-service-layered/src/test/java/br/edu/ifma/labmanager/scheduling/layered/SchedulingLayeredCatalogFailureSimulationTests.java
+62	0	services/scheduling-service-layered/src/test/java/br/edu/ifma/labmanager/scheduling/layered/SchedulingLayeredFailureSimulationTests.java
