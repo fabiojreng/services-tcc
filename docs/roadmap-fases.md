@@ -27,7 +27,7 @@
 - [x] Regras ArchUnit + métricas Fase 2 (Clean × Layered do Agendamento)
 - [x] Tag `fase-2`
 
-## Fase 3 — Ambiente experimental (atual)
+## Fase 3 — Ambiente experimental
 
 - [x] WSL2 + Docker Desktop disponíveis
 - [x] `infra/docker-compose.yml` — PostgreSQL por serviço + Toxiproxy
@@ -37,10 +37,12 @@
 
 ## Fase 4 — Experimentos (atual)
 
-- [x] E3 — alteração de regra de negócio (branch `exp/e3-regra`; artefatos em `experiments/e3-regra/`)
-- [ ] E1 — troca de infraestrutura de persistência
-- [ ] E2 — falhas entre serviços
-- Artefatos em `experiments/`
+- [x] E3 — alteração de regra de negócio (branch `exp/e3-regra`)
+- [x] E1 — troca de infraestrutura de persistência (branch `exp/e1-infra`)
+- [x] E2 — falhas entre serviços (branch `exp/e2-falhas`)
+- Artefatos em `experiments/e1-infra/`, `experiments/e2-falhas/`, `experiments/e3-regra/`
+
+Código experimental permanece nas branches `exp/*` (main fica em `baseline` + docs/artefatos).
 
 ## Fase 5 — Análise e redação
 

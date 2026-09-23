@@ -11,12 +11,14 @@ Artefatos das linhas de base por fase e dos experimentos E1–E3 (a partir da ta
 | `baseline-fase-2-metrics.csv` | + Layered + Inventory |
 | `baseline-fase-3-metrics.csv` / `baseline-metrics.csv` | Ambiente Docker congelado (`baseline`) |
 
-## Pastas dos experimentos (Fase 4)
+## Experimentos (Fase 4)
 
-```
-e1-infra/     # troca de persistência
-e2-falhas/    # Toxiproxy / indisponibilidade
-e3-regra/     # alteração de regra de negócio
-```
+| Pasta | Branch | Intervenção |
+|-------|--------|-------------|
+| `e3-regra/` | `exp/e3-regra` | Antecedência 24h → 48h |
+| `e1-infra/` | `exp/e1-infra` | JPA/PostgreSQL → MongoDB |
+| `e2-falhas/` | `exp/e2-falhas` | Identity/Catalog indisponíveis |
 
-Cada experimento deve conter subpastas `clean/` e `layered/` com diffs, métricas e notas, conforme [`docs/03-protocolo-experimental.md`](../docs/03-protocolo-experimental.md).
+Cada pasta contém `protocolo.md` e subpastas `clean/` / `layered/` com `diff-numstat.txt`, `notas.md` e `metricas.csv`.
+
+O código alterado vive nas branches `exp/*`; em `main` ficam a tag `baseline` e os artefatos documentais.

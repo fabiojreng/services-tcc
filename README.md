@@ -56,8 +56,7 @@ infra/                    Docker Compose (PostgreSQL + Toxiproxy)
 | 0 | Fundação: docs, esqueleto Maven, walking skeleton do Agendamento (Clean), métricas |
 | 1 | Catalog + Identity + comunicação REST |
 | 2 | Variante layered do Agendamento + Inventory |
-| **3** (atual) | Docker, PostgreSQL, Toxiproxy, tag `baseline` |
-| 4 | Experimentos E1, E2, E3 |
+| **4** (atual) | Experimentos E1, E2, E3 |
 | 5 | Análise e redação |
 
 Portas da aplicação: identity `8080`, scheduling-clean `8081`, catalog `8082`, scheduling-layered `8083`, inventory `8084`.

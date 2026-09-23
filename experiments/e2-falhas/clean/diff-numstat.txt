@@ -1,0 +1,2 @@
+﻿49	0	services/scheduling-service-clean/infra/src/test/java/br/edu/ifma/labmanager/scheduling/infra/SchedulingCleanCatalogFailureSimulationTests.java
+56	0	services/scheduling-service-clean/infra/src/test/java/br/edu/ifma/labmanager/scheduling/infra/SchedulingCleanFailureSimulationTests.java
