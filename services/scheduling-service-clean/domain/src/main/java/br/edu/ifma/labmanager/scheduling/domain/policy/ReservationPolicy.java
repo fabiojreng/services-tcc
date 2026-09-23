@@ -16,13 +16,13 @@ import java.util.Objects;
  * <ol>
  *   <li>Sem sobreposição com reservas CONFIRMADAS no mesmo laboratório</li>
  *   <li>Dentro do horário de funcionamento</li>
- *   <li>Antecedência mínima de 24 horas</li>
+ *   <li>Antecedência mínima de 48 horas</li>
  *   <li>Duração máxima de 4 horas</li>
  * </ol>
  */
 public final class ReservationPolicy {
 
-    public static final Duration MINIMUM_LEAD_TIME = Duration.ofHours(24);
+    public static final Duration MINIMUM_LEAD_TIME = Duration.ofHours(48);
     public static final Duration MAXIMUM_DURATION = Duration.ofHours(4);
 
     private ReservationPolicy() {
@@ -44,7 +44,7 @@ public final class ReservationPolicy {
         }
 
         if (Duration.between(now, requested.start()).compareTo(MINIMUM_LEAD_TIME) < 0) {
-            throw new DomainException("A reserva exige antecedência mínima de 24 horas");
+            throw new DomainException("A reserva exige antecedência mínima de 48 horas");
         }
 
         if (!operatingHours.covers(requested)) {

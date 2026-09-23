@@ -23,8 +23,9 @@ public final class ReservationAcceptanceSupport {
     }
 
     public static ResultActions solicitaReservaValida(MockMvc mockMvc) throws Exception {
+        // Antecedência mínima experimental: 48h (E3). Garante ≥ 3 dias civis.
         LocalDate nextWednesday = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.WEDNESDAY));
-        if (nextWednesday.isBefore(LocalDate.now().plusDays(2))) {
+        if (!nextWednesday.isAfter(LocalDate.now().plusDays(2))) {
             nextWednesday = nextWednesday.plusWeeks(1);
         }
         LocalDateTime start = nextWednesday.atTime(10, 0);

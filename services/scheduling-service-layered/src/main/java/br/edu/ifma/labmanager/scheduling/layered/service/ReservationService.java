@@ -22,7 +22,7 @@ import java.util.UUID;
 @Service
 public class ReservationService {
 
-    private static final Duration MINIMUM_LEAD_TIME = Duration.ofHours(24);
+    private static final Duration MINIMUM_LEAD_TIME = Duration.ofHours(48);
     private static final Duration MAXIMUM_DURATION = Duration.ofHours(4);
 
     private final ReservationJpaRepository repository;
@@ -82,7 +82,7 @@ public class ReservationService {
         }
 
         if (Duration.between(LocalDateTime.now(), start).compareTo(MINIMUM_LEAD_TIME) < 0) {
-            throw new ReservationBusinessException("A reserva exige antecedência mínima de 24 horas");
+            throw new ReservationBusinessException("A reserva exige antecedência mínima de 48 horas");
         }
 
         if (!isWithinOperatingHours(start, end, hours)) {
