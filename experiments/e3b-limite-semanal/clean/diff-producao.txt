@@ -1,0 +1,5 @@
+9	0	services/scheduling-service-clean/application/src/main/java/br/edu/ifma/labmanager/scheduling/application/use_cases/RequestReservationUseCase.java
+47	0	services/scheduling-service-clean/domain/src/main/java/br/edu/ifma/labmanager/scheduling/domain/policy/WeeklyReservationQuota.java
+3	0	services/scheduling-service-clean/domain/src/main/java/br/edu/ifma/labmanager/scheduling/domain/repository/ReservationRepository.java
+8	0	services/scheduling-service-clean/infra/src/main/java/br/edu/ifma/labmanager/scheduling/infra/repositories/JpaReservationRepository.java
+4	0	services/scheduling-service-clean/infra/src/main/java/br/edu/ifma/labmanager/scheduling/infra/repositories/SpringDataReservationRepository.java
