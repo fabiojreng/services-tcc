@@ -58,7 +58,8 @@ infra/                    Docker Compose (PostgreSQL + Toxiproxy)
 | 2 | Variante layered do Agendamento + Inventory |
 | 3 | Docker, PostgreSQL, Toxiproxy, tag `baseline` |
 | 4 | Experimentos E1, E2, E3 |
-| **5** (atual) | Análise e redação (síntese em `experiments/fase-5-sintese.md`) |
+| 5 | Análise e redação (síntese em `experiments/fase-5-sintese.md`) |
+| **6** (atual) | Reforço metodológico: pré-registro, dois commits, Mongo real, Toxiproxy real, E3b (síntese em `experiments/fase-6-sintese.md`) |
 
 Portas da aplicação: identity `8080`, scheduling-clean `8081`, catalog `8082`, scheduling-layered `8083`, inventory `8084`.
 
@@ -124,7 +125,10 @@ No PowerShell, sempre cite `-D...` entre aspas.
 - [`docs/03-protocolo-experimental.md`](docs/03-protocolo-experimental.md)
 - [`docs/04-ameacas-validade.md`](docs/04-ameacas-validade.md)
 - [`docs/adr/`](docs/adr/)
-- [`experiments/fase-5-sintese.md`](experiments/fase-5-sintese.md) — consolidação dos experimentos e discussão
+- [`docs/05-revisao-cega.md`](docs/05-revisao-cega.md) — protocolo de revisão cega
+- [`experiments/fase-5-sintese.md`](experiments/fase-5-sintese.md) — consolidação da primeira rodada de experimentos
+- [`experiments/fase-6-preregistro.md`](experiments/fase-6-preregistro.md) — hipóteses pré-registradas da replicação
+- [`experiments/fase-6-sintese.md`](experiments/fase-6-sintese.md) — resultados vigentes (replicação controlada)
 
 ## Licença
 

@@ -51,6 +51,9 @@ Registro explícito das ameaças (Wohlin et al.; Runeson e Höst) e mitigações
 | Viés do implementador (avaliação) | Só o autor avaliou | Protocolo de revisão cega por terceiro (`05-revisao-cega.md`); execução pendente |
 | Aprendizado entre variantes | — | A Clean foi executada primeiro em cada experimento. No E1-v2, a correção descoberta na Clean (UUID) foi aplicada à Layered na mesma sequência P1 → P2, e isso foi declarado |
 | Artefato do instrumento | — | Variação de CCD na Layered (E1-v2) sem dependência nova no bytecode, tratada como inconclusiva |
+| Desvio de amostra no E2-v2 | — | S4 com N = 10 em vez de 30, por custo de tempo. O resultado foi determinístico (10/10 em todas as células) |
+| Hipóteses pouco falsificáveis | — | Nenhuma previsão foi refutada frontalmente. Isso pode indicar hipóteses conservadoras; declarado em `experiments/fase-6-sintese.md` |
+| Ambiente de E2 local | Stubs em processo | Proxy, serviços e cliente na mesma máquina: os valores absolutos de latência não representam rede real, mas a comparação entre variantes se mantém |
 
 ## O que **não** foi testado (limitações declaradas)
 

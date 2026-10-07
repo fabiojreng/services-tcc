@@ -44,12 +44,25 @@
 
 Código experimental permanece nas branches `exp/*` (main fica em `baseline` + docs/artefatos).
 
-## Fase 5 — Análise e redação (atual)
+## Fase 5 — Análise e redação
 
 - [x] Consolidar CSVs e diffs (`experiments/propagacao-e1-e3.csv`, `fase-5-sintese.md`)
 - [x] Discutir benefícios e limitações (incluindo E2 como limitação)
 - [x] Texto-base para metodologia/resultados/discussão do monográfico
 - [ ] Incorporar trechos ao documento final do TCC (fora do repositório de código, se aplicável)
+
+## Fase 6 — Reforço metodológico (atual)
+
+- [x] Linha de base `baseline-v2` e instrumento de medição (`experiments/scripts/medir-experimento.ps1`, métricas por rótulo)
+- [x] Pré-registro das hipóteses (`experiments/fase-6-preregistro.md`)
+- [x] Protocolo de dois commits (produção → testes quebrados → testes) em todos os experimentos
+- [x] E3-v2 (regra 24 h → 48 h) e E3b (limite semanal com nova consulta)
+- [x] E1-v2 com MongoDB real (Testcontainers)
+- [x] E2-v2 com Toxiproxy real: fase A (sem timeout) e fase B (timeout de conexão/leitura)
+- [x] ArchUnit e métricas após cada experimento (`experiments/<exp>/<variante>/metricas.csv`)
+- [x] Síntese (`experiments/fase-6-sintese.md`), ameaças e capítulo 3 revistos
+- [ ] Revisão cega por avaliadores externos (`docs/05-revisao-cega.md`)
+- Branches `exp2/<experimento>-<variante>` a partir da tag `baseline-v2`
 
 ## Portas locais (aplicação)
 

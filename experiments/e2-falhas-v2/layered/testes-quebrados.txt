@@ -1,0 +1,14 @@
+# Experimento: e2-falhas-v2 | Variante: layered | Etapa: producao
+# Commit: 83cbf69 | Base: baseline-v2 | Data: 2026-10-07T11:04:57
+# Exit code Maven: 0
+
+testes_executados=1
+falhas=0
+erros=0
+ignorados=0
+quebrados=0
+falha_de_compilacao=nao
+
+## Por modulo
+services/scheduling-service-layered : executados=1 quebrados=0
+

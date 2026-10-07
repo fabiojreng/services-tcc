@@ -198,7 +198,7 @@ Para tratá-las, os experimentos foram **refeitos** a partir de uma nova *tag*, 
    - S3: recusa de conexão;
    - S4: conexão aceita que nunca responde.
 
-   As medidas são latência (p50, p95, máximo) e distribuição de respostas (201, 503, timeout do cliente). O E2-v2 tem duas fases: A, com o código original, e B, após introduzir timeouts nos clientes HTTP pelo protocolo de dois *commits*.
+   As medidas são latência (p50, p95, máximo) e distribuição de respostas (201, 503, timeout do cliente). O E2-v2 tem duas fases: A, com o código original, e B, após introduzir timeouts nos clientes HTTP (1 s para conexão e 2 s para leitura) pelo protocolo de dois *commits*. Cada célula (fase × variante × cenário) recebeu 30 requisições sequenciais, após 3 de aquecimento, com timeout de 60 s no cliente de carga. A exceção foi o S4, com 10 requisições por célula: na fase A cada requisição dura 60 s. Esse desvio do pré-registro está documentado.
 4. **Reavaliação arquitetural após cada intervenção.** As regras do ArchUnit e as métricas de Martin e Lakos são recalculadas ao fim de cada experimento e variante e publicadas com rótulo próprio, para comparação com `baseline-v2`.
 
 Acrescentou-se o experimento **E3b**, que introduz uma regra nova (no máximo três reservas ativas por solicitante numa mesma semana ISO). Diferentemente do E3, ela exige uma nova consulta ao repositório e uma nova invariante, situação em que a Clean tende a exigir mais alterações. O E3b foi escolhido justamente para testar a hipótese num cenário potencialmente desfavorável à Clean.

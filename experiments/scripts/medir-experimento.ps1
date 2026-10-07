@@ -140,7 +140,7 @@ else {
         ForEach-Object { "$_" }
     $archExit = $LASTEXITCODE
     $archSummary = @("# ArchUnit apos $label | exit=$archExit") +
-        ($arch | Where-Object { $_ -match 'Tests run:|Violation|was violated|BUILD|publicadas' })
+        ($arch | Where-Object { $_ -cmatch 'Tests run:|Violation|was violated|BUILD (SUCCESS|FAILURE)|publicadas' })
     Write-Utf8 'archunit.txt' $archSummary
     Write-Host "Etapa testes registrada em $outDir (exit testes: $($result.Exit), exit ArchUnit: $archExit)"
 }

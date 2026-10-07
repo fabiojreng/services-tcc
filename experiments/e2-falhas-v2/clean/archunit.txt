@@ -1,0 +1,10 @@
+# ArchUnit apos e2-falhas-v2/clean | exit=0
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.968 s -- in br.edu.ifma.labmanager.metrics.CatalogArchitectureRulesTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.351 s -- in br.edu.ifma.labmanager.metrics.IdentityArchitectureRulesTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.294 s -- in br.edu.ifma.labmanager.metrics.InventoryArchitectureRulesTest
+MÚtricas 'e2-falhas-v2/clean' publicadas em C:\Users\fabio\OneDrive\Documentos\services-tcc\experiments\e2-falhas-v2\clean\metricas.csv
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.908 s -- in br.edu.ifma.labmanager.metrics.MetricsExportTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.202 s -- in br.edu.ifma.labmanager.metrics.SchedulingCleanArchitectureRulesTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.131 s -- in br.edu.ifma.labmanager.metrics.SchedulingLayeredArchitectureRulesTest
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS

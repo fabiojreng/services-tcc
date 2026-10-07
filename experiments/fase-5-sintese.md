@@ -6,6 +6,12 @@ Questão de pesquisa (escopo):
 
 > Em que medida a aplicação da Clean Architecture contribui para o desacoplamento em arquiteturas de microsserviços, e quais são suas limitações quando aplicada a sistemas distribuídos?
 
+> **Nota de revisão (Fase 6).** Este documento registra a primeira rodada de experimentos. Os experimentos foram
+> replicados com protocolo pré-registrado, medição honesta de testes quebrados, infraestrutura real
+> (MongoDB via Testcontainers e falhas de rede via Toxiproxy) e um experimento adicional (E3b). Consulte
+> [`fase-6-sintese.md`](fase-6-sintese.md). Onde houver divergência, **prevalece a Fase 6**. As correções
+> principais estão marcadas abaixo com "(revisto na Fase 6)".
+
 ---
 
 ## 1. Desenho experimental (lembrete)
@@ -70,12 +76,18 @@ CSV resumido: [`propagacao-e1-e3.csv`](propagacao-e1-e3.csv).
 
 **Hipótese:** Clean altera principalmente `infra`; Layered propaga para camadas de negócio/API.
 
-**Resultado:** **confirmado.**
+**Resultado:** consistente com a hipótese quanto à **localização** da mudança.
 
 - Clean: `domain`, `application` e `presentation` **intocados**; porta `ReservationRepository` absorveu a troca.
 - Layered: entidade anêmica, repositório Spring Data e serviço precisaram ser alterados (anotações, tipos, remoção de `@Transactional`).
 
-**Implicação:** este é o experimento em que a Clean Architecture mostra mais claramente a mitigação do **custo de mudança tecnológica** dentro do serviço.
+**(revisto na Fase 6)**
+
+- Em **volume**, a Clean alterou **mais** linhas de produção do que a Layered: 28+/71− contra 11+/50− no E1-v2. A diferença entre as variantes está **onde** a mudança ocorre, não no tamanho dela.
+- No `service` da Layered, a alteração necessária foi apenas a troca do tipo do repositório. A remoção de `@Transactional` não era obrigatória: com Mongo, a anotação vira um no-op silencioso.
+- A propriedade `spring.data.mongodb.uri` usada aqui é ignorada pelo Boot 4. Com Mongo real, as duas variantes ainda exigiram configurar a representação de UUID.
+
+**Implicação:** este é o experimento em que a Clean Architecture mostra mais claramente a **contenção** da mudança tecnológica fora das camadas de negócio. Ele não mostra redução do esforço total.
 
 ---
 
@@ -92,7 +104,7 @@ Instrumento: testes `*FailureSimulationTests` (stubs equivalentes a dependência
 
 ### 4.2 Interpretação
 
-**Hipótese confirmada:** a Clean **não** mitiga, por si só, o **acoplamento temporal síncrono**.
+**Resultado consistente com a hipótese:** a Clean **não** mitiga, por si só, o **acoplamento temporal síncrono**. Na Fase 6 isso foi reforçado com falhas de rede reais (latência, indisponibilidade e conexão travada via Toxiproxy).
 
 - Na Clean, a falha é traduzida em `RemoteDependencyException` nos adapters HTTP e mapeada na presentation — o domínio (`ReservationPolicy`) não é contaminado.
 - Na Layered, a falha explode no client chamado pelo `@Service` e é mapeada no `GlobalExceptionHandler`.
@@ -109,8 +121,8 @@ Fan-out síncrono do caso Solicitar Reserva (ambas as variantes): **2** dependê
 ### Em que medida a Clean contribui para o desacoplamento?
 
 1. **Desacoplamento interno (Dimensão 1):** contribui de forma clara ao isolar o domínio de frameworks e ao tornar verificável a Regra da Dependência (ArchUnit). Há custo estrutural (mais módulos/pacotes).
-2. **Propagação de mudança tecnológica (Dimensão 3 / E1):** contribui de forma **forte** — a troca de store ficou restrita a `infra`.
-3. **Propagação de mudança de regra (Dimensão 3 / E3):** contribui de forma **moderada/qualitativa** — mesmo número de arquivos de produção neste caso, porém locus no núcleo testável; favorece evolução da política sem misturar com HTTP/JPA.
+2. **Propagação de mudança tecnológica (Dimensão 3 / E1):** contribui para a **contenção**: a troca de store ficou restrita a `infra`. O volume alterado não foi menor (revisto na Fase 6).
+3. **Propagação de mudança de regra (Dimensão 3 / E3):** contribui de forma **moderada/qualitativa** — mesmo número de arquivos de produção neste caso, porém locus no núcleo testável; favorece evolução da política sem misturar com HTTP/JPA. O E3b (Fase 6) mostra o outro lado: quando a regra exige novo acesso a dados, a Clean custa **mais** para modificar (5 contra 2 arquivos).
 4. **Desacoplamento entre serviços (Dimensão 2 / E2):** **não contribui** de forma mensurável neste desenho — ambas as variantes degradam igualmente sob falha síncrona.
 
 ### Limitações quando aplicada a sistemas distribuídos
@@ -139,16 +151,17 @@ Fan-out síncrono do caso Solicitar Reserva (ambas as variantes): **2** dependê
 
 Além de [`docs/04-ameacas-validade.md`](../docs/04-ameacas-validade.md):
 
-- **E2 sem Toxiproxy na execução principal:** stubs reproduzem o efeito lógico (exceção na borda remota); repetição com Toxiproxy reforçaria validade de construção de “falha de rede”.
-- **Testes E1 com persistência em memória:** medem propagação de código (objetivo do E1), não a fidelidade operacional do Mongo em CI.
-- **E3 com mudança mínima:** uma alteração maior de regra (vários invariantes) poderia ampliar o contraste de espalhamento.
+- **E2 sem Toxiproxy na execução principal:** stubs reproduzem o efeito lógico (exceção na borda remota). *Tratado na Fase 6 (E2-v2 com Toxiproxy).*
+- **Testes E1 com persistência em memória:** medem propagação de código, não a fidelidade operacional do Mongo. *Tratado na Fase 6 (E1-v2 com Testcontainers), que revelou o defeito de UUID.*
+- **E3 com mudança mínima:** uma alteração maior de regra poderia ampliar o contraste. *Tratado na Fase 6 (E3b, limite semanal).*
+- **Testes ajustados junto com a produção:** a contagem de "testes quebrados" da Fase 5 não separa produção de testes. *Tratado na Fase 6 (protocolo de dois commits).*
 
 ---
 
 ## 8. Trabalho futuro sugerido
 
-1. Repetir E2 com Toxiproxy + métricas de latência/timeout.
-2. Introduzir circuit breaker **nas duas** variantes e medir se o esforço de adaptação difere (Clean vs Layered).
+1. ~~Repetir E2 com Toxiproxy + métricas de latência/timeout.~~ Feito na Fase 6.
+2. Introduzir resiliência **nas duas** variantes e medir se o esforço de adaptação difere. Feito na Fase 6 com timeout; o circuit breaker fica para trabalho futuro.
 3. Experimento de contrato (campo removido no Catalog) para Dimensão 2.
 4. Mensageria assíncrona como alternativa ao fan-out síncrono.
 
