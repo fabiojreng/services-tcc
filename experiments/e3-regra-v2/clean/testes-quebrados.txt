@@ -1,0 +1,22 @@
+# Experimento: e3-regra-v2 | Variante: clean | Etapa: producao
+# Commit: 4473c1a | Base: baseline-v2 | Data: 2026-10-07T10:11:18
+# Exit code Maven: 0
+
+testes_executados=8
+falhas=2
+erros=1
+ignorados=0
+quebrados=3
+falha_de_compilacao=nao
+
+## Por modulo
+services/scheduling-service-clean/domain : executados=7 quebrados=3
+services/scheduling-service-clean/application : sem relatorio surefire
+services/scheduling-service-clean/presentation : sem relatorio surefire
+services/scheduling-service-clean/infra : executados=1 quebrados=0
+
+## Testes quebrados
+FAILURE  br.edu.ifma.labmanager.scheduling.domain.policy.ReservationPolicyTest.aceitaReservaValida
+ERROR    br.edu.ifma.labmanager.scheduling.domain.policy.ReservationPolicyTest.factoryCriaComStatusRequested
+FAILURE  br.edu.ifma.labmanager.scheduling.domain.policy.ReservationPolicyTest.rejeitaAntecedenciaMenorQue24Horas
+

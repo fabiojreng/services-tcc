@@ -1,0 +1,35 @@
+# ArchUnit apos e3-regra-v2/clean | exit=0
+[INFO] Reactor Build Order:
+[INFO] Building LabManager (TCC) 0.1.0-SNAPSHOT                          [1/24]
+[INFO] Building scheduling-acceptance 0.1.0-SNAPSHOT                     [2/24]
+[INFO] Building identity-service 0.1.0-SNAPSHOT                          [3/24]
+[INFO] Building identity-domain 0.1.0-SNAPSHOT                           [4/24]
+[INFO] Building identity-application 0.1.0-SNAPSHOT                      [5/24]
+[INFO] Building identity-presentation 0.1.0-SNAPSHOT                     [6/24]
+[INFO] Building identity-infra 0.1.0-SNAPSHOT                            [7/24]
+[INFO] Building catalog-service 0.1.0-SNAPSHOT                           [8/24]
+[INFO] Building catalog-domain 0.1.0-SNAPSHOT                            [9/24]
+[INFO] Building catalog-application 0.1.0-SNAPSHOT                      [10/24]
+[INFO] Building catalog-presentation 0.1.0-SNAPSHOT                     [11/24]
+[INFO] Building catalog-infra 0.1.0-SNAPSHOT                            [12/24]
+[INFO] Building scheduling-service-clean 0.1.0-SNAPSHOT                 [13/24]
+[INFO] Building scheduling-clean-domain 0.1.0-SNAPSHOT                  [14/24]
+[INFO] Building scheduling-clean-application 0.1.0-SNAPSHOT             [15/24]
+[INFO] Building scheduling-clean-presentation 0.1.0-SNAPSHOT            [16/24]
+[INFO] Building scheduling-clean-infra 0.1.0-SNAPSHOT                   [17/24]
+[INFO] Building scheduling-service-layered 0.1.0-SNAPSHOT               [18/24]
+[INFO] Building inventory-service 0.1.0-SNAPSHOT                        [19/24]
+[INFO] Building inventory-domain 0.1.0-SNAPSHOT                         [20/24]
+[INFO] Building inventory-application 0.1.0-SNAPSHOT                    [21/24]
+[INFO] Building inventory-presentation 0.1.0-SNAPSHOT                   [22/24]
+[INFO] Building inventory-infra 0.1.0-SNAPSHOT                          [23/24]
+[INFO] Building architecture-metrics 0.1.0-SNAPSHOT                     [24/24]
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.011 s -- in br.edu.ifma.labmanager.metrics.CatalogArchitectureRulesTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.348 s -- in br.edu.ifma.labmanager.metrics.IdentityArchitectureRulesTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.294 s -- in br.edu.ifma.labmanager.metrics.InventoryArchitectureRulesTest
+MÚtricas 'e3-regra-v2/clean' publicadas em C:\Users\fabio\OneDrive\Documentos\services-tcc\experiments\e3-regra-v2\clean\metricas.csv
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.902 s -- in br.edu.ifma.labmanager.metrics.MetricsExportTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.220 s -- in br.edu.ifma.labmanager.metrics.SchedulingCleanArchitectureRulesTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.172 s -- in br.edu.ifma.labmanager.metrics.SchedulingLayeredArchitectureRulesTest
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS

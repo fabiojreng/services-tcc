@@ -1,0 +1,17 @@
+# Experimento: e3-regra-v2 | Variante: clean | Etapa: testes
+# Commit: d8259ae | Base: baseline-v2 | Data: 2026-10-07T10:11:50
+# Exit code Maven: 0
+
+testes_executados=8
+falhas=0
+erros=0
+ignorados=0
+quebrados=0
+falha_de_compilacao=nao
+
+## Por modulo
+services/scheduling-service-clean/domain : executados=7 quebrados=0
+services/scheduling-service-clean/application : sem relatorio surefire
+services/scheduling-service-clean/presentation : sem relatorio surefire
+services/scheduling-service-clean/infra : executados=1 quebrados=0
+

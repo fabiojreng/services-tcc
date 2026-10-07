@@ -1,0 +1,1 @@
+6	6	services/scheduling-service-clean/domain/src/test/java/br/edu/ifma/labmanager/scheduling/domain/policy/ReservationPolicyTest.java
