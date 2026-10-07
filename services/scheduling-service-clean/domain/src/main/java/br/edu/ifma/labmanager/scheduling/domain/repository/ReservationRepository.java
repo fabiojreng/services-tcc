@@ -4,6 +4,7 @@ import br.edu.ifma.labmanager.scheduling.domain.entities.Reservation;
 import br.edu.ifma.labmanager.scheduling.domain.value_objects.LaboratoryId;
 import br.edu.ifma.labmanager.scheduling.domain.value_objects.ReservationId;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,4 +15,6 @@ public interface ReservationRepository {
     Optional<Reservation> findById(ReservationId id);
 
     List<Reservation> findByLaboratoryId(LaboratoryId laboratoryId);
+
+    List<Reservation> findByRequesterIdStartingBetween(String requesterId, LocalDateTime from, LocalDateTime toExclusive);
 }

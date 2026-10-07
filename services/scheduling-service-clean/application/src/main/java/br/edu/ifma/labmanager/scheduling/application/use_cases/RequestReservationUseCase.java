@@ -6,8 +6,10 @@ import br.edu.ifma.labmanager.scheduling.application.ports.IdentityGateway;
 import br.edu.ifma.labmanager.scheduling.domain.entities.Reservation;
 import br.edu.ifma.labmanager.scheduling.domain.entities.ReservationFactory;
 import br.edu.ifma.labmanager.scheduling.domain.exceptions.DomainException;
+import br.edu.ifma.labmanager.scheduling.domain.policy.WeeklyReservationQuota;
 import br.edu.ifma.labmanager.scheduling.domain.repository.ReservationRepository;
 import br.edu.ifma.labmanager.scheduling.domain.value_objects.OperatingHours;
+import br.edu.ifma.labmanager.scheduling.domain.value_objects.TimeSlot;
 
 import java.util.List;
 import java.util.Objects;
@@ -40,6 +42,13 @@ public class RequestReservationUseCase {
 
         OperatingHours operatingHours = catalogGateway.getOperatingHours(command.laboratoryId());
         List<Reservation> existing = reservationRepository.findByLaboratoryId(command.laboratoryId());
+
+        TimeSlot slot = command.toSlot();
+        WeeklyReservationQuota.validate(reservationRepository.findByRequesterIdStartingBetween(
+                command.requesterId(),
+                WeeklyReservationQuota.weekStart(slot),
+                WeeklyReservationQuota.weekEndExclusive(slot)
+        ));
 
         Reservation reservation = ReservationFactory.createRequest(
                 command.laboratoryId(),

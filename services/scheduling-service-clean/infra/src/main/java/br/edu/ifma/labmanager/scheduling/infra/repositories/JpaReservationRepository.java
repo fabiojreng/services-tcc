@@ -7,6 +7,7 @@ import br.edu.ifma.labmanager.scheduling.domain.value_objects.ReservationId;
 import br.edu.ifma.labmanager.scheduling.domain.value_objects.TimeSlot;
 import br.edu.ifma.labmanager.scheduling.infra.models.ReservationJpaEntity;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +34,13 @@ public class JpaReservationRepository implements ReservationRepository {
     @Override
     public List<Reservation> findByLaboratoryId(LaboratoryId laboratoryId) {
         return springData.findByLaboratoryId(laboratoryId.value()).stream()
+                .map(this::toDomain)
+                .toList();
+    }
+
+    @Override
+    public List<Reservation> findByRequesterIdStartingBetween(String requesterId, LocalDateTime from, LocalDateTime toExclusive) {
+        return springData.findByRequesterIdAndStartAtGreaterThanEqualAndStartAtLessThan(requesterId, from, toExclusive).stream()
                 .map(this::toDomain)
                 .toList();
     }
