@@ -1,0 +1,2 @@
+6	0	services/scheduling-service-layered/src/main/java/br/edu/ifma/labmanager/scheduling/layered/repository/ReservationJpaRepository.java
+12	1	services/scheduling-service-layered/src/main/java/br/edu/ifma/labmanager/scheduling/layered/service/ReservationService.java

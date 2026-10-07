@@ -1,0 +1,1 @@
+3	3	services/scheduling-service-clean/domain/src/main/java/br/edu/ifma/labmanager/scheduling/domain/policy/ReservationPolicy.java

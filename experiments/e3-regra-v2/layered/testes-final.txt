@@ -1,0 +1,14 @@
+# Experimento: e3-regra-v2 | Variante: layered | Etapa: testes
+# Commit: ce636e7 | Base: baseline-v2 | Data: 2026-10-07T10:12:44
+# Exit code Maven: 0
+
+testes_executados=1
+falhas=0
+erros=0
+ignorados=0
+quebrados=0
+falha_de_compilacao=nao
+
+## Por modulo
+services/scheduling-service-layered : executados=1 quebrados=0
+

@@ -1,0 +1,17 @@
+# Experimento: e1-infra-v2 | Variante: layered | Etapa: producao
+# Commit: d5b09f1 | Base: baseline-v2 | Data: 2026-10-07T10:21:52
+# Exit code Maven: 0
+
+testes_executados=1
+falhas=0
+erros=1
+ignorados=0
+quebrados=1
+falha_de_compilacao=nao
+
+## Por modulo
+services/scheduling-service-layered : executados=1 quebrados=1
+
+## Testes quebrados
+ERROR    br.edu.ifma.labmanager.scheduling.layered.SchedulingLayeredApplicationTests.solicitaReservaComSucessoParidadeComClean
+

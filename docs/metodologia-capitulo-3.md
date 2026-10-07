@@ -173,7 +173,47 @@ Ordem adotada: **E3 → E1 → E2** (da intervenção com menor dependência de 
 
 **Procedimento.** *Branch* `exp/e2-falhas`; executar cenários de Identity *down* e Catalog *down* em cada variante; registrar se a falha “vaza” para o domínio ou permanece nas bordas de integração.
 
-#### 3.4.7 Registro, análise e ameaças à validade
+#### 3.4.7 Reforço metodológico: replicação controlada dos experimentos
+
+Após a primeira rodada (E1–E3), uma avaliação crítica identificou cinco fragilidades:
+
+- o E2 verificava o mapeamento de exceções por meio de *stubs*, e não falhas de rede;
+- o adaptador MongoDB do E1 nunca havia sido executado contra um banco real;
+- a medida "testes quebrados" ficava contaminada, porque produção e testes eram ajustados juntos;
+- o E3 consistia na troca de uma constante, sendo pouco discriminante;
+- as métricas do ArchUnit não eram reavaliadas após as intervenções.
+
+Para tratá-las, os experimentos foram **refeitos** a partir de uma nova *tag*, `baseline-v2`, cujo código de produção é idêntico ao da `baseline`. O procedimento passou a incluir quatro elementos:
+
+1. **Pré-registro de hipóteses com previsões verificáveis.** Antes de qualquer execução, um documento com previsões numéricas e direcionais por experimento e variante foi versionado no repositório; a data do *commit* serve de evidência. As previsões incluíram explicitamente resultados desfavoráveis à variante Clean.
+2. **Protocolo de dois *commits*.** Para cada experimento e variante, numa *branch* própria (`exp2/<experimento>-<variante>`):
+   - um *commit* P altera **apenas** código de produção;
+   - em seguida, a suíte de testes é executada e as falhas são registradas (falhas de compilação contam como quebra);
+   - por fim, um *commit* T altera **apenas** testes.
+
+   Quando a execução contra infraestrutura real revela defeitos de produção, eles são corrigidos num *commit* P2 e registrados separadamente. O procedimento é automatizado pelo *script* `experiments/scripts/medir-experimento.ps1`.
+3. **Infraestrutura real nos experimentos tecnológicos.** O E1-v2 executa os testes de integração contra MongoDB real, provisionado por Testcontainers (`mongo:7`). O E2-v2 injeta falhas de rede reais com Toxiproxy entre o Agendamento e os serviços Identity e Catalog, com cinco cenários:
+   - S0: controle, sem falha;
+   - S1 e S2: latência de 500 ms e de 5 s;
+   - S3: recusa de conexão;
+   - S4: conexão aceita que nunca responde.
+
+   As medidas são latência (p50, p95, máximo) e distribuição de respostas (201, 503, timeout do cliente). O E2-v2 tem duas fases: A, com o código original, e B, após introduzir timeouts nos clientes HTTP pelo protocolo de dois *commits*.
+4. **Reavaliação arquitetural após cada intervenção.** As regras do ArchUnit e as métricas de Martin e Lakos são recalculadas ao fim de cada experimento e variante e publicadas com rótulo próprio, para comparação com `baseline-v2`.
+
+Acrescentou-se o experimento **E3b**, que introduz uma regra nova (no máximo três reservas ativas por solicitante numa mesma semana ISO). Diferentemente do E3, ela exige uma nova consulta ao repositório e uma nova invariante, situação em que a Clean tende a exigir mais alterações. O E3b foi escolhido justamente para testar a hipótese num cenário potencialmente desfavorável à Clean.
+
+Por fim, foi definido um protocolo de **revisão cega por terceiro** (`docs/05-revisao-cega.md`), em que um avaliador externo compara versões anonimizadas das duas variantes quanto à facilidade de localizar e alterar regras. Esse protocolo mede também o "custo de localizar" a mudança, que os *diffs* não capturam.
+
+**Triangulação.** Os resultados são interpretados em três frentes:
+
+- entre instrumentos (diff, testes, ArchUnit e medidas de execução);
+- entre experimentos (E1, E2, E3 e E3b);
+- com a literatura empírica sobre Clean/Hexagonal Architecture e acoplamento em microsserviços [CITAÇÃO: estudos empíricos sobre arquitetura hexagonal/Clean e manutenibilidade] [CITAÇÃO: estudos sobre acoplamento temporal e resiliência em microsserviços].
+
+A comparação com a literatura não generaliza o caso. Ela posiciona o achado como convergente ou divergente em relação ao que outros trabalhos já observaram (RUNESON; HÖST, 2009).
+
+#### 3.4.8 Registro, análise e ameaças à validade
 
 Para cada par (experimento × variante) foram produzidos artefatos padronizados (*diff*, notas interpretativas e referências às métricas de linha de base). A análise combina tabelas quantitativas com interpretação qualitativa das fronteiras, conforme recomendado para estudos de caso em Engenharia de Software (RUNESON; HÖST, 2009).
 
@@ -187,6 +227,17 @@ As principais ameaças e mitigações consideradas no desenho incluem:
 | Interna | Aprendizado entre variantes | Clean implementada primeiro; Layered depois, com checklist de paridade |
 | Externa | Domínio e *stack* únicos; escala pequena | Generalização analítica; limitações declaradas |
 | Conclusão | N=1 por célula; *cherry-picking* | Bateria fixa de métricas; E2 como teste explícito de limitação |
+| Interna | Ajuste *post hoc* das hipóteses | Pré-registro versionado antes da execução (Fase 6) |
+| Construção | "Testes quebrados" contaminado por ajustes simultâneos | Protocolo de dois *commits* (P/T) |
+| Construção | Falha de rede simulada por *stub*; banco simulado | Toxiproxy (E2-v2) e Testcontainers/MongoDB (E1-v2) |
+
+Ficaram fora do escopo, e são declarados como limitações e trabalho futuro:
+
+- replicação do protocolo num segundo serviço;
+- mudança de contrato entre serviços;
+- erosão arquitetural ao longo de várias iterações;
+- comportamento sob carga concorrente;
+- introdução de *circuit breaker*.
 
 ---
 
@@ -195,6 +246,7 @@ As principais ameaças e mitigações consideradas no desenho incluem:
 1. **Onde colar no Word:** substituir/estender o texto atual das seções 3.1–3.2; preencher 3.3 e 3.4 que estavam só com título.  
 2. **Figuras sugeridas:** (a) diagrama dos quatro contextos; (b) comparação esquemática Clean × Layered no Agendamento; (c) fluxo do caso *Solicitar Reserva* com fan-out Identity+Catalog; (d) pipeline *baseline* → *branches* E3/E1/E2.  
 3. **Tabelas:** as tabelas deste arquivo podem virar “Quadro X” / “Tabela Y” no padrão IFMA.  
-4. **Capítulos seguintes (não são metodologia):** “Tecnologias e desenvolvimento” pode detalhar APIs e módulos; “Experimentos e resultados” deve **apresentar** os números (usar `experiments/fase-5-sintese.md` e `propagacao-e1-e3.csv`), evitando misturar resultados longos dentro da metodologia.  
+4. **Capítulos seguintes (não são metodologia):** “Tecnologias e desenvolvimento” pode detalhar APIs e módulos; “Experimentos e resultados” deve **apresentar** os números (usar `experiments/fase-6-sintese.md`, que substitui a síntese da Fase 5 como fonte principal), evitando misturar resultados longos dentro da metodologia.  
+4a. **Marcadores `[CITAÇÃO: ...]`** na seção 3.4.7 devem ser substituídos por referências reais consultadas pelo autor; não foram preenchidos para evitar referências não verificadas.  
 5. **Citação Creswell:** manter como no documento original (bloco citado). Conferir páginas no exemplar físico/PDF utilizado.  
 6. Após colar, atualizar sumário automático e numeração de figuras/tabelas.

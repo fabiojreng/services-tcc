@@ -1,0 +1,9 @@
+9	0	infra/docker-compose.yml
+1	11	services/scheduling-service-clean/infra/pom.xml
+0	4	services/scheduling-service-clean/infra/src/main/java/br/edu/ifma/labmanager/scheduling/infra/SchedulingCleanApplication.java
+2	2	services/scheduling-service-clean/infra/src/main/java/br/edu/ifma/labmanager/scheduling/infra/config/SchedulingConfig.java
+6	17	services/scheduling-service-clean/infra/src/main/java/br/edu/ifma/labmanager/scheduling/infra/models/{ReservationJpaEntity.java => ReservationDocument.java}
+13	13	services/scheduling-service-clean/infra/src/main/java/br/edu/ifma/labmanager/scheduling/infra/repositories/{JpaReservationRepository.java => MongoReservationRepository.java}
+4	4	services/scheduling-service-clean/infra/src/main/java/br/edu/ifma/labmanager/scheduling/infra/repositories/SpringDataReservationRepository.java
+0	10	services/scheduling-service-clean/infra/src/main/resources/application-postgres.properties
+2	10	services/scheduling-service-clean/infra/src/main/resources/application.properties
