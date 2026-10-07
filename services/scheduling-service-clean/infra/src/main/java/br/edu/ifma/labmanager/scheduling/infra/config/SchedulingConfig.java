@@ -10,14 +10,23 @@ import br.edu.ifma.labmanager.scheduling.infra.repositories.SpringDataReservatio
 import br.edu.ifma.labmanager.scheduling.infra.time.SystemClockAdapter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.client.JdkClientHttpRequestFactory;
 import org.springframework.web.client.RestClient;
+
+import java.net.http.HttpClient;
+import java.time.Duration;
 
 @Configuration
 public class SchedulingConfig {
 
     @Bean
     RestClient.Builder restClientBuilder() {
-        return RestClient.builder();
+        HttpClient httpClient = HttpClient.newBuilder()
+                .connectTimeout(Duration.ofSeconds(1))
+                .build();
+        JdkClientHttpRequestFactory requestFactory = new JdkClientHttpRequestFactory(httpClient);
+        requestFactory.setReadTimeout(Duration.ofSeconds(2));
+        return RestClient.builder().requestFactory(requestFactory);
     }
 
     @Bean
