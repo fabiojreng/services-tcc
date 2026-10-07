@@ -1,0 +1,1 @@
+10	1	services/scheduling-service-clean/infra/src/main/java/br/edu/ifma/labmanager/scheduling/infra/config/SchedulingConfig.java
