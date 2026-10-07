@@ -89,3 +89,19 @@ experiments/e1-infra/
 4. E2 (exige orquestração de falhas)
 
 A ordem pode ser ajustada; o importante é não contaminar branches entre experimentos.
+
+---
+
+## Fase 6 — Reforço metodológico
+
+Os experimentos foram refeitos (E1-v2, E2-v2, E3-v2) e um novo foi incluído (E3b), a partir da tag
+`baseline-v2`, com três mudanças de procedimento:
+
+1. **Pré-registro** das hipóteses com previsões verificáveis, commitado antes da execução
+   ([../experiments/fase-6-preregistro.md](../experiments/fase-6-preregistro.md)).
+2. **Protocolo de dois commits** por variante: commit P (somente produção) → execução dos testes
+   e registro das quebras → commit T (somente testes). Instrumento: `experiments/scripts/medir-experimento.ps1`.
+3. **ArchUnit após cada experimento**, com métricas publicadas por rótulo
+   (`-Dmetrics.label=<experimento>/<variante>`).
+
+E1-v2 usa MongoDB real (Testcontainers) e E2-v2 usa falhas de rede reais (Toxiproxy).
