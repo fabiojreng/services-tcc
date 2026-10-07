@@ -138,7 +138,7 @@ Os marcadores `[CITAÇÃO: ...]` indicam onde inserir referências na redação 
 | S4 com N = 10 | Em vez de 30, por custo de tempo (60 s por requisição na fase A) | Baixo: 10/10 em todas as células, resultado determinístico |
 | Commits P2 no E1-v2 | O Mongo real revelou falta de configuração de UUID; houve um segundo commit de produção nas duas variantes | Registrado separadamente (`*-P1.txt`). A contagem de testes quebrados não mudou entre P1 e P2 |
 | Ordem de execução | Clean antes da Layered em todos os experimentos; o executor aprendeu com a primeira variante | Pode favorecer a Layered em tempo/qualidade da solução. Mitigado pelas implementações mínimas descritas antes da execução |
-| Mesmo executor e autor | Quem implementa também mede e interpreta | Mitigado pelo pré-registro e pelo protocolo de revisão cega ([`docs/05-revisao-cega.md`](../docs/05-revisao-cega.md)), ainda **pendente de execução** |
+| Mesmo executor e autor | Quem implementa também mede e interpreta | Mitigado só em parte, pelo pré-registro e por artefatos objetivos. A leitura de "localizar" e "detectar" (seção 4) é do autor e não teve validação independente |
 | Hipóteses possivelmente conservadoras | Nenhuma refutação frontal | Limita o poder de falsificação do desenho |
 | Anomalia de CCD no E1-v2 Layered | Mudança de métrica sem dependência nova no bytecode | Tratada como artefato da ferramenta; não usada como evidência |
 | Ambiente de E2 local | Clientes, serviços e proxy na mesma máquina; latências de base não representam rede real | Afeta valores absolutos, não a comparação entre variantes |
@@ -151,6 +151,7 @@ Os marcadores `[CITAÇÃO: ...]` indicam onde inserir referências na redação 
 - Erosão arquitetural ao longo de múltiplas iterações.
 - Comportamento sob carga concorrente (o S4 da fase A sugere esgotamento de threads, mas isso não foi medido).
 - Entrada de um novo serviço no sistema maduro.
+- Avaliação independente da facilidade de localizar e alterar regras (decidido após a execução e declarado aqui como limitação).
 
 ---
 

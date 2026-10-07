@@ -48,7 +48,7 @@ Registro explícito das ameaças (Wohlin et al.; Runeson e Höst) e mitigações
 | E1 sem banco real | Repositório em memória / `@MockitoBean` | Testcontainers com `mongo:7`; o banco real revelou dois defeitos que o mock escondia |
 | E3 pouco discriminante | Troca de constante | E3b (cota semanal), que exige consulta nova e invariante nova |
 | ArchUnit só na baseline | Métricas não reavaliadas | Exportação com rótulo após cada experimento e variante |
-| Viés do implementador (avaliação) | Só o autor avaliou | Protocolo de revisão cega por terceiro (`05-revisao-cega.md`); execução pendente |
+| Viés do implementador (avaliação) | Só o autor avaliou | Continua só o autor. A mitigação se limita ao pré-registro e a artefatos objetivos versionados (*diffs*, testes quebrados, métricas, CSVs do E2). A interpretação qualitativa, como o "custo de localizar" uma regra, não foi validada por terceiros |
 | Aprendizado entre variantes | — | A Clean foi executada primeiro em cada experimento. No E1-v2, a correção descoberta na Clean (UUID) foi aplicada à Layered na mesma sequência P1 → P2, e isso foi declarado |
 | Artefato do instrumento | — | Variação de CCD na Layered (E1-v2) sem dependência nova no bytecode, tratada como inconclusiva |
 | Desvio de amostra no E2-v2 | — | S4 com N = 10 em vez de 30, por custo de tempo. O resultado foi determinístico (10/10 em todas as células) |
@@ -63,6 +63,7 @@ Registro explícito das ameaças (Wohlin et al.; Runeson e Höst) e mitigações
 - **Carga e concorrência:** o E2-v2 usa requisições sequenciais. Esgotamento de *threads* sob conexões penduradas não foi medido.
 - **Entrada de um novo serviço** no sistema já maduro.
 - **Circuit breaker:** só o timeout foi introduzido na fase B do E2-v2.
+- **Avaliação independente:** nenhum terceiro avaliou a facilidade de localizar e alterar regras em cada variante. Esse custo é discutido apenas de forma analítica.
 - **Dependência de calendário na suíte de aceitação:** a suíte escolhe "a próxima quarta-feira com pelo menos 2 dias de distância". Com a antecedência de 48 h, ela quebraria se executada numa segunda-feira depois das 10:00. Esse defeito do instrumento é independente da arquitetura.
 
 ## Registro de decisões relacionadas

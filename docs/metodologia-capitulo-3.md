@@ -203,7 +203,7 @@ Para tratá-las, os experimentos foram **refeitos** a partir de uma nova *tag*, 
 
 Acrescentou-se o experimento **E3b**, que introduz uma regra nova (no máximo três reservas ativas por solicitante numa mesma semana ISO). Diferentemente do E3, ela exige uma nova consulta ao repositório e uma nova invariante, situação em que a Clean tende a exigir mais alterações. O E3b foi escolhido justamente para testar a hipótese num cenário potencialmente desfavorável à Clean.
 
-Por fim, foi definido um protocolo de **revisão cega por terceiro** (`docs/05-revisao-cega.md`), em que um avaliador externo compara versões anonimizadas das duas variantes quanto à facilidade de localizar e alterar regras. Esse protocolo mede também o "custo de localizar" a mudança, que os *diffs* não capturam.
+O "custo de localizar" uma regra no código, que os *diffs* não capturam, é discutido de forma analítica, com base na posição da regra em cada variante e no comportamento dos testes. Não houve avaliação por terceiros, e essa limitação é declarada na seção 3.4.8.
 
 **Triangulação.** Os resultados são interpretados em três frentes:
 
@@ -230,6 +230,7 @@ As principais ameaças e mitigações consideradas no desenho incluem:
 | Interna | Ajuste *post hoc* das hipóteses | Pré-registro versionado antes da execução (Fase 6) |
 | Construção | "Testes quebrados" contaminado por ajustes simultâneos | Protocolo de dois *commits* (P/T) |
 | Construção | Falha de rede simulada por *stub*; banco simulado | Toxiproxy (E2-v2) e Testcontainers/MongoDB (E1-v2) |
+| Interna | Mesmo autor implementa, mede e interpreta | Pré-registro e artefatos objetivos (*diffs*, testes, métricas) versionados; sem avaliação independente (limitação declarada) |
 
 Ficaram fora do escopo, e são declarados como limitações e trabalho futuro:
 
@@ -237,7 +238,8 @@ Ficaram fora do escopo, e são declarados como limitações e trabalho futuro:
 - mudança de contrato entre serviços;
 - erosão arquitetural ao longo de várias iterações;
 - comportamento sob carga concorrente;
-- introdução de *circuit breaker*.
+- introdução de *circuit breaker*;
+- avaliação independente, por terceiros, da facilidade de localizar e alterar regras em cada variante.
 
 ---
 

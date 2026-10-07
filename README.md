@@ -125,7 +125,6 @@ No PowerShell, sempre cite `-D...` entre aspas.
 - [`docs/03-protocolo-experimental.md`](docs/03-protocolo-experimental.md)
 - [`docs/04-ameacas-validade.md`](docs/04-ameacas-validade.md)
 - [`docs/adr/`](docs/adr/)
-- [`docs/05-revisao-cega.md`](docs/05-revisao-cega.md) — protocolo de revisão cega
 - [`experiments/fase-5-sintese.md`](experiments/fase-5-sintese.md) — consolidação da primeira rodada de experimentos
 - [`experiments/fase-6-preregistro.md`](experiments/fase-6-preregistro.md) — hipóteses pré-registradas da replicação
 - [`experiments/fase-6-sintese.md`](experiments/fase-6-sintese.md) — resultados vigentes (replicação controlada)

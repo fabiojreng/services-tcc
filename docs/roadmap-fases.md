@@ -61,7 +61,6 @@ Código experimental permanece nas branches `exp/*` (main fica em `baseline` + d
 - [x] E2-v2 com Toxiproxy real: fase A (sem timeout) e fase B (timeout de conexão/leitura)
 - [x] ArchUnit e métricas após cada experimento (`experiments/<exp>/<variante>/metricas.csv`)
 - [x] Síntese (`experiments/fase-6-sintese.md`), ameaças e capítulo 3 revistos
-- [ ] Revisão cega por avaliadores externos (`docs/05-revisao-cega.md`)
 - Branches `exp2/<experimento>-<variante>` a partir da tag `baseline-v2`
 
 ## Portas locais (aplicação)
