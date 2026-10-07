@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.time.Instant;
 import java.util.LinkedHashSet;
 import java.util.Locale;
@@ -26,7 +27,7 @@ class MetricsExportTest {
         Path repoRoot = ServiceClasspath.locateRepoRoot();
         Path outDir = repoRoot.resolve("architecture-metrics").resolve("target").resolve("metrics");
         Files.createDirectories(outDir);
-        Path csv = outDir.resolve("baseline-fase-3.csv");
+        Path csv = outDir.resolve("metrics.csv");
 
         try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(csv, StandardCharsets.UTF_8))) {
             writer.println("timestamp,service,component,Ca,Ce,I,A,D,CCD,ACD,RACD,NCCD");
@@ -39,11 +40,23 @@ class MetricsExportTest {
             exportService(writer, ts, "inventory-service", "br.edu.ifma.labmanager.inventory");
         }
 
-        Path published = repoRoot.resolve("experiments").resolve("baseline-fase-3-metrics.csv");
-        Files.copy(csv, published, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-        Path baseline = repoRoot.resolve("experiments").resolve("baseline-metrics.csv");
-        Files.copy(csv, baseline, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-        System.out.println("Métricas Fase 3 / baseline publicadas em: " + published.toAbsolutePath());
+        // Sem rótulo, nada é publicado em experiments/ (evita sobrescrever a baseline em execuções comuns).
+        String label = System.getProperty("metrics.label", "").trim();
+        if (label.isEmpty()) {
+            System.out.println("Métricas geradas em " + csv.toAbsolutePath() + " (use -Dmetrics.label=<rotulo> para publicar)");
+            return;
+        }
+        Path experiments = repoRoot.resolve("experiments");
+        if (label.equals("baseline")) {
+            Files.copy(csv, experiments.resolve("baseline-fase-3-metrics.csv"), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(csv, experiments.resolve("baseline-metrics.csv"), StandardCopyOption.REPLACE_EXISTING);
+            System.out.println("Métricas baseline publicadas em " + experiments.toAbsolutePath());
+            return;
+        }
+        Path target = experiments.resolve(label).resolve("metricas.csv");
+        Files.createDirectories(target.getParent());
+        Files.copy(csv, target, StandardCopyOption.REPLACE_EXISTING);
+        System.out.println("Métricas '" + label + "' publicadas em " + target.toAbsolutePath());
     }
 
     private void exportService(PrintWriter writer, String ts, String serviceDir, String basePackage) {
