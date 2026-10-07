@@ -1,0 +1,2 @@
+24	0	acceptance/scheduling-acceptance/src/main/java/br/edu/ifma/labmanager/acceptance/scheduling/ReservationAcceptanceSupport.java
+5	0	services/scheduling-service-layered/src/test/java/br/edu/ifma/labmanager/scheduling/layered/SchedulingLayeredApplicationTests.java
