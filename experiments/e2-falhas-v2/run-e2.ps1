@@ -191,7 +191,11 @@ try {
 }
 finally {
     try { Reset-Toxi } catch { }
-    foreach ($p in $procs) { if ($p -and -not $p.HasExited) { Stop-Process -Id $p.Id -Force } }
+    foreach ($p in $procs) { if ($p -and -not $p.HasExited) { Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue } }
+    $jarDirPattern = [regex]::Escape($JarDir)
+    Get-CimInstance Win32_Process -Filter "Name='java.exe'" |
+        Where-Object { $_.CommandLine -match $jarDirPattern } |
+        ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }
     $http.Dispose()
     $admin.Dispose()
 }
