@@ -5,23 +5,23 @@ import br.edu.ifma.labmanager.scheduling.domain.repository.ReservationRepository
 import br.edu.ifma.labmanager.scheduling.domain.value_objects.LaboratoryId;
 import br.edu.ifma.labmanager.scheduling.domain.value_objects.ReservationId;
 import br.edu.ifma.labmanager.scheduling.domain.value_objects.TimeSlot;
-import br.edu.ifma.labmanager.scheduling.infra.models.ReservationJpaEntity;
+import br.edu.ifma.labmanager.scheduling.infra.models.ReservationDocument;
 
 import java.util.List;
 import java.util.Optional;
 
-public class JpaReservationRepository implements ReservationRepository {
+public class MongoReservationRepository implements ReservationRepository {
 
     private final SpringDataReservationRepository springData;
 
-    public JpaReservationRepository(SpringDataReservationRepository springData) {
+    public MongoReservationRepository(SpringDataReservationRepository springData) {
         this.springData = springData;
     }
 
     @Override
     public Reservation save(Reservation reservation) {
-        ReservationJpaEntity entity = toEntity(reservation);
-        springData.save(entity);
+        ReservationDocument document = toDocument(reservation);
+        springData.save(document);
         return reservation;
     }
 
@@ -37,8 +37,8 @@ public class JpaReservationRepository implements ReservationRepository {
                 .toList();
     }
 
-    private ReservationJpaEntity toEntity(Reservation reservation) {
-        return new ReservationJpaEntity(
+    private ReservationDocument toDocument(Reservation reservation) {
+        return new ReservationDocument(
                 reservation.id().value(),
                 reservation.laboratoryId().value(),
                 reservation.requesterId(),
@@ -48,13 +48,13 @@ public class JpaReservationRepository implements ReservationRepository {
         );
     }
 
-    private Reservation toDomain(ReservationJpaEntity entity) {
+    private Reservation toDomain(ReservationDocument document) {
         return Reservation.restore(
-                ReservationId.of(entity.getId()),
-                LaboratoryId.of(entity.getLaboratoryId()),
-                entity.getRequesterId(),
-                TimeSlot.of(entity.getStartAt(), entity.getEndAt()),
-                entity.getStatus()
+                ReservationId.of(document.getId()),
+                LaboratoryId.of(document.getLaboratoryId()),
+                document.getRequesterId(),
+                TimeSlot.of(document.getStartAt(), document.getEndAt()),
+                document.getStatus()
         );
     }
 }
