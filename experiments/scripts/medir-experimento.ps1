@@ -1,20 +1,21 @@
 <#
 .SYNOPSIS
-  Instrumento de medição do protocolo de dois commits (Fase 6).
+  Instrumento de medicao do protocolo de dois commits (Fase 6).
 
 .DESCRIPTION
-  Etapa "producao": HEAD deve ser o commit P (somente código de produção).
+  Etapa "producao": HEAD deve ser o commit P (somente codigo de producao).
     - diff-producao.txt      git diff --numstat <Base> HEAD (services/, acceptance/, infra/)
-    - mvn-producao.log       saída de "mvnw clean test" nos módulos da variante
-    - testes-quebrados.txt   testes que falharam/erraram ou módulos que não compilaram
+    - mvn-producao.log       saida de "mvnw clean test" nos modulos da variante
+    - testes-quebrados.txt   testes que falharam/erraram ou modulos que nao compilaram
 
   Etapa "testes": HEAD deve ser o commit T (somente ajuste de testes), filho de P.
     - diff-testes.txt        git diff --numstat HEAD~1 HEAD
     - mvn-testes.log / testes-final.txt
-    - archunit.txt           regras ArchUnit (todas) + exportação de métricas
-    - metricas.csv           Martin/Lakos com rótulo <Experimento>/<Variante>
+    - archunit.txt           regras ArchUnit (todas) + exportacao de metricas
+    - metricas.csv           Martin/Lakos com rotulo <Experimento>/<Variante>
 
-  Todos os arquivos são gravados em UTF-8 sem BOM em experiments/<Experimento>/<Variante>/.
+  Arquivos gravados em UTF-8 sem BOM em experiments/<Experimento>/<Variante>/.
+  O script e mantido em ASCII: o Windows PowerShell 5.1 le scripts sem BOM como ANSI.
 
 .EXAMPLE
   .\experiments\scripts\medir-experimento.ps1 -Experimento e3-regra-v2 -Variante clean -Etapa producao
@@ -51,7 +52,9 @@ $modules = if ($Variante -eq 'clean') {
 
 function Invoke-VariantTests([string]$logName) {
     $pl = $modules -join ','
-    $log = & "$repo\mvnw.cmd" -B clean test -fae -pl $pl -am 2>&1 | ForEach-Object { "$_" }
+    # failure.ignore: falha de teste em um modulo nao impede a execucao dos testes dos modulos dependentes.
+    $log = & "$repo\mvnw.cmd" -B clean test -fae "-Dmaven.test.failure.ignore=true" -pl $pl -am 2>&1 |
+        ForEach-Object { "$_" }
     $exit = $LASTEXITCODE
     Write-Utf8 $logName $log
     return @{ Log = $log; Exit = $exit }
@@ -66,19 +69,23 @@ function Get-TestSummary($result) {
 
     $total = 0; $fail = 0; $err = 0; $skip = 0
     $broken = New-Object System.Collections.Generic.List[string]
+    $perModule = New-Object System.Collections.Generic.List[string]
     foreach ($m in $modules) {
         $reports = Join-Path $repo "$m/target/surefire-reports"
-        if (-not (Test-Path $reports)) { continue }
+        if (-not (Test-Path $reports)) { $perModule.Add("$m : sem relatorio surefire"); continue }
+        $mt = 0; $mb = 0
         foreach ($xmlFile in Get-ChildItem $reports -Filter 'TEST-*.xml') {
             [xml]$xml = Get-Content $xmlFile.FullName -Raw -Encoding UTF8
             $suite = $xml.testsuite
             $total += [int]$suite.tests; $fail += [int]$suite.failures
             $err += [int]$suite.errors; $skip += [int]$suite.skipped
+            $mt += [int]$suite.tests; $mb += [int]$suite.failures + [int]$suite.errors
             foreach ($tc in $suite.testcase) {
                 if ($tc.failure) { $broken.Add("FAILURE  $($tc.classname).$($tc.name)") }
                 if ($tc.error) { $broken.Add("ERROR    $($tc.classname).$($tc.name)") }
             }
         }
+        $perModule.Add("$m : executados=$mt quebrados=$mb")
     }
 
     $compile = $result.Log | Where-Object { $_ -match 'COMPILATION ERROR|Failed to execute goal .*compiler' }
@@ -91,19 +98,22 @@ function Get-TestSummary($result) {
     $lines.Add("quebrados=$($fail + $err)")
     $lines.Add("falha_de_compilacao=$(if ($compile) { 'sim' } else { 'nao' })")
     $lines.Add("")
+    $lines.Add("## Por modulo")
+    $perModule | ForEach-Object { $lines.Add($_) }
+    $lines.Add("")
     if ($broken.Count -gt 0) {
         $lines.Add("## Testes quebrados")
         $broken | ForEach-Object { $lines.Add($_) }
         $lines.Add("")
     }
     if ($compileErrors) {
-        $lines.Add("## Erros de compilação (testes não chegaram a executar)")
+        $lines.Add("## Erros de compilacao (testes nao chegaram a executar)")
         $compileErrors | ForEach-Object { $lines.Add($_) }
         $lines.Add("")
     }
     $modsSkipped = $result.Log | Where-Object { $_ -match 'SKIPPED$' }
     if ($modsSkipped) {
-        $lines.Add("## Módulos não executados")
+        $lines.Add("## Modulos nao executados")
         $modsSkipped | ForEach-Object { $lines.Add($_) }
     }
     return $lines
