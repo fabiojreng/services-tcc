@@ -1,0 +1,10 @@
+# ArchUnit apos e3-regra-v2/layered | exit=0
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.033 s -- in br.edu.ifma.labmanager.metrics.CatalogArchitectureRulesTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.393 s -- in br.edu.ifma.labmanager.metrics.IdentityArchitectureRulesTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.335 s -- in br.edu.ifma.labmanager.metrics.InventoryArchitectureRulesTest
+MÚtricas 'e3-regra-v2/layered' publicadas em C:\Users\fabio\OneDrive\Documentos\services-tcc\experiments\e3-regra-v2\layered\metricas.csv
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.791 s -- in br.edu.ifma.labmanager.metrics.MetricsExportTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.195 s -- in br.edu.ifma.labmanager.metrics.SchedulingCleanArchitectureRulesTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.134 s -- in br.edu.ifma.labmanager.metrics.SchedulingLayeredArchitectureRulesTest
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
