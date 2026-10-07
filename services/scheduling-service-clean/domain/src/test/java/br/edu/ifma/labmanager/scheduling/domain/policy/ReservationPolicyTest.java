@@ -37,8 +37,8 @@ class ReservationPolicyTest {
     @Test
     void aceitaReservaValida() {
         TimeSlot slot = TimeSlot.of(
-                LocalDateTime.of(2026, 9, 9, 9, 0),  // quarta, +48h
-                LocalDateTime.of(2026, 9, 9, 11, 0)
+                LocalDateTime.of(2026, 9, 10, 9, 0),  // quinta, +71h
+                LocalDateTime.of(2026, 9, 10, 11, 0)
         );
 
         assertDoesNotThrow(() ->
@@ -60,7 +60,7 @@ class ReservationPolicyTest {
     }
 
     @Test
-    void rejeitaAntecedenciaMenorQue24Horas() {
+    void rejeitaAntecedenciaMenorQue48Horas() {
         TimeSlot slot = TimeSlot.of(
                 LocalDateTime.of(2026, 9, 7, 20, 0), // mesmo dia
                 LocalDateTime.of(2026, 9, 7, 21, 0)
@@ -69,7 +69,7 @@ class ReservationPolicyTest {
         DomainException ex = assertThrows(DomainException.class, () ->
                 ReservationPolicy.validate(slot, hours, now, List.of())
         );
-        assertTrue(ex.getMessage().contains("24 horas"));
+        assertTrue(ex.getMessage().contains("48 horas"));
     }
 
     @Test
@@ -126,8 +126,8 @@ class ReservationPolicyTest {
     @Test
     void factoryCriaComStatusRequested() {
         TimeSlot slot = TimeSlot.of(
-                LocalDateTime.of(2026, 9, 9, 9, 0),
-                LocalDateTime.of(2026, 9, 9, 11, 0)
+                LocalDateTime.of(2026, 9, 10, 9, 0),
+                LocalDateTime.of(2026, 9, 10, 11, 0)
         );
 
         Reservation reservation = ReservationFactory.createRequest(
