@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,6 +26,7 @@ public class ReservationService {
 
     private static final Duration MINIMUM_LEAD_TIME = Duration.ofHours(24);
     private static final Duration MAXIMUM_DURATION = Duration.ofHours(4);
+    private static final int MAXIMUM_PER_WEEK = 3;
 
     private final ReservationJpaRepository repository;
     private final IdentityClient identityClient;
@@ -51,7 +54,7 @@ public class ReservationService {
         }
 
         CatalogClient.LaboratoryHours hours = catalogClient.getLaboratory(laboratoryId);
-        validateRules(laboratoryId, start, end, hours);
+        validateRules(laboratoryId, requesterId, start, end, hours);
 
         ReservationEntity entity = new ReservationEntity(
                 UUID.randomUUID(),
@@ -68,6 +71,7 @@ public class ReservationService {
 
     private void validateRules(
             UUID laboratoryId,
+            String requesterId,
             LocalDateTime start,
             LocalDateTime end,
             CatalogClient.LaboratoryHours hours
@@ -96,6 +100,13 @@ public class ReservationService {
 
         if (overlaps) {
             throw new ReservationBusinessException("Já existe reserva confirmada sobreposta neste laboratório");
+        }
+
+        LocalDateTime weekStart = start.toLocalDate().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)).atStartOfDay();
+        long activeInWeek = repository.countByRequesterIdAndStatusInAndStartAtGreaterThanEqualAndStartAtLessThan(
+                requesterId, EnumSet.of(ReservationStatus.REQUESTED, ReservationStatus.CONFIRMED), weekStart, weekStart.plusWeeks(1));
+        if (activeInWeek >= MAXIMUM_PER_WEEK) {
+            throw new ReservationBusinessException("O solicitante já possui " + MAXIMUM_PER_WEEK + " reservas ativas nesta semana");
         }
     }
 
