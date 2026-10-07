@@ -1,36 +1,25 @@
 package br.edu.ifma.labmanager.scheduling.layered.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Entity
-@Table(name = "reservations")
+@Document(collection = "reservations")
 public class ReservationEntity {
 
     @Id
     private UUID id;
 
-    @Column(nullable = false)
     private UUID laboratoryId;
 
-    @Column(nullable = false)
     private String requesterId;
 
-    @Column(nullable = false)
     private LocalDateTime startAt;
 
-    @Column(nullable = false)
     private LocalDateTime endAt;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private ReservationStatus status;
 
     protected ReservationEntity() {

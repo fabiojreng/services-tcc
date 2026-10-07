@@ -4,7 +4,7 @@ import br.edu.ifma.labmanager.scheduling.layered.client.CatalogClient;
 import br.edu.ifma.labmanager.scheduling.layered.client.IdentityClient;
 import br.edu.ifma.labmanager.scheduling.layered.entity.ReservationEntity;
 import br.edu.ifma.labmanager.scheduling.layered.entity.ReservationStatus;
-import br.edu.ifma.labmanager.scheduling.layered.repository.ReservationJpaRepository;
+import br.edu.ifma.labmanager.scheduling.layered.repository.ReservationMongoRepository;
 import br.edu.ifma.labmanager.scheduling.layered.web.ReservationResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,12 +25,12 @@ public class ReservationService {
     private static final Duration MINIMUM_LEAD_TIME = Duration.ofHours(24);
     private static final Duration MAXIMUM_DURATION = Duration.ofHours(4);
 
-    private final ReservationJpaRepository repository;
+    private final ReservationMongoRepository repository;
     private final IdentityClient identityClient;
     private final CatalogClient catalogClient;
 
     public ReservationService(
-            ReservationJpaRepository repository,
+            ReservationMongoRepository repository,
             IdentityClient identityClient,
             CatalogClient catalogClient
     ) {
