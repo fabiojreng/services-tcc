@@ -49,4 +49,28 @@ public final class ReservationAcceptanceSupport {
                 .andExpect(jsonPath("$.status").value("REQUESTED"))
                 .andExpect(jsonPath("$.id").exists());
     }
+
+    public static void assertQuartaReservaNaSemanaRejeitada(MockMvc mockMvc) throws Exception {
+        String requesterId = "prof-cota-" + UUID.randomUUID();
+        LocalDate monday = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.MONDAY)).plusWeeks(1);
+        for (int i = 1; i <= 4; i++) {
+            LocalDate day = monday.plusDays(i);
+            String body = """
+                    {
+                      "laboratoryId": "%s",
+                      "requesterId": "%s",
+                      "start": "%s",
+                      "end": "%s"
+                    }
+                    """.formatted(UUID.randomUUID(), requesterId, day.atTime(10, 0), day.atTime(11, 0));
+            ResultActions result = mockMvc.perform(post("/api/reservations")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(body));
+            if (i <= 3) {
+                result.andExpect(status().isCreated());
+            } else {
+                result.andExpect(status().isUnprocessableContent());
+            }
+        }
+    }
 }

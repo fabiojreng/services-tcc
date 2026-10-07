@@ -60,4 +60,9 @@ class SchedulingLayeredApplicationTests {
                 ReservationAcceptanceSupport.solicitaReservaValida(mockMvc)
         );
     }
+
+    @Test
+    void rejeitaQuartaReservaNaMesmaSemana() throws Exception {
+        ReservationAcceptanceSupport.assertQuartaReservaNaSemanaRejeitada(mockMvc);
+    }
 }
