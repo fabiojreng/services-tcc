@@ -1,0 +1,11 @@
+fase,variante,cenario,n,pct_201,pct_503,pct_outro_http,pct_client_timeout,p50_ms,p95_ms,max_ms
+A,clean,S0,30,100,0,0,0,18,21,24
+A,layered,S0,30,100,0,0,0,18,20,22
+A,clean,S1,30,100,0,0,0,516,520,520
+A,layered,S1,30,100,0,0,0,517,519,524
+A,clean,S2,30,100,0,0,0,5017,5022,5041
+A,layered,S2,30,100,0,0,0,5017,5021,5029
+A,clean,S3,30,0,100,0,0,4,5,15
+A,layered,S3,30,0,100,0,0,4,4,8
+A,clean,S4,10,0,0,0,100,60013,60018,60023
+A,layered,S4,10,0,0,0,100,60007,60014,60016

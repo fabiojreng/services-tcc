@@ -20,7 +20,12 @@ Para não revelar o pacote `layered` nem anotações Spring/JPA:
 | javadoc “Estilo em camadas idiomático Spring…” | omitido |
 
 Na variante B omitiram-se apenas pacote, *imports* e o javadoc da Fase 0. Nenhum identificador de
-tipo foi trocado.
+tipo foi trocado. Os textos entregues ao revisor não nomeiam JPA, Spring, Clean nem Layered; a
+correspondência dos nomes trocados fica só nesta tabela.
+
+Limitação: os nomes `ReservationService` e `ReservationPolicy` permanecem. Quem já leu o código do
+TCC identifica a variante por esses nomes. Renomeá-los seria outra decisão de instrumento, e não
+foi feita.
 
 ## O que o revisor *não* vê (e que entra na discussão, não no instrumento)
 

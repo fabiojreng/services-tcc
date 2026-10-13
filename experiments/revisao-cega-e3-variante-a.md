@@ -82,6 +82,6 @@ public class ReservationService {
 }
 ```
 
-Substituições feitas só para anonimato (não alteram a estrutura): o tipo do repositório JPA foi
-renomeado para `ReservationStore`; a entidade anêmica, para `ReservationRecord`. Anotações de
-*framework* do método e da classe foram omitidas.
+Pacote e *imports* foram omitidos. Dois nomes de tipo neste trecho (`ReservationStore` e
+`ReservationRecord`) não são os originais; o gabarito registra a correspondência. A sequência de
+chamadas e as condições permanecem as do código de produção.

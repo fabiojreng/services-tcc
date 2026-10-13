@@ -52,6 +52,4 @@ public final class ReservationPolicy {
 }
 ```
 
-Nenhuma substituição estrutural além da omissão de pacote, *imports* e javadoc. O relógio entra como
-parâmetro `now` (não há `LocalDateTime.now()` neste arquivo). Não há cliente HTTP nem persistência
-nesta classe.
+Pacote, *imports* e javadoc foram omitidos. Nenhum nome de tipo deste trecho foi trocado.

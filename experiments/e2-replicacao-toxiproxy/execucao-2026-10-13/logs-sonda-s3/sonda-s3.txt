@@ -1,0 +1,2 @@
+clean status=503 ms=173 body={"error":"Falha ao consultar identity-service: I/O error on POST request for \"http://localhost:18080/api/permissions/check\": HTTP/1.1 header parser received no bytes"}
+layered status=503 ms=149 body={"error":"Falha ao consultar identity-service: I/O error on POST request for \"http://localhost:18080/api/permissions/check\": HTTP/1.1 header parser received no bytes"}
