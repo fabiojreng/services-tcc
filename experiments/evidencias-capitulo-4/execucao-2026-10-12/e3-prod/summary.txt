@@ -1,0 +1,47 @@
+﻿# Estado: e3-prod | Ref: baseline | ProdFrom: exp/e3-regra | Commit: 5304b47
+# Data: 2026-10-12T11:43:56 | Exit Maven: 0 | Duracao: 39s
+SUITE	architecture-metrics	br.edu.ifma.labmanager.metrics.CatalogArchitectureRulesTest	tests=2	fail=0	err=0	skip=0
+SUITE	architecture-metrics	br.edu.ifma.labmanager.metrics.IdentityArchitectureRulesTest	tests=2	fail=0	err=0	skip=0
+SUITE	architecture-metrics	br.edu.ifma.labmanager.metrics.InventoryArchitectureRulesTest	tests=2	fail=0	err=0	skip=0
+SUITE	architecture-metrics	br.edu.ifma.labmanager.metrics.MetricsExportTest	tests=1	fail=0	err=0	skip=0
+SUITE	architecture-metrics	br.edu.ifma.labmanager.metrics.SchedulingCleanArchitectureRulesTest	tests=4	fail=0	err=0	skip=0
+SUITE	architecture-metrics	br.edu.ifma.labmanager.metrics.SchedulingLayeredArchitectureRulesTest	tests=2	fail=0	err=0	skip=0
+SUITE	services\catalog-service\infra	br.edu.ifma.labmanager.catalog.infra.CatalogApplicationTests	tests=1	fail=0	err=0	skip=0
+SUITE	services\identity-service\domain	br.edu.ifma.labmanager.identity.domain.policy.AuthorizationPolicyTest	tests=2	fail=0	err=0	skip=0
+SUITE	services\identity-service\infra	br.edu.ifma.labmanager.identity.infra.IdentityApplicationTests	tests=1	fail=0	err=0	skip=0
+SUITE	services\inventory-service\domain	br.edu.ifma.labmanager.inventory.domain.policy.BalancePolicyTest	tests=2	fail=0	err=0	skip=0
+SUITE	services\inventory-service\infra	br.edu.ifma.labmanager.inventory.infra.InventoryApplicationTests	tests=1	fail=0	err=0	skip=0
+SUITE	services\scheduling-service-clean\domain	br.edu.ifma.labmanager.scheduling.domain.policy.ReservationPolicyTest	tests=7	fail=2	err=1	skip=0
+BROKEN	failure	br.edu.ifma.labmanager.scheduling.domain.policy.ReservationPolicyTest.aceitaReservaValida	org.opentest4j.AssertionFailedError	Unexpected exception thrown: br.edu.ifma.labmanager.scheduling.domain.exceptions.DomainException: A reserva exige antecedência mínima de 48 horas
+BROKEN	error	br.edu.ifma.labmanager.scheduling.domain.policy.ReservationPolicyTest.factoryCriaComStatusRequested	br.edu.ifma.labmanager.scheduling.domain.exceptions.DomainException	A reserva exige antecedência mínima de 48 horas
+BROKEN	failure	br.edu.ifma.labmanager.scheduling.domain.policy.ReservationPolicyTest.rejeitaAntecedenciaMenorQue24Horas	org.opentest4j.AssertionFailedError	expected: <true> but was: <false>
+SUITE	services\scheduling-service-clean\infra	br.edu.ifma.labmanager.scheduling.infra.SchedulingCleanApplicationTests	tests=1	fail=1	err=0	skip=0
+BROKEN	failure	br.edu.ifma.labmanager.scheduling.infra.SchedulingCleanApplicationTests.solicitaReservaComSucesso	java.lang.AssertionError	Status expected:<201> but was:<422>
+SUITE	services\scheduling-service-layered	br.edu.ifma.labmanager.scheduling.layered.SchedulingLayeredApplicationTests	tests=1	fail=1	err=0	skip=0
+BROKEN	failure	br.edu.ifma.labmanager.scheduling.layered.SchedulingLayeredApplicationTests.solicitaReservaComSucessoParidadeComClean	java.lang.AssertionError	Status expected:<201> but was:<422>
+LOG	[INFO] Reactor Summary for LabManager (TCC) 0.1.0-SNAPSHOT:
+LOG	[INFO] LabManager (TCC) ................................... SUCCESS [  0.102 s]
+LOG	[INFO] scheduling-acceptance .............................. SUCCESS [  1.096 s]
+LOG	[INFO] identity-service ................................... SUCCESS [  0.004 s]
+LOG	[INFO] identity-domain .................................... SUCCESS [  0.903 s]
+LOG	[INFO] identity-application ............................... SUCCESS [  0.110 s]
+LOG	[INFO] identity-presentation .............................. SUCCESS [  0.263 s]
+LOG	[INFO] identity-infra ..................................... SUCCESS [  5.681 s]
+LOG	[INFO] catalog-service .................................... SUCCESS [  0.001 s]
+LOG	[INFO] catalog-domain ..................................... SUCCESS [  0.085 s]
+LOG	[INFO] catalog-application ................................ SUCCESS [  0.094 s]
+LOG	[INFO] catalog-presentation ............................... SUCCESS [  0.199 s]
+LOG	[INFO] catalog-infra ...................................... SUCCESS [  5.548 s]
+LOG	[INFO] scheduling-service-clean ........................... SUCCESS [  0.001 s]
+LOG	[INFO] scheduling-clean-domain ............................ SUCCESS [  0.783 s]
+LOG	[INFO] scheduling-clean-application ....................... SUCCESS [  0.091 s]
+LOG	[INFO] scheduling-clean-presentation ...................... SUCCESS [  0.209 s]
+LOG	[INFO] scheduling-clean-infra ............................. SUCCESS [  5.786 s]
+LOG	[INFO] scheduling-service-layered ......................... SUCCESS [  5.166 s]
+LOG	[INFO] inventory-service .................................. SUCCESS [  0.001 s]
+LOG	[INFO] inventory-domain ................................... SUCCESS [  0.700 s]
+LOG	[INFO] inventory-application .............................. SUCCESS [  0.082 s]
+LOG	[INFO] inventory-presentation ............................. SUCCESS [  0.180 s]
+LOG	[INFO] inventory-infra .................................... SUCCESS [  5.942 s]
+LOG	[INFO] architecture-metrics ............................... SUCCESS [  3.617 s]
+LOG	[INFO] BUILD SUCCESS

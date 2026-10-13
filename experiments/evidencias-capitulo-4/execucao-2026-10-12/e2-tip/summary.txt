@@ -1,0 +1,46 @@
+﻿# Estado: e2-tip | Ref: exp/e2-falhas | ProdFrom:  | Commit: 319af0e
+# Data: 2026-10-12T11:41:31 | Exit Maven: 0 | Duracao: 41s
+SUITE	architecture-metrics	br.edu.ifma.labmanager.metrics.CatalogArchitectureRulesTest	tests=2	fail=0	err=0	skip=0
+SUITE	architecture-metrics	br.edu.ifma.labmanager.metrics.IdentityArchitectureRulesTest	tests=2	fail=0	err=0	skip=0
+SUITE	architecture-metrics	br.edu.ifma.labmanager.metrics.InventoryArchitectureRulesTest	tests=2	fail=0	err=0	skip=0
+SUITE	architecture-metrics	br.edu.ifma.labmanager.metrics.MetricsExportTest	tests=1	fail=0	err=0	skip=0
+SUITE	architecture-metrics	br.edu.ifma.labmanager.metrics.SchedulingCleanArchitectureRulesTest	tests=4	fail=0	err=0	skip=0
+SUITE	architecture-metrics	br.edu.ifma.labmanager.metrics.SchedulingLayeredArchitectureRulesTest	tests=2	fail=0	err=0	skip=0
+SUITE	services\catalog-service\infra	br.edu.ifma.labmanager.catalog.infra.CatalogApplicationTests	tests=1	fail=0	err=0	skip=0
+SUITE	services\identity-service\domain	br.edu.ifma.labmanager.identity.domain.policy.AuthorizationPolicyTest	tests=2	fail=0	err=0	skip=0
+SUITE	services\identity-service\infra	br.edu.ifma.labmanager.identity.infra.IdentityApplicationTests	tests=1	fail=0	err=0	skip=0
+SUITE	services\inventory-service\domain	br.edu.ifma.labmanager.inventory.domain.policy.BalancePolicyTest	tests=2	fail=0	err=0	skip=0
+SUITE	services\inventory-service\infra	br.edu.ifma.labmanager.inventory.infra.InventoryApplicationTests	tests=1	fail=0	err=0	skip=0
+SUITE	services\scheduling-service-clean\domain	br.edu.ifma.labmanager.scheduling.domain.policy.ReservationPolicyTest	tests=7	fail=0	err=0	skip=0
+SUITE	services\scheduling-service-clean\infra	br.edu.ifma.labmanager.scheduling.infra.SchedulingCleanApplicationTests	tests=1	fail=0	err=0	skip=0
+SUITE	services\scheduling-service-clean\infra	br.edu.ifma.labmanager.scheduling.infra.SchedulingCleanCatalogFailureSimulationTests	tests=1	fail=0	err=0	skip=0
+SUITE	services\scheduling-service-clean\infra	br.edu.ifma.labmanager.scheduling.infra.SchedulingCleanFailureSimulationTests	tests=1	fail=0	err=0	skip=0
+SUITE	services\scheduling-service-layered	br.edu.ifma.labmanager.scheduling.layered.SchedulingLayeredApplicationTests	tests=1	fail=0	err=0	skip=0
+SUITE	services\scheduling-service-layered	br.edu.ifma.labmanager.scheduling.layered.SchedulingLayeredCatalogFailureSimulationTests	tests=1	fail=0	err=0	skip=0
+SUITE	services\scheduling-service-layered	br.edu.ifma.labmanager.scheduling.layered.SchedulingLayeredFailureSimulationTests	tests=1	fail=0	err=0	skip=0
+LOG	[INFO] Reactor Summary for LabManager (TCC) 0.1.0-SNAPSHOT:
+LOG	[INFO] LabManager (TCC) ................................... SUCCESS [  0.104 s]
+LOG	[INFO] scheduling-acceptance .............................. SUCCESS [  1.119 s]
+LOG	[INFO] identity-service ................................... SUCCESS [  0.002 s]
+LOG	[INFO] identity-domain .................................... SUCCESS [  0.920 s]
+LOG	[INFO] identity-application ............................... SUCCESS [  0.138 s]
+LOG	[INFO] identity-presentation .............................. SUCCESS [  0.303 s]
+LOG	[INFO] identity-infra ..................................... SUCCESS [  5.563 s]
+LOG	[INFO] catalog-service .................................... SUCCESS [  0.001 s]
+LOG	[INFO] catalog-domain ..................................... SUCCESS [  0.078 s]
+LOG	[INFO] catalog-application ................................ SUCCESS [  0.084 s]
+LOG	[INFO] catalog-presentation ............................... SUCCESS [  0.198 s]
+LOG	[INFO] catalog-infra ...................................... SUCCESS [  5.645 s]
+LOG	[INFO] scheduling-service-clean ........................... SUCCESS [  0.001 s]
+LOG	[INFO] scheduling-clean-domain ............................ SUCCESS [  0.761 s]
+LOG	[INFO] scheduling-clean-application ....................... SUCCESS [  0.090 s]
+LOG	[INFO] scheduling-clean-presentation ...................... SUCCESS [  0.213 s]
+LOG	[INFO] scheduling-clean-infra ............................. SUCCESS [  6.664 s]
+LOG	[INFO] scheduling-service-layered ......................... SUCCESS [  6.334 s]
+LOG	[INFO] inventory-service .................................. SUCCESS [  0.001 s]
+LOG	[INFO] inventory-domain ................................... SUCCESS [  0.695 s]
+LOG	[INFO] inventory-application .............................. SUCCESS [  0.079 s]
+LOG	[INFO] inventory-presentation ............................. SUCCESS [  0.187 s]
+LOG	[INFO] inventory-infra .................................... SUCCESS [  5.861 s]
+LOG	[INFO] architecture-metrics ............................... SUCCESS [  3.604 s]
+LOG	[INFO] BUILD SUCCESS

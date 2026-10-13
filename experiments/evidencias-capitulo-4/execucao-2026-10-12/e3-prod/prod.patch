@@ -1,0 +1,51 @@
+diff --git a/services/scheduling-service-clean/domain/src/main/java/br/edu/ifma/labmanager/scheduling/domain/policy/ReservationPolicy.java b/services/scheduling-service-clean/domain/src/main/java/br/edu/ifma/labmanager/scheduling/domain/policy/ReservationPolicy.java
+index e7cf514..4d55d97 100644
+--- a/services/scheduling-service-clean/domain/src/main/java/br/edu/ifma/labmanager/scheduling/domain/policy/ReservationPolicy.java
++++ b/services/scheduling-service-clean/domain/src/main/java/br/edu/ifma/labmanager/scheduling/domain/policy/ReservationPolicy.java
+@@ -16,13 +16,13 @@ import java.util.Objects;
+  * <ol>
+  *   <li>Sem sobreposição com reservas CONFIRMADAS no mesmo laboratório</li>
+  *   <li>Dentro do horário de funcionamento</li>
+- *   <li>Antecedência mínima de 24 horas</li>
++ *   <li>Antecedência mínima de 48 horas</li>
+  *   <li>Duração máxima de 4 horas</li>
+  * </ol>
+  */
+ public final class ReservationPolicy {
+ 
+-    public static final Duration MINIMUM_LEAD_TIME = Duration.ofHours(24);
++    public static final Duration MINIMUM_LEAD_TIME = Duration.ofHours(48);
+     public static final Duration MAXIMUM_DURATION = Duration.ofHours(4);
+ 
+     private ReservationPolicy() {
+@@ -44,7 +44,7 @@ public final class ReservationPolicy {
+         }
+ 
+         if (Duration.between(now, requested.start()).compareTo(MINIMUM_LEAD_TIME) < 0) {
+-            throw new DomainException("A reserva exige antecedência mínima de 24 horas");
++            throw new DomainException("A reserva exige antecedência mínima de 48 horas");
+         }
+ 
+         if (!operatingHours.covers(requested)) {
+diff --git a/services/scheduling-service-layered/src/main/java/br/edu/ifma/labmanager/scheduling/layered/service/ReservationService.java b/services/scheduling-service-layered/src/main/java/br/edu/ifma/labmanager/scheduling/layered/service/ReservationService.java
+index 8fde083..de79815 100644
+--- a/services/scheduling-service-layered/src/main/java/br/edu/ifma/labmanager/scheduling/layered/service/ReservationService.java
++++ b/services/scheduling-service-layered/src/main/java/br/edu/ifma/labmanager/scheduling/layered/service/ReservationService.java
+@@ -22,7 +22,7 @@ import java.util.UUID;
+ @Service
+ public class ReservationService {
+ 
+-    private static final Duration MINIMUM_LEAD_TIME = Duration.ofHours(24);
++    private static final Duration MINIMUM_LEAD_TIME = Duration.ofHours(48);
+     private static final Duration MAXIMUM_DURATION = Duration.ofHours(4);
+ 
+     private final ReservationJpaRepository repository;
+@@ -82,7 +82,7 @@ public class ReservationService {
+         }
+ 
+         if (Duration.between(LocalDateTime.now(), start).compareTo(MINIMUM_LEAD_TIME) < 0) {
+-            throw new ReservationBusinessException("A reserva exige antecedência mínima de 24 horas");
++            throw new ReservationBusinessException("A reserva exige antecedência mínima de 48 horas");
+         }
+ 
+         if (!isWithinOperatingHours(start, end, hours)) {
