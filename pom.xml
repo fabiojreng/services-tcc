@@ -26,6 +26,7 @@
         <module>services/scheduling-service-layered</module>
         <module>services/inventory-service</module>
         <module>architecture-metrics</module>
+        <module>web-console</module>
     </modules>
 
     <properties>

@@ -44,6 +44,7 @@ Apenas o **Agendamento** possui duas implementações com o mesmo contrato REST,
 ```
 docs/                     Escopo, critérios, protocolo, ADRs
 services/                 Microsserviços
+web-console/              Interface web (console) para operar os serviços
 architecture-metrics/     Instrumento de medição (ArchUnit)
 experiments/              Protocolos e resultados de E1, E2, E3
 infra/                    Docker Compose (PostgreSQL + Toxiproxy)
@@ -61,7 +62,7 @@ infra/                    Docker Compose (PostgreSQL + Toxiproxy)
 | 5 | Análise e redação (síntese em `experiments/fase-5-sintese.md`) |
 | **6** (atual) | Reforço metodológico: pré-registro, dois commits, Mongo real, Toxiproxy real, E3b (síntese em `experiments/fase-6-sintese.md`) |
 
-Portas da aplicação: identity `8080`, scheduling-clean `8081`, catalog `8082`, scheduling-layered `8083`, inventory `8084`.
+Portas da aplicação: identity `8080`, scheduling-clean `8081`, catalog `8082`, scheduling-layered `8083`, inventory `8084`, console web `8090`.
 
 Detalhes em [`docs/roadmap-fases.md`](docs/roadmap-fases.md) e [`infra/README.md`](infra/README.md).
 
@@ -116,6 +117,24 @@ Para o experimento E2 (Agendamento via Toxiproxy):
 ```
 
 No PowerShell, sempre cite `-D...` entre aspas.
+
+### Console web
+
+Interface visual para operar os serviços (usuários, laboratórios, reservas, inventário), com status de cada serviço, diagrama de dependências, comparação lado a lado das variantes Clean/Layered do Agendamento e log das requisições.
+
+```powershell
+.\mvnw.cmd -pl web-console -am spring-boot:run
+```
+
+Para subir os cinco serviços e o console de uma vez, em segundo plano (logs em `logs/`):
+
+```powershell
+.\scripts\subir-servicos.ps1                    # H2
+.\scripts\subir-servicos.ps1 -Perfil postgres   # com a infra Docker no ar
+.\scripts\subir-servicos.ps1 -Parar
+```
+
+Abra [http://localhost:8090](http://localhost:8090). O console encaminha as chamadas para os serviços via `/proxy/{serviço}/...` (endereços em `web-console/src/main/resources/application.properties`), então os serviços não precisam de CORS. Ele fica fora de `services/` e não entra nas métricas nem nos diffs dos experimentos.
 
 ## Documentação da pesquisa
 

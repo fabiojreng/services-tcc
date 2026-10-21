@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LabManager · Console</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%234f46e5'/%3E%3Cpath d='M12 7h8M14 7v7l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V7' stroke='white' stroke-width='2.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-logo">
+                <svg viewBox="0 0 24 24"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.7 3h10.6a2 2 0 0 0 1.7-3l-5-9V3"/><path d="M7.5 15h9"/></svg>
+            </div>
+            <div>
+                <strong>LabManager</strong>
+                <span>Gestão de laboratórios</span>
+            </div>
+        </div>
+
+        <nav class="nav">
+            <a href="#overview" data-nav="overview">
+                <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+                Visão geral
+            </a>
+            <span class="nav-section">Serviços</span>
+            <a href="#identity" data-nav="identity">
+                <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0"/><path d="M17 11l2 2 4-4"/></svg>
+                Usuários
+                <small>identity</small>
+            </a>
+            <a href="#catalog" data-nav="catalog">
+                <svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/></svg>
+                Laboratórios
+                <small>catalog</small>
+            </a>
+            <a href="#scheduling" data-nav="scheduling">
+                <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/><path d="M8 14l2.5 2.5L16 12"/></svg>
+                Reservas
+                <small>scheduling</small>
+            </a>
+            <a href="#inventory" data-nav="inventory">
+                <svg viewBox="0 0 24 24"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>
+                Inventário
+                <small>inventory</small>
+            </a>
+            <span class="nav-section">Diagnóstico</span>
+            <a href="#activity" data-nav="activity">
+                <svg viewBox="0 0 24 24"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>
+                Atividade
+                <span class="nav-badge" id="activity-count">0</span>
+            </a>
+        </nav>
+
+        <div class="acting-as">
+            <label for="active-user">Agindo como</label>
+            <select id="active-user"></select>
+            <p>Preenche o campo <code>requesterId</code> dos formulários.</p>
+        </div>
+    </aside>
+
+    <main class="main">
+        <header class="topbar">
+            <div>
+                <h1 id="page-title">Visão geral</h1>
+                <p id="page-subtitle">Estado dos microsserviços e dependências entre eles</p>
+            </div>
+            <div class="topbar-actions">
+                <div class="health-pill" id="health-pill">
+                    <span class="dot"></span><span>Verificando…</span>
+                </div>
+                <button class="btn btn-ghost" id="refresh-status" title="Atualizar status">
+                    <svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg>
+                    Atualizar
+                </button>
+            </div>
+        </header>
+
+        <!-- ============ VISÃO GERAL ============ -->
+        <section class="view" data-view="overview">
+            <div class="hero card">
+                <div>
+                    <h2>Console do LabManager</h2>
+                    <p>
+                        Interface para operar os quatro contextos do sistema — identidade, catálogo, agendamento e
+                        inventário. O Agendamento possui duas implementações com o mesmo contrato REST
+                        (<b>Clean Architecture</b> e <b>Layered</b>), que podem ser comparadas lado a lado.
+                    </p>
+                </div>
+                <div class="hero-actions">
+                    <button class="btn btn-primary" id="seed-data">
+                        <svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18"/></svg>
+                        Popular dados de exemplo
+                    </button>
+                    <button class="btn btn-ghost" id="clear-local">Limpar histórico local</button>
+                </div>
+            </div>
+
+            <div class="service-grid" id="service-grid"></div>
+
+            <div class="two-cols wide-left">
+                <div class="card">
+                    <div class="card-head">
+                        <h3>Dependências em tempo de execução</h3>
+                        <span class="muted">Setas = chamadas HTTP síncronas</span>
+                    </div>
+                    <svg class="topology" viewBox="0 0 760 300" id="topology">
+                        <defs>
+                            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                                <path d="M0 0L10 5L0 10z"/>
+                            </marker>
+                        </defs>
+                        <g class="edges">
+                            <path data-from="scheduling-clean" data-to="catalog" d="M200 62 L295 62"/>
+                            <path data-from="scheduling-layered" data-to="catalog" d="M200 216 C 250 216 245 86 295 86"/>
+                            <path data-from="scheduling-clean" data-to="identity" d="M200 84 C 270 150 480 146 560 146"/>
+                            <path data-from="scheduling-layered" data-to="identity" d="M200 236 C 270 168 480 156 560 156"/>
+                            <path data-from="catalog" data-to="identity" d="M465 68 C 515 68 515 132 560 132"/>
+                            <path data-from="inventory" data-to="identity" d="M465 232 C 515 232 515 170 560 170"/>
+                        </g>
+                        <g class="nodes">
+                            <g class="node" data-node="scheduling-clean" transform="translate(30 40)">
+                                <rect width="170" height="56" rx="12"/><circle cx="18" cy="28" r="5"/>
+                                <text x="32" y="25">Scheduling</text><text class="sub" x="32" y="44">Clean · :8081</text>
+                            </g>
+                            <g class="node" data-node="scheduling-layered" transform="translate(30 204)">
+                                <rect width="170" height="56" rx="12"/><circle cx="18" cy="28" r="5"/>
+                                <text x="32" y="25">Scheduling</text><text class="sub" x="32" y="44">Layered · :8083</text>
+                            </g>
+                            <g class="node" data-node="catalog" transform="translate(295 40)">
+                                <rect width="170" height="56" rx="12"/><circle cx="18" cy="28" r="5"/>
+                                <text x="32" y="25">Catalog</text><text class="sub" x="32" y="44">Clean · :8082</text>
+                            </g>
+                            <g class="node" data-node="inventory" transform="translate(295 204)">
+                                <rect width="170" height="56" rx="12"/><circle cx="18" cy="28" r="5"/>
+                                <text x="32" y="25">Inventory</text><text class="sub" x="32" y="44">Clean · :8084</text>
+                            </g>
+                            <g class="node" data-node="identity" transform="translate(560 122)">
+                                <rect width="170" height="56" rx="12"/><circle cx="18" cy="28" r="5"/>
+                                <text x="32" y="25">Identity</text><text class="sub" x="32" y="44">Clean · :8080</text>
+                            </g>
+                        </g>
+                    </svg>
+                </div>
+
+                <div class="card">
+                    <div class="card-head">
+                        <h3>Registros desta sessão</h3>
+                        <span class="muted">Guardados no navegador</span>
+                    </div>
+                    <div class="stats" id="local-stats"></div>
+                    <p class="note">
+                        As APIs não expõem listagens; o console guarda localmente os IDs criados por ele.
+                        Com H2 em memória, reiniciar um serviço apaga seus dados — use “Limpar histórico local” nesse caso.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ IDENTITY ============ -->
+        <section class="view" data-view="identity" hidden>
+            <div class="two-cols">
+                <form class="card form" id="form-user">
+                    <div class="card-head">
+                        <h3>Cadastrar usuário</h3>
+                        <code class="endpoint">POST /api/users</code>
+                    </div>
+                    <div class="field-row">
+                        <label>Identificador<input name="userId" placeholder="ex.: aluno-2" required></label>
+                        <label>Nome<input name="name" placeholder="Nome completo" required></label>
+                    </div>
+                    <fieldset>
+                        <legend>Papéis</legend>
+                        <div class="chips" id="role-chips"></div>
+                    </fieldset>
+                    <div class="form-actions"><button class="btn btn-primary" type="submit">Cadastrar</button></div>
+                </form>
+
+                <form class="card form" id="form-permission">
+                    <div class="card-head">
+                        <h3>Verificar permissão</h3>
+                        <code class="endpoint">POST /api/permissions/check</code>
+                    </div>
+                    <div class="field-row">
+                        <label>Usuário<input name="userId" list="users-datalist" placeholder="userId" required></label>
+                        <label>Permissão<select name="permission" id="permission-select"></select></label>
+                    </div>
+                    <div class="permission-result" id="permission-result">
+                        <span class="muted">O resultado aparece aqui.</span>
+                    </div>
+                    <div class="form-actions"><button class="btn btn-primary" type="submit">Verificar</button></div>
+                </form>
+            </div>
+
+            <div class="two-cols">
+                <div class="card">
+                    <div class="card-head"><h3>Usuários cadastrados</h3><span class="muted" id="users-count"></span></div>
+                    <div id="users-list"></div>
+                </div>
+                <div class="card">
+                    <div class="card-head"><h3>Papéis × permissões</h3><span class="muted">Regra do domínio Identity</span></div>
+                    <div class="table-wrap"><table class="matrix" id="role-matrix"></table></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ CATALOG ============ -->
+        <section class="view" data-view="catalog" hidden>
+            <div class="two-cols wide-left">
+                <form class="card form" id="form-lab">
+                    <div class="card-head">
+                        <h3>Cadastrar laboratório</h3>
+                        <code class="endpoint">POST /api/laboratories</code>
+                    </div>
+                    <div class="field-row">
+                        <label class="grow">Nome<input name="name" placeholder="ex.: Laboratório de Redes" required></label>
+                        <label>Capacidade<input name="capacity" type="number" min="1" value="20" required></label>
+                    </div>
+                    <div class="field-row">
+                        <label>Abre às<input name="opensAt" type="time" value="08:00" required></label>
+                        <label>Fecha às<input name="closesAt" type="time" value="18:00" required></label>
+                        <label>Solicitante<input name="requesterId" data-requester list="users-datalist" required></label>
+                    </div>
+                    <fieldset>
+                        <legend>Dias de funcionamento</legend>
+                        <div class="chips" id="day-chips"></div>
+                    </fieldset>
+                    <p class="hint">Exige a permissão <code>LABORATORY_MANAGE</code> (técnico ou administrador), validada no Identity.</p>
+                    <div class="form-actions"><button class="btn btn-primary" type="submit">Cadastrar</button></div>
+                </form>
+
+                <form class="card form" id="form-lab-lookup">
+                    <div class="card-head">
+                        <h3>Consultar por ID</h3>
+                        <code class="endpoint">GET /api/laboratories/{id}</code>
+                    </div>
+                    <label>ID do laboratório<input name="id" placeholder="UUID" required></label>
+                    <div class="form-actions"><button class="btn btn-ghost" type="submit">Consultar</button></div>
+                    <div id="lab-lookup-result"></div>
+                </form>
+            </div>
+
+            <div class="card">
+                <div class="card-head"><h3>Laboratórios</h3><span class="muted" id="labs-count"></span></div>
+                <div class="lab-grid" id="labs-list"></div>
+            </div>
+        </section>
+
+        <!-- ============ SCHEDULING ============ -->
+        <section class="view" data-view="scheduling" hidden>
+            <div class="two-cols wide-left">
+                <form class="card form" id="form-reservation">
+                    <div class="card-head">
+                        <h3>Solicitar reserva</h3>
+                        <code class="endpoint">POST /api/reservations</code>
+                    </div>
+                    <fieldset>
+                        <legend>Implementação</legend>
+                        <div class="segmented" id="variant-switch">
+                            <button type="button" data-variant="scheduling-clean" class="active">Clean <small>:8081</small></button>
+                            <button type="button" data-variant="scheduling-layered">Layered <small>:8083</small></button>
+                            <button type="button" data-variant="both">Comparar ambas</button>
+                        </div>
+                    </fieldset>
+                    <div class="field-row">
+                        <label class="grow">Laboratório
+                            <select name="laboratoryId" id="reservation-lab"></select>
+                        </label>
+                        <label>Solicitante<input name="requesterId" data-requester list="users-datalist" required></label>
+                    </div>
+                    <label id="manual-lab-field" hidden>UUID do laboratório<input name="manualLabId" placeholder="UUID"></label>
+                    <div class="field-row">
+                        <label>Início<input name="start" type="datetime-local" required></label>
+                        <label>Fim<input name="end" type="datetime-local" required></label>
+                    </div>
+                    <div class="form-actions"><button class="btn btn-primary" type="submit">Solicitar</button></div>
+                    <div id="reservation-result"></div>
+                </form>
+
+                <div class="card">
+                    <div class="card-head"><h3>Regras de negócio</h3><span class="muted">ReservationPolicy</span></div>
+                    <ul class="rules">
+                        <li><b>Antecedência mínima</b> de 24 horas.</li>
+                        <li><b>Duração máxima</b> de 4 horas.</li>
+                        <li>Dentro do <b>horário e dias de funcionamento</b> do laboratório (Catalog).</li>
+                        <li>Sem sobreposição com reserva <b>confirmada</b> no mesmo laboratório.</li>
+                        <li>Solicitante com permissão <code>RESERVATION_REQUEST</code> (Identity).</li>
+                    </ul>
+                    <p class="note">
+                        “Comparar ambas” envia a mesma requisição às duas variantes e mostra as respostas lado a lado —
+                        útil para verificar que o contrato REST é idêntico.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-head"><h3>Reservas</h3><span class="muted" id="reservations-count"></span></div>
+                <div id="reservations-list"></div>
+            </div>
+        </section>
+
+        <!-- ============ INVENTORY ============ -->
+        <section class="view" data-view="inventory" hidden>
+            <div class="two-cols">
+                <form class="card form" id="form-item">
+                    <div class="card-head">
+                        <h3>Cadastrar item</h3>
+                        <code class="endpoint">POST /api/items</code>
+                    </div>
+                    <div class="field-row">
+                        <label class="grow">Nome<input name="name" placeholder="ex.: Resistor 1kΩ" required></label>
+                        <label>Unidade<input name="unit" placeholder="un, L, kg…" required></label>
+                    </div>
+                    <label>Solicitante<input name="requesterId" data-requester list="users-datalist" required></label>
+                    <p class="hint">Exige a permissão <code>INVENTORY_MANAGE</code>.</p>
+                    <div class="form-actions"><button class="btn btn-primary" type="submit">Cadastrar</button></div>
+                </form>
+
+                <form class="card form" id="form-movement">
+                    <div class="card-head">
+                        <h3>Registrar movimentação</h3>
+                        <code class="endpoint">POST /api/items/{id}/movements</code>
+                    </div>
+                    <label>Item<select name="itemId" id="movement-item" required></select></label>
+                    <div class="field-row">
+                        <fieldset>
+                            <legend>Tipo</legend>
+                            <div class="segmented" id="movement-type">
+                                <button type="button" data-type="IN" class="active">Entrada</button>
+                                <button type="button" data-type="OUT">Saída</button>
+                            </div>
+                        </fieldset>
+                        <label>Quantidade<input name="quantity" type="number" min="1" value="1" required></label>
+                    </div>
+                    <label>Solicitante<input name="requesterId" data-requester list="users-datalist" required></label>
+                    <div class="form-actions"><button class="btn btn-primary" type="submit">Registrar</button></div>
+                </form>
+            </div>
+
+            <div class="card">
+                <div class="card-head"><h3>Itens e saldos</h3><span class="muted" id="items-count"></span></div>
+                <div class="item-grid" id="items-list"></div>
+            </div>
+        </section>
+
+        <!-- ============ ACTIVITY ============ -->
+        <section class="view" data-view="activity" hidden>
+            <div class="card">
+                <div class="card-head">
+                    <h3>Requisições enviadas</h3>
+                    <button class="btn btn-ghost btn-sm" id="clear-activity">Limpar</button>
+                </div>
+                <div id="activity-list"></div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<datalist id="users-datalist"></datalist>
+<div class="toasts" id="toasts"></div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
