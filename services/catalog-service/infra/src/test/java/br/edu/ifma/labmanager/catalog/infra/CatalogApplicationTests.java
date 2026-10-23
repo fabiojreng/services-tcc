@@ -42,7 +42,7 @@ class CatalogApplicationTests {
                                   "requesterId": "tec-1",
                                   "name": "Lab Redes",
                                   "capacity": 20,
-                                  "opensAt": "08:00:00",
+                                  "openingTime": "08:00:00",
                                   "closesAt": "18:00:00",
                                   "openDays": ["MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY"]
                                 }
@@ -56,7 +56,7 @@ class CatalogApplicationTests {
 
         mockMvc.perform(get("/api/laboratories/" + id))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.opensAt").value("08:00:00"))
+                .andExpect(jsonPath("$.openingTime").value("08:00:00"))
                 .andExpect(jsonPath("$.capacity").value(20));
     }
 }
