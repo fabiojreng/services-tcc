@@ -46,7 +46,7 @@ docs/                     Escopo, critérios, protocolo, ADRs
 services/                 Microsserviços
 web-console/              Interface web (console) para operar os serviços
 architecture-metrics/     Instrumento de medição (ArchUnit)
-experiments/              Protocolos e resultados de E1, E2, E3
+experiments/              Protocolos e resultados de E1, E2, E3, E3b e E4
 infra/                    Docker Compose (PostgreSQL + Toxiproxy)
 ```
 
@@ -60,7 +60,7 @@ infra/                    Docker Compose (PostgreSQL + Toxiproxy)
 | 3 | Docker, PostgreSQL, Toxiproxy, tag `baseline` |
 | 4 | Experimentos E1, E2, E3 |
 | 5 | Análise e redação (síntese em `experiments/fase-5-sintese.md`) |
-| **6** (atual) | Reforço metodológico: pré-registro, dois commits, Mongo real, Toxiproxy real, E3b (síntese em `experiments/fase-6-sintese.md`) |
+| **6** (atual) | Reforço metodológico: pré-registro, dois commits, Mongo real, Toxiproxy real, E3b (síntese em `experiments/fase-6-sintese.md`); adendo E4, mudança de contrato do Catalog (`experiments/e4-contrato/protocolo.md`) |
 
 Portas da aplicação: identity `8080`, scheduling-clean `8081`, catalog `8082`, scheduling-layered `8083`, inventory `8084`, console web `8090`.
 
@@ -147,6 +147,7 @@ Abra [http://localhost:8090](http://localhost:8090). O console encaminha as cham
 - [`experiments/fase-5-sintese.md`](experiments/fase-5-sintese.md) — consolidação da primeira rodada de experimentos
 - [`experiments/fase-6-preregistro.md`](experiments/fase-6-preregistro.md) — hipóteses pré-registradas da replicação
 - [`experiments/fase-6-sintese.md`](experiments/fase-6-sintese.md) — resultados vigentes (replicação controlada)
+- [`experiments/e4-preregistro.md`](experiments/e4-preregistro.md) e [`experiments/e4-contrato/protocolo.md`](experiments/e4-contrato/protocolo.md) — E4: mudança de contrato entre serviços
 
 ## Licença
 

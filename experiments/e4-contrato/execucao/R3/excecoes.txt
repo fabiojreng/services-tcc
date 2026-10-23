@@ -1,0 +1,10 @@
+# E4 | R3 | contrato do Catalog: e4 | 2026-10-23T02:35:34
+# Catalog: C:\tmp\tcc-e4\jars\p2-clean\catalog-infra-0.1.0-SNAPSHOT-boot.jar
+# Clean: C:\tmp\tcc-e4\jars\p2-clean\scheduling-clean-infra-0.1.0-SNAPSHOT-boot.jar
+# Layered: C:\tmp\tcc-e4\jars\p2-layered\layered
+# GET /api/laboratories/{id} -> 200 {"id":"e9b963b1-7f0f-48ca-8734-fa90d06ff15c","name":"Lab E4","capacity":30,"openingTime":"08:00:00","closesAt":"18:00:00","openDays":["MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY"]}
+
+## clean : 201 x10
+
+## layered : 201 x10
+

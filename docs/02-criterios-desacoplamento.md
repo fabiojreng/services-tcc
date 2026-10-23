@@ -33,8 +33,8 @@ Mede a autonomia entre microsserviços.
 |---------|-----------|--------------|
 | Fan-out síncrono | Número de chamadas HTTP síncronas por caso de uso | Contagem no código / tracing |
 | Acoplamento temporal | Taxa de sucesso do caso de uso quando dependências falham | Experimento E2 |
-| Acoplamento de contrato | Campos consumidos ÷ campos expostos do provedor | Inspeção de DTOs/clientes |
-| Acoplamento de implantação | Serviços que precisam ser reimplantados por uma mudança | Checklist por experimento |
+| Acoplamento de contrato | Campos consumidos ÷ campos expostos do provedor | Inspeção de DTOs/clientes; E4 (renomeação de campo consumido e não consumido) |
+| Acoplamento de implantação | Serviços que precisam ser reimplantados por uma mudança | Checklist por experimento; E4 (execução real com provedor e consumidor em versões cruzadas) |
 
 **Expectativa teórica (importante para a pesquisa):** a Clean Architecture **não** elimina, por si só, acoplamento temporal nem fan-out excessivo. Um resultado em que E2 afeta igualmente as duas variantes é evidência válida das **limitações** da abordagem em sistemas distribuídos.
 

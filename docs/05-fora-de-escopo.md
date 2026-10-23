@@ -1,7 +1,7 @@
 # O que os experimentos não testaram
 
 Este documento declara, de forma explícita, fenômenos que **não** foram objeto de E1, E2 ou E3
-(nem das replicações da Fase 6). A lista atende ao Capítulo 4: o que se pode afirmar a partir da
+(nem das replicações da Fase 6). O item 2 foi executado depois, como E4, e está marcado como tal. A lista atende ao Capítulo 4: o que se pode afirmar a partir da
 evidência coletada, e o que permanece como limitação ou trabalho futuro.
 
 Itens já mencionados em [`00-escopo.md`](00-escopo.md) (UI, OAuth/OIDC, comparação com monolito,
@@ -45,6 +45,15 @@ esse eixo aparece só via fan-out síncrono e taxa sob falha.
 **Candidato a trabalho futuro?** Sim (já listado como “E4” em `experiments/fase-5-sintese.md` e em
 `04-ameacas-validade.md`). Exigiria um contrato versionado, um campo de fato consumido pelo
 Agendamento, e o mesmo protocolo de dois commits nas duas variantes.
+
+**Atualização (23/10/2026): executado.** A renomeação incompatível de um campo consumido (`opensAt` →
+`openingTime`) e o controle com um campo não consumido (`capacity` → `seats`) foram executados com
+pré-registro próprio ([`../experiments/e4-preregistro.md`](../experiments/e4-preregistro.md)) e protocolo
+de dois commits, sem versionamento de contrato. Resultado: custo idêntico no consumidor (1 arquivo, 1 linha),
+nenhuma detecção por testes do Agendamento e implantação coordenada obrigatória nas duas variantes
+([`../experiments/e4-contrato/protocolo.md`](../experiments/e4-contrato/protocolo.md)). Continua fora a
+evolução *compatível* do contrato (*expand-contract*, versionamento, testes de contrato orientados pelo
+consumidor), que é o próximo passo natural.
 
 ---
 

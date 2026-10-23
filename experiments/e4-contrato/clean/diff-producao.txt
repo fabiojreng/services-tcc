@@ -1,0 +1,4 @@
+1	1	services/catalog-service/presentation/src/main/java/br/edu/ifma/labmanager/catalog/presentation/routes/LaboratoryController.java
+1	1	services/catalog-service/presentation/src/main/java/br/edu/ifma/labmanager/catalog/presentation/schemas/LaboratoryResponse.java
+1	1	services/catalog-service/presentation/src/main/java/br/edu/ifma/labmanager/catalog/presentation/schemas/RegisterLaboratoryRequest.java
+1	1	services/scheduling-service-clean/infra/src/main/java/br/edu/ifma/labmanager/scheduling/infra/http/HttpCatalogGateway.java

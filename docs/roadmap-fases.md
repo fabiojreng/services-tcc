@@ -61,6 +61,7 @@ Código experimental permanece nas branches `exp/*` (main fica em `baseline` + d
 - [x] E2-v2 com Toxiproxy real: fase A (sem timeout) e fase B (timeout de conexão/leitura)
 - [x] ArchUnit e métricas após cada experimento (`experiments/<exp>/<variante>/metricas.csv`)
 - [x] Síntese (`experiments/fase-6-sintese.md`), ameaças e capítulo 3 revistos
+- [x] Adendo E4: mudança de contrato do Catalog, com pré-registro próprio (`experiments/e4-preregistro.md`), controle com campo não consumido e execução real com versões cruzadas (`experiments/e4-contrato/protocolo.md`)
 - Branches `exp2/<experimento>-<variante>` a partir da tag `baseline-v2`
 
 ## Portas locais (aplicação)

@@ -232,10 +232,13 @@ As principais ameaças e mitigações consideradas no desenho incluem:
 | Construção | Falha de rede simulada por *stub*; banco simulado | Toxiproxy (E2-v2) e Testcontainers/MongoDB (E1-v2) |
 | Interna | Mesmo autor implementa, mede e interpreta | Pré-registro e artefatos objetivos (*diffs*, testes, métricas) versionados; sem avaliação independente (limitação declarada) |
 
+Depois da Fase 6, executou-se o **E4**, com pré-registro próprio e o mesmo protocolo de dois *commits*: renomear um campo do contrato REST do Catalog consumido pelo Agendamento (`opensAt` → `openingTime`) e, como controle, um campo não consumido (`capacity` → `seats`). Mediu-se a propagação no provedor e no consumidor, os testes quebrados após cada *commit* e o resultado de execuções reais com provedor e consumidor em versões cruzadas (N = 10 por célula), para estimar o acoplamento de contrato e o de implantação.
+
 Ficaram fora do escopo, e são declarados como limitações e trabalho futuro:
 
 - replicação do protocolo num segundo serviço;
-- mudança de contrato entre serviços;
+- variação da forma do acoplamento entre serviços (síncrono × assíncrono);
+- evolução compatível de contrato (*expand-contract*, versionamento, testes de contrato orientados pelo consumidor);
 - erosão arquitetural ao longo de várias iterações;
 - comportamento sob carga concorrente;
 - introdução de *circuit breaker*;

@@ -1,0 +1,24 @@
+# Experimento: e4-contrato | Variante: clean | Etapa: producao
+# Commit: d926515 | Base: baseline-v2 | Data: 2026-10-23T02:32:14
+# Exit code Maven: 0
+
+testes_executados=9
+falhas=0
+erros=1
+ignorados=0
+quebrados=1
+falha_de_compilacao=nao
+
+## Por modulo
+services/scheduling-service-clean/domain : executados=7 quebrados=0
+services/scheduling-service-clean/application : sem relatorio surefire
+services/scheduling-service-clean/presentation : sem relatorio surefire
+services/scheduling-service-clean/infra : executados=1 quebrados=0
+services/catalog-service/domain : sem relatorio surefire
+services/catalog-service/application : sem relatorio surefire
+services/catalog-service/presentation : sem relatorio surefire
+services/catalog-service/infra : executados=1 quebrados=1
+
+## Testes quebrados
+ERROR    br.edu.ifma.labmanager.catalog.infra.CatalogApplicationTests.registraEConsultaLaboratorio
+

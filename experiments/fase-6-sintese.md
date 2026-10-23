@@ -2,6 +2,11 @@
 
 Versão vigente dos resultados. Ela substitui as conclusões da [`fase-5-sintese.md`](fase-5-sintese.md) onde houver divergência.
 
+> **Adendo E4 (23/10/2026).** A mudança de contrato entre serviços, declarada como "não testada" na seção 8 da
+> versão anterior, foi executada com pré-registro próprio ([`e4-preregistro.md`](e4-preregistro.md)) e o mesmo
+> protocolo de dois commits. Os resultados estão nas seções 2.1, 2.4, 3, 4 e 5. Protocolo e dados:
+> [`e4-contrato/protocolo.md`](e4-contrato/protocolo.md).
+
 Questão de pesquisa:
 
 > Em que medida a aplicação da Clean Architecture contribui para o desacoplamento em arquiteturas de microsserviços, e quais são suas limitações quando aplicada a sistemas distribuídos?
@@ -37,6 +42,10 @@ Ponto de partida comum: tag `baseline-v2` (`9beb275`). A produção é idêntica
 | | Layered | 6 / 11+ 50− | `service` (só troca de tipo) | 1 de 1 | 2 arquivos, 15+ 1− |
 | E2-v2 fase B (timeout) | Clean | 1 / 10+ 1− | nenhuma (`infra/config`) | 0 de 8 | nenhum |
 | | Layered | 1 / 10+ 1− | nenhuma (`config`) | 0 de 1 | nenhum |
+| E4 (renomear campo do Catalog), só consumidor | Clean | 1 / 1+ 1− | nenhuma (`infra/http`) | 0 de 8 | nenhum no Agendamento |
+| | Layered | 1 / 1+ 1− | nenhuma (`client`) | 0 de 1 | nenhum no Agendamento |
+
+No E4, o provedor (Catalog) muda 3 arquivos, 3+/3−, só em `presentation`, igual para as duas variantes, e o único teste quebrado é o do próprio Catalog. Os "testes quebrados" da tabela são os do Agendamento, medidos tanto após o commit do provedor quanto após o do consumidor.
 
 No E1-v2, os números de produção incluem o commit P2: uma linha de configuração de UUID que só o Mongo real revelou, necessária nas duas variantes. O `docker-compose` (+9 linhas, igual nas duas) não entra na contagem.
 
@@ -63,6 +72,26 @@ Nenhum experimento introduziu dependência saindo do domínio da Clean. No E3b, 
 
 Valores: resultado predominante (100% em todas as células) e p50. N = 30 por célula, exceto S4 (N = 10). Dados brutos: `e2-falhas-v2/resultados-fase-{A,B}.csv`.
 
+### 2.4 Mudança de contrato entre serviços (E4, Dimensão 2)
+
+Execução real com H2, N = 10 por célula, resultado idêntico em 10 de 10 pedidos. Dados: `e4-contrato/execucao/`.
+
+| Estado | Catalog | Agendamento | Clean | Layered |
+|--------|---------|-------------|-------|---------|
+| R0 | original | original | 201 | 201 |
+| R1 | renomeado | original | **500** | **500** |
+| R2 | original | renomeado | **500** | **500** |
+| R3 | renomeado | renomeado | 201 | 201 |
+| RC (controle: campo não consumido) | renomeado | original | 201 | 201 |
+
+| Métrica | Clean | Layered |
+|---------|-------|---------|
+| Acoplamento de contrato (campos consumidos ÷ expostos) | 3 / 6 | 3 / 6 |
+| Acoplamento de implantação (renomear campo consumido) | 2 serviços, implantação coordenada | 2 serviços, implantação coordenada |
+| Quebra detectada por testes do consumidor | não | não |
+
+Em R1 e R2 a falha é uma `DateTimeParseException` não mapeada, devolvida como 500 genérico nas duas variantes. Ela não passa pela tradução de falhas remotas (503) que as duas têm para erros de rede.
+
 ---
 
 ## 3. Confronto com as hipóteses pré-registradas
@@ -73,8 +102,9 @@ Valores: resultado predominante (100% em todas as células) e p50. N = 30 por c�
 | E3b | Hb.1, Hb.2, Hb.3, Hb.4, Hb.6 | Hb.5 parcial: a Layered *poderia* ter teste de unidade (Mockito, 3 mocks); a referência idiomática não o tinha |
 | E1-v2 | H1.1, H1.3, H1.4, H1.5, H1.6 | H1.2: o `service` foi tocado, mas apenas por troca de tipo |
 | E2-v2 | H2.1 a H2.8 | — |
+| E4 (adendo) | H4.1 a H4.8, H4.C1, H4.C2 | — |
 
-Nenhum resultado contrariou frontalmente uma previsão. Isso tem duas leituras possíveis: as hipóteses eram bem calibradas, ou eram conservadoras demais para serem refutadas. A segunda leitura é uma ameaça à validade e está registrada na seção 7.
+Nenhum resultado contrariou frontalmente uma previsão. No E4, as previsões foram feitas depois de ler os adaptadores HTTP, e o resultado era quase determinado pelo código: o E4 confirma empiricamente uma propriedade estrutural, mas tem pouco poder de refutação. Isso tem duas leituras possíveis: as hipóteses eram bem calibradas, ou eram conservadoras demais para serem refutadas. A segunda leitura é uma ameaça à validade e está registrada na seção 7.
 
 ---
 
@@ -90,6 +120,8 @@ Contar arquivos alterados mistura três custos diferentes. Separá-los foi o pri
 | **Modificar** quando a regra precisa de dados novos | Alto: porta + adaptador + repositório + caso de uso + política (5 arquivos, 71 linhas) | Baixo: um método de repositório + um `if` (2 arquivos, 19 linhas) | E3b |
 | **Conter** troca de tecnologia | Alta: zero linhas fora de `infra` | Média: o `service` muda o tipo do repositório | E1-v2 |
 | **Reduzir volume** na troca de tecnologia | Não reduziu: mais linhas que a Layered | — | E1-v2 |
+| **Conter** mudança de contrato de outro serviço | 1 arquivo, 1 linha (`infra/http`) | 1 arquivo, 1 linha (`client`) | E4 |
+| **Detectar** quebra de contrato por testes | Nula: o stub fica atrás da porta | Nula: o stub substitui o cliente | E4 |
 
 A Clean Architecture compra **localização, detecção e contenção** e paga em **custo de modificação** quando a mudança atravessa a fronteira de uma porta. É um *trade-off*, não uma vantagem absoluta.
 
@@ -102,17 +134,18 @@ A Clean Architecture compra **localização, detecção e contenção** e paga e
 1. **Desacoplamento interno:** contribui. O domínio permaneceu livre de framework em todos os experimentos, e as regras ArchUnit tornaram isso verificável a cada mudança.
 2. **Mudança tecnológica:** contribui para a **contenção** (E1-v2: só `infra`), sem reduzir o volume alterado.
 3. **Mudança de regra:** contribui para **localizar e testar**. Quando a regra exige novo acesso a dados, porém, aumenta o custo de **modificar** (E3b).
-4. **Desacoplamento entre serviços:** **não contribui**. Sob falhas de rede reais, as duas variantes têm comportamento indistinguível (diferença de p50 < 1%), com e sem timeout.
+4. **Desacoplamento entre serviços:** **não contribui**. Sob falhas de rede reais, as duas variantes têm comportamento indistinguível (diferença de p50 < 1%), com e sem timeout. Diante de uma mudança de contrato do Catalog (E4), o custo no consumidor é idêntico (1 arquivo, 1 linha), nenhuma das duas detecta a quebra por testes e as duas exigem implantação coordenada de dois serviços.
 
 ### Limitações em sistemas distribuídos
 
 - O acoplamento temporal síncrono não é afetado pela organização interna. Sem timeout, ambas as variantes ficam presas indefinidamente a uma dependência travada (S4).
 - A correção de resiliência (timeout) teve custo **idêntico** nas duas variantes: 1 arquivo, 10+/1−, num ponto de configuração. A Layered também tinha um ponto único de montagem do cliente HTTP. A localidade dessa preocupação transversal veio da **injeção de dependências do framework**, não das camadas da Clean.
 - O timeout melhora a latência sob falha (60 s → 2 s), mas não a disponibilidade (0% de sucesso em S2 e S4). Disponibilidade sob falha exige outros mecanismos (cache, fallback, mensageria), que não foram testados.
+- O acoplamento de contrato e o de implantação também independem da organização interna (E4). Renomear um campo consumido derruba o caso de uso nas duas variantes em qualquer ordem de implantação (R1 e R2), o sintoma típico do monolito distribuído. A contenção da mudança num único arquivo do consumidor veio, nas duas variantes, de um adaptador HTTP isolado, e não das camadas da Clean. Evitar a janela de falha exigiria práticas de evolução de contrato (*expand-contract*, versionamento, testes de contrato), que não foram testadas.
 
 ### Síntese em uma frase
 
-> No LabManager, a Clean Architecture **conteve** mudanças de infraestrutura e **tornou as regras localizáveis e testáveis**, ao custo de **mais trabalho para modificar** regras que exigem novos dados. Ela **não alterou em nada** o comportamento do serviço diante de falhas de rede, cuja mitigação teve o mesmo custo nas duas arquiteturas.
+> No LabManager, a Clean Architecture **conteve** mudanças de infraestrutura e **tornou as regras localizáveis e testáveis**, ao custo de **mais trabalho para modificar** regras que exigem novos dados. Ela **não alterou em nada** o comportamento do serviço diante de falhas de rede nem diante de mudanças de contrato de outro serviço: a mitigação de falhas e a adaptação ao contrato tiveram o mesmo custo nas duas arquiteturas.
 
 ---
 
@@ -127,6 +160,7 @@ Os marcadores `[CITAÇÃO: ...]` indicam onde inserir referências na redação 
 | Detecção de mudança de regra por testes (E3-v2) | Testabilidade do núcleo como benefício central [CITAÇÃO: Martin, 2017; Freeman e Pryce, 2009] | — |
 | Indiferença à falha de rede (E2-v2) | Falácias da computação distribuída; resiliência como preocupação de integração [CITAÇÃO: Deutsch; Nygard, 2018] | Textos que apresentam a Clean como solução de desacoplamento entre serviços |
 | Localidade do timeout em ambas as variantes | Injeção de dependências e *composition root* como mecanismo de localidade [CITAÇÃO: Seemann, 2011] | Atribuição dessa localidade exclusivamente à Clean |
+| Implantação coordenada e quebra silenciosa de contrato nas duas variantes (E4) | Monolito distribuído e acoplamento de implantação; *tolerant reader* e testes de contrato orientados pelo consumidor [CITAÇÃO: Newman, 2021; Fowler, *Tolerant Reader*; Robinson, *Consumer-Driven Contracts*] | Textos que apresentam a Clean como proteção contra mudanças de serviços vizinhos |
 | Métricas de Martin estáveis em quase todos os experimentos | Uso de I/A/D como indicador de estrutura [CITAÇÃO: Martin, 1994] | Baixa sensibilidade das métricas de pacote a mudanças de comportamento [CITAÇÃO: estudo de validade de métricas] |
 
 ---
@@ -143,11 +177,13 @@ Os marcadores `[CITAÇÃO: ...]` indicam onde inserir referências na redação 
 | Anomalia de CCD no E1-v2 Layered | Mudança de métrica sem dependência nova no bytecode | Tratada como artefato da ferramenta; não usada como evidência |
 | Ambiente de E2 local | Clientes, serviços e proxy na mesma máquina; latências de base não representam rede real | Afeta valores absolutos, não a comparação entre variantes |
 | Circuit breaker | Fora do escopo já no pré-registro (bibliotecas sem suporte declarado ao Spring Boot 4) | Resiliência medida só com timeout |
+| E4 executado depois da síntese | Pré-registro próprio, mas com previsões feitas após ler os adaptadores HTTP | O resultado confirma uma propriedade estrutural; não é um teste com chance real de favorecer uma variante |
 
 ## 8. O que não foi testado (declarado antes da execução)
 
 - Replicação do protocolo em um segundo serviço (N = 2).
-- Mudança de contrato entre serviços (E4).
+- ~~Mudança de contrato entre serviços (E4).~~ Executado depois, como adendo com pré-registro próprio (seção 2.4). Continuam não testados: evolução compatível de contrato (*expand-contract*, versionamento, testes de contrato orientados pelo consumidor) e mudança de tipo ou semântica de um campo.
+- Variação da forma do acoplamento entre serviços (síncrono × assíncrono). O E2 e o E4 medem o acoplamento existente, igual nas duas variantes.
 - Erosão arquitetural ao longo de múltiplas iterações.
 - Comportamento sob carga concorrente (o S4 da fase A sugere esgotamento de threads, mas isso não foi medido).
 - Entrada de um novo serviço no sistema maduro.
@@ -167,4 +203,7 @@ Os marcadores `[CITAÇÃO: ...]` indicam onde inserir referências na redação 
 | `experiments/e2-falhas-v2/run-e2.ps1` | Harness Toxiproxy |
 | `experiments/scripts/medir-experimento.ps1` | Instrumento de medição |
 | Branches `exp2/<exp>-<variante>` | Commits P (e P2), T e artefatos |
+| `experiments/e4-preregistro.md` | Hipóteses do E4, commitadas antes da execução |
+| `experiments/e4-contrato/` e `experiments/e4-controle/` | Protocolo, notas, artefatos de medição e execução real (`run-e4.ps1`, `execucao/R*/`) |
+| Branches `exp2/e4-contrato-{clean,layered}` e `exp2/e4-controle` | Commits P1 (provedor), P2 (consumidor), T e artefatos |
 | Tag `baseline-v2` | Ponto de partida comum |

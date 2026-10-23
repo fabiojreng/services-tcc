@@ -58,7 +58,9 @@ Registro explícito das ameaças (Wohlin et al.; Runeson e Höst) e mitigações
 ## O que **não** foi testado (limitações declaradas)
 
 - **Replicação (N = 2):** o protocolo não foi repetido num segundo serviço, como uma variante Layered do Catalog. Os resultados descrevem **um** caso.
-- **Mudança de contrato entre serviços (E4):** não se mediu quantos serviços e camadas uma mudança no contrato do Catalog atinge. O eixo "monolito distribuído" do título é avaliado só pelo acoplamento temporal (E2), não pelo acoplamento de contrato.
+- **Forma do acoplamento entre serviços:** nenhum experimento varia o acoplamento entre serviços (por exemplo, síncrono × assíncrono). O E2 e o E4 medem o acoplamento existente, que é igual nas duas variantes. O eixo "monolito distribuído" do título é avaliado pelo acoplamento temporal (E2) e pelo de contrato e implantação (E4), sempre com HTTP síncrono.
+- **Evolução compatível de contrato:** o E4 (adendo de 23/10/2026, [`../experiments/e4-contrato/protocolo.md`](../experiments/e4-contrato/protocolo.md)) mediu só uma renomeação incompatível de campo. *Expand-contract*, versionamento de API, testes de contrato orientados pelo consumidor e mudanças de tipo ou de semântica não foram testados.
+- **Previsões do E4 feitas após ler o código:** o pré-registro do E4 foi commitado antes da execução, mas depois da leitura dos adaptadores HTTP. O resultado (custo idêntico nas duas variantes) era quase determinado pelo código e tem baixo poder de refutação.
 - **Erosão ao longo do tempo:** cada experimento é um único antes/depois. A promessa de Martin sobre o custo de mudança "ao longo do tempo" exigiria várias iterações sucessivas.
 - **Carga e concorrência:** o E2-v2 usa requisições sequenciais. Esgotamento de *threads* sob conexões penduradas não foi medido.
 - **Entrada de um novo serviço** no sistema já maduro.

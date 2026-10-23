@@ -1,0 +1,16 @@
+# E4 | R2 | contrato do Catalog: original | 2026-10-23T02:35:07
+# Catalog: C:\tmp\tcc-e4\jars\base\catalog-infra-0.1.0-SNAPSHOT-boot.jar
+# Clean: C:\tmp\tcc-e4\jars\p2-clean\scheduling-clean-infra-0.1.0-SNAPSHOT-boot.jar
+# Layered: C:\tmp\tcc-e4\jars\p2-layered\layered
+# GET /api/laboratories/{id} -> 200 {"id":"1b230bff-66b5-4c1d-88ad-e06e6d626fd5","name":"Lab E4","capacity":30,"opensAt":"08:00:00","closesAt":"18:00:00","openDays":["MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY"]}
+
+## clean : 500 x10
+    2026-10-23T02:35:07.117-03:00 ERROR 988 --- [scheduling-service-clean] [nio-8081-exec-2] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: java.time.format.DateTimeParseException: Text 'null' could not be parsed at index 0] with root cause
+    java.time.format.DateTimeParseException: Text 'null' could not be parsed at index 0
+    2026-10-23T02:35:07.154-03:00 ERROR 988 --- [scheduling-service-clean] [nio-8081-exec-3] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: java.time.format.DateTimeParseException: Text 'null' could not be parsed at index 0] with root cause
+
+## layered : 500 x10
+    2026-10-23T02:35:07.496-03:00 ERROR 17716 --- [scheduling-service-layered] [nio-8083-exec-2] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: java.time.format.DateTimeParseException: Text 'null' could not be parsed at index 0] with root cause
+    java.time.format.DateTimeParseException: Text 'null' could not be parsed at index 0
+    2026-10-23T02:35:07.528-03:00 ERROR 17716 --- [scheduling-service-layered] [nio-8083-exec-3] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: java.time.format.DateTimeParseException: Text 'null' could not be parsed at index 0] with root cause
+
