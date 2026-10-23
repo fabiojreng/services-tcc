@@ -1,0 +1,1 @@
+2	2	services/catalog-service/infra/src/test/java/br/edu/ifma/labmanager/catalog/infra/CatalogApplicationTests.java
