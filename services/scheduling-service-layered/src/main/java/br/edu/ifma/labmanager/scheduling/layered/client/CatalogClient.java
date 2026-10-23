@@ -36,7 +36,7 @@ public class CatalogClient {
             if (body == null) {
                 throw new IllegalStateException("Laboratório não encontrado: " + laboratoryId);
             }
-            LocalTime opensAt = LocalTime.parse(String.valueOf(body.get("opensAt")));
+            LocalTime opensAt = LocalTime.parse(String.valueOf(body.get("openingTime")));
             LocalTime closesAt = LocalTime.parse(String.valueOf(body.get("closesAt")));
             Set<DayOfWeek> openDays = EnumSet.noneOf(DayOfWeek.class);
             Object days = body.get("openDays");
