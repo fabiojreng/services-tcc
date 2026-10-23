@@ -9,7 +9,7 @@ public record LaboratoryResponse(
         UUID id,
         String name,
         int capacity,
-        LocalTime opensAt,
+        LocalTime openingTime,
         LocalTime closesAt,
         Set<DayOfWeek> openDays
 ) {

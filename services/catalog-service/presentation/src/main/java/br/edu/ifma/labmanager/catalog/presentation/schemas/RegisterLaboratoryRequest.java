@@ -8,7 +8,7 @@ public record RegisterLaboratoryRequest(
         String requesterId,
         String name,
         int capacity,
-        LocalTime opensAt,
+        LocalTime openingTime,
         LocalTime closesAt,
         Set<DayOfWeek> openDays
 ) {
