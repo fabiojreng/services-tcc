@@ -17,6 +17,9 @@
   Arquivos gravados em UTF-8 sem BOM em experiments/<Experimento>/<Variante>/.
   O script e mantido em ASCII: o Windows PowerShell 5.1 le scripts sem BOM como ANSI.
 
+  -ModulosExtras: modulos executados junto com os da variante (E4: catalog-service, o provedor
+  do contrato). Sem o parametro, o comportamento e o mesmo da Fase 6.
+
 .EXAMPLE
   .\experiments\scripts\medir-experimento.ps1 -Experimento e3-regra-v2 -Variante clean -Etapa producao
 #>
@@ -24,7 +27,8 @@ param(
     [Parameter(Mandatory = $true)][string]$Experimento,
     [Parameter(Mandatory = $true)][ValidateSet('clean', 'layered')][string]$Variante,
     [Parameter(Mandatory = $true)][ValidateSet('producao', 'testes')][string]$Etapa,
-    [string]$Base = 'baseline-v2'
+    [string]$Base = 'baseline-v2',
+    [string[]]$ModulosExtras = @()
 )
 
 # 'Continue': no Windows PowerShell 5.1, stderr de comandos nativos com 2>&1 vira erro terminante sob 'Stop'.
@@ -49,6 +53,7 @@ $modules = if ($Variante -eq 'clean') {
 } else {
     @('services/scheduling-service-layered')
 }
+$modules = @($modules) + @($ModulosExtras)
 
 function Invoke-VariantTests([string]$logName) {
     $pl = $modules -join ','
