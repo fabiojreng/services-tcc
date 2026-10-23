@@ -38,7 +38,7 @@ public class LaboratoryController {
         Laboratory laboratory = registerLaboratoryUseCase.execute(new RegisterLaboratoryCommand(
                 body.requesterId(),
                 body.name(),
-                body.capacity(),
+                body.seats(),
                 OperatingHours.of(body.opensAt(), body.closesAt(), body.openDays())
         ));
         return ResponseEntity.status(HttpStatus.CREATED).body(toResponse(laboratory));

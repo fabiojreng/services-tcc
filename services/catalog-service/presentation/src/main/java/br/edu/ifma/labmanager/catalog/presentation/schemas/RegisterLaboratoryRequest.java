@@ -7,7 +7,7 @@ import java.util.Set;
 public record RegisterLaboratoryRequest(
         String requesterId,
         String name,
-        int capacity,
+        int seats,
         LocalTime opensAt,
         LocalTime closesAt,
         Set<DayOfWeek> openDays

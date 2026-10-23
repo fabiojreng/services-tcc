@@ -8,7 +8,7 @@ import java.util.UUID;
 public record LaboratoryResponse(
         UUID id,
         String name,
-        int capacity,
+        int seats,
         LocalTime opensAt,
         LocalTime closesAt,
         Set<DayOfWeek> openDays
