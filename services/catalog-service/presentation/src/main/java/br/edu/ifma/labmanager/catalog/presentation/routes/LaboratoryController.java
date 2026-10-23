@@ -39,7 +39,7 @@ public class LaboratoryController {
                 body.requesterId(),
                 body.name(),
                 body.capacity(),
-                OperatingHours.of(body.opensAt(), body.closesAt(), body.openDays())
+                OperatingHours.of(body.openingTime(), body.closesAt(), body.openDays())
         ));
         return ResponseEntity.status(HttpStatus.CREATED).body(toResponse(laboratory));
     }
