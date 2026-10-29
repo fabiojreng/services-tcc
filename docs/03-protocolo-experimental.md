@@ -1,6 +1,10 @@
 # Protocolo experimental
 
-Estudo de caso único (Runeson e Höst, 2009) com três experimentos controlados (Wohlin et al., 2012).
+Estudo de caso único (Runeson e Höst, 2009) com experimentos controlados (Wohlin et al., 2012).
+
+> **Documento da rodada exploratória (Fases 3–4).** O protocolo vigente, com dois commits por intervenção e os
+> experimentos E1-v2, E2-v2, E3-v2, E3b e E4, está em [`../experiments/fase-6-preregistro.md`](../experiments/fase-6-preregistro.md),
+> [`../experiments/e4-preregistro.md`](../experiments/e4-preregistro.md) e na seção 3.4 da monografia.
 
 ## Variáveis
 

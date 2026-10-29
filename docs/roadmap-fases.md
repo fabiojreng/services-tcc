@@ -51,7 +51,7 @@ Código experimental permanece nas branches `exp/*` (main fica em `baseline` + d
 - [x] Texto-base para metodologia/resultados/discussão do monográfico
 - [ ] Incorporar trechos ao documento final do TCC (fora do repositório de código, se aplicável)
 
-## Fase 6 — Reforço metodológico (atual)
+## Fase 6 — Reforço metodológico (concluída; versão de entrega: tag `entrega-tcc`)
 
 - [x] Linha de base `baseline-v2` e instrumento de medição (`experiments/scripts/medir-experimento.ps1`, métricas por rótulo)
 - [x] Pré-registro das hipóteses (`experiments/fase-6-preregistro.md`)

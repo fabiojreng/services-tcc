@@ -1,6 +1,6 @@
 # Infraestrutura experimental (Fase 3+)
 
-Ambiente Docker para os experimentos E1–E3. Os microsserviços **não** rodam em containers — apenas PostgreSQL (um banco por serviço) e Toxiproxy.
+Ambiente Docker dos experimentos: PostgreSQL de origem do E1 e Toxiproxy do E2. Os microsserviços **não** rodam em containers — apenas PostgreSQL (um banco por serviço) e Toxiproxy. O MongoDB do E1-v2 é provisionado por Testcontainers nas branches `exp2/e1-infra-v2-*`, e o E4 roda só com H2.
 
 ## Pré-requisitos
 

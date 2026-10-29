@@ -64,7 +64,7 @@ Métrica central da comparação experimental (Martin: o custo da mudança).
 
 ## Comparação entre variantes
 
-Para cada experimento E1–E3, as mesmas métricas são coletadas em:
+Para cada experimento (E1–E4), as mesmas métricas são coletadas em:
 
 - `scheduling-service-clean` (tratamento)
 - `scheduling-service-layered` (controle)

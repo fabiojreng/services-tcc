@@ -1,5 +1,8 @@
 # Capítulo 3 — Metodologia
 
+> **Rascunho de trabalho, superado pela monografia final.** Este texto antecede o E4 e partes da redação final
+> (por exemplo, ainda fala em "três experimentos"). A versão vigente da metodologia é o Capítulo 3 da monografia.
+
 Texto preparado para continuidade do monográfico (`TCC2.docx`), seguindo os tópicos do sumário:
 
 - 3.1 Classificação da pesquisa  

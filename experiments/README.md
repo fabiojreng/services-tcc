@@ -1,6 +1,9 @@
 # Experimentos
 
-Artefatos das linhas de base por fase e dos experimentos E1–E3 (a partir da tag `baseline`).
+Artefatos das linhas de base e dos experimentos. Os resultados citados na monografia são os da **Fase 6**
+(E1-v2, E2-v2, E3-v2, E3b e o adendo E4), a partir da tag `baseline-v2`, consolidados em
+[`fase-6-sintese.md`](fase-6-sintese.md). As seções da Fase 4 e da Fase 5 documentam a rodada exploratória,
+a partir da tag `baseline`.
 
 ## Linhas de base
 
